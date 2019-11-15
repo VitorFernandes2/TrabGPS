@@ -5,22 +5,29 @@
  */
 package classes;
 
+import static classes.cConstantes.*;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *  Faz a gestão tanto dos logins como dos Registos. Utiliza users como base de dados temporariamente
  * @author Joao Coelho
  */
-public class UserManagement {
-    
-    ArrayList<Utilizador> users;
 
-    public UserManagement(ArrayList<Utilizador> users) {
+
+public class cUserManagement {
+    
+    
+    
+    ArrayList<cUtilizador> users;
+
+    public cUserManagement(ArrayList<cUtilizador> users) {
         this.users = users;
     }
 
-    public UserManagement() {
-        this.users = new ArrayList<Utilizador>();
+    public cUserManagement() {
+        this.users = new ArrayList<cUtilizador>();
     }
     
     public boolean checkexistance(String sUsername,String sPassword){
@@ -55,7 +62,7 @@ public class UserManagement {
         }else{
             if(checkInputedUsername(sUsername) && checkInputedPassword(sPassword) && (sPassword.equals(sPassVerif))){
                 
-                users.add(new Utilizador(sUsername,sPassword));
+                users.add(new cUtilizador(sUsername,sPassword));
                 return true;
                 
             }
@@ -65,21 +72,36 @@ public class UserManagement {
         return false;
     }
     
-    public boolean checkInputedUsername(String sString){
+    public boolean checkInputedUsername(String sStringUsername){
         // verifica se as strings recebidas estão de acordo com os parametros definidos
         
-        if(sString.length() <= 10)
+        if(sStringUsername.length() <= MAXUSERNCHAR && sStringUsername.length() != 0 && !hasspecialcharacters(sStringUsername))
+            return true;
+
+        return false;
+    }
+    
+    public boolean checkInputedPassword(String sStringPassword){
+        // verifica se as strings recebidas estão de acordo com os parametros definidos
+        
+        if(sStringPassword.length() <= MAXPASSNCHAR && !hasspecialcharacters(sStringPassword) && sStringPassword.length() != 0)
             return true;
         
         return false;
     }
     
-    public boolean checkInputedPassword(String sString){
-        // verifica se as strings recebidas estão de acordo com os parametros definidos
+    
+    public boolean hasspecialcharacters(String sString){
         
-        if(sString.length() <= 16)
-            return true;
+        // procura caracteres especiais. Retorna true se encontrar
         
-        return false;
+        Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(sString);
+        boolean b = m.find();
+
+        if (b)
+           return true;
+        
+       return false;        
     }
 }
