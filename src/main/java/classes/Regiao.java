@@ -6,9 +6,11 @@ public class Regiao {
     
     private int idRegiao;
     private String nomeRegiao;
+    private String nomeCidade;
 
-    public Regiao(String nomeRegiao) {
+    public Regiao(String nomeRegiao, String nomeCidade) {
         this.nomeRegiao = nomeRegiao;
+        this.nomeCidade = nomeCidade;
         idRegiao=contaRegiao++;
     }
 
@@ -28,6 +30,12 @@ public class Regiao {
         this.nomeRegiao = nomeRegiao;
     }
     
+    public String getNomeCidade() {
+        return nomeCidade;
+    }
     
+    public void setNomeCidade(String nomeCidade) {
+        this.nomeCidade = nomeCidade;
+    }
     
 }
