@@ -1,7 +1,7 @@
 # TrabGPS
 Este repositório foi criado para o trabalho de Gestão de Projetos de Software da Licenciatura em Engenharia Informática.
 <div align="center">
-  <img src="src//main//resources//img//E2U.png">
+  <img width = "400px" height = "400px" src="src//main//resources//img//E2U.png">
 </div>
 
 #Visão
