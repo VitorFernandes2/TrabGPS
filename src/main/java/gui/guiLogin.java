@@ -52,7 +52,7 @@ public class guiLogin {
         pfPalavraPasse.setPromptText("Password");
         hlRegisto = new Hyperlink("Efetuar Registo");
         try {
-            ivLogo = new ImageView(new Image(new FileInputStream("src/main/java/gui/Imagens/E2U.png")));
+            ivLogo = new ImageView(new Image(new FileInputStream("src/main/java/gui/Img/E2U.png")));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(guiLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
