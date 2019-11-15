@@ -17,32 +17,32 @@ import java.util.ArrayList;
  *
  * @author Luís António Moreira Ferreira da Silva
  */
-public class ordenaPosto {
+public class cOrdenaPosto {
     
-    private ArrayList<Posto> PostoList;
-    private ArrayList<Regiao> RegiaoList;
+    private ArrayList<cPosto> cPostoList;
+    private ArrayList<cRegiao> cRegiaoList;
     private String sCidade;
     private String sRegiao;
 
     //Organização a partir do local atual do utilizador
-    public ordenaPosto(ArrayList<Posto> PostoList, ArrayList<Regiao> RegiaoList) {
+    public cOrdenaPosto(ArrayList<cPosto> cPostoList, ArrayList<cRegiao> cRegiaoList) {
         
-        this.PostoList = PostoList;
-        this.RegiaoList = RegiaoList;
+        this.cPostoList = cPostoList;
+        this.cRegiaoList = cRegiaoList;
         
     }
 
     //Organização a partir do local selecionado pelo utilizador
-    public ordenaPosto(ArrayList<Posto> PostoList, ArrayList<Regiao> RegiaoList, String sCidade, String sRegiao) {
+    public cOrdenaPosto(ArrayList<cPosto> cPostoList, ArrayList<cRegiao> cRegiaoList, String sCidade, String sRegiao) {
         
-        this.PostoList = PostoList;
-        this.RegiaoList = RegiaoList;
+        this.cPostoList = cPostoList;
+        this.cRegiaoList = cRegiaoList;
         this.sCidade = sCidade;
         this.sRegiao = sRegiao;
         
     }
     
-    public ArrayList<Posto> organiza() {
+    public ArrayList<cPosto> organiza() {
         
         if(this.sCidade == null && this.sRegiao == null){
             
@@ -60,18 +60,18 @@ public class ordenaPosto {
         }
         
         //Organização por sCidade principal
-        for(int i = 0; i < PostoList.size(); i++){
+        for(int i = 0; i < cPostoList.size(); i++){
             
-            if(getNomeCidade(PostoList.get(i).getIdRegiao()).equalsIgnoreCase(this.sCidade)){
+            if(getNomeCidade(cPostoList.get(i).getIdRegiao()).equalsIgnoreCase(this.sCidade)){
                 
-                Posto aux = PostoList.get(i);
+                cPosto aux = cPostoList.get(i);
                 if(i != 0){
                     
                     for(int j = i; j > 0; j--){
                         
-                       Posto aux2 = PostoList.get(j-1);
-                       PostoList.set(j-1, aux);
-                       PostoList.set(j, aux2);
+                       cPosto aux2 = cPostoList.get(j-1);
+                       cPostoList.set(j-1, aux);
+                       cPostoList.set(j, aux2);
                        
                     }
                     
@@ -81,19 +81,19 @@ public class ordenaPosto {
             
         }
         
-        //Organização por sRegiao principal
-        for(int i = 0; i < PostoList.size(); i++){
+        //Organização por scRegiao principal
+        for(int i = 0; i < cPostoList.size(); i++){
             
-            if(getNomeRegiao(PostoList.get(i).getIdRegiao()).equalsIgnoreCase(this.sRegiao)){
+            if(getNomecRegiao(cPostoList.get(i).getIdRegiao()).equalsIgnoreCase(this.sRegiao)){
                 
-                Posto aux = PostoList.get(i);
+                cPosto aux = cPostoList.get(i);
                 if(i != 0){
                     
                     for(int j = i; j > 0; j--){
                         
-                       Posto aux2 = PostoList.get(j-1);
-                       PostoList.set(j-1, aux);
-                       PostoList.set(j, aux2);
+                       cPosto aux2 = cPostoList.get(j-1);
+                       cPostoList.set(j-1, aux);
+                       cPostoList.set(j, aux2);
                        
                     }
                     
@@ -103,7 +103,7 @@ public class ordenaPosto {
             
         }
         
-        return PostoList;
+        return cPostoList;
     }
     
     private void getUtilizadorArea() throws IOException{
@@ -178,9 +178,9 @@ public class ordenaPosto {
     
     private String getNomeCidade(int iId){
         
-        for(Regiao r : RegiaoList){
+        for(cRegiao r : cRegiaoList){
             
-            if(r.getIdRegiao() == iId){
+            if(r.getIdRegiao()== iId){
                 
                 return r.getNomeCidade();
                 
@@ -191,11 +191,11 @@ public class ordenaPosto {
         
     }
     
-    private String getNomeRegiao(int iId){
+    private String getNomecRegiao(int iId){
         
-        for(Regiao r : RegiaoList){
+        for(cRegiao r : cRegiaoList){
             
-            if(r.getIdRegiao() == iId){
+            if(r.getIdRegiao()== iId){
                 
                 return r.getNomeRegiao();
                 
