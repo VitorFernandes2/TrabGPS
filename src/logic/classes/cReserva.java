@@ -1,5 +1,5 @@
 
-package logic;
+package logic.classes;
 
 public class cReserva {
         private static  int icontaReserva = 1;

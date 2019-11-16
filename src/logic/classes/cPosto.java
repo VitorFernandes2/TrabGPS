@@ -1,4 +1,4 @@
-package logic;
+package logic.classes;
 
 public class cPosto {
     private static  int  icontaPosto = 1;

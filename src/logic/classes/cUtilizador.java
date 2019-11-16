@@ -1,5 +1,5 @@
 
-package logic;
+package logic.classes;
 
 public class cUtilizador {
     

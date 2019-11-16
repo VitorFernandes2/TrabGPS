@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package logic;
+package logic.classes;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *  Faz a gestão tanto dos logins como dos Registos. Utiliza users como base de dados temporariamente
+ *  Faz a gestï¿½o tanto dos logins como dos Registos. Utiliza users como base de dados temporariamente
  * @author Joao Coelho
  */
 
@@ -71,7 +71,7 @@ public class cUserManagement implements cConstantes{
     }
     
     public boolean checkInputedUsername(String sStringUsername){
-        // verifica se as strings recebidas estão de acordo com os parametros definidos
+        // verifica se as strings recebidas estï¿½o de acordo com os parametros definidos
         
         if(sStringUsername.length() <= MAXUSERNCHAR && sStringUsername.length() != 0 && !hasspecialcharacters(sStringUsername))
             return true;
@@ -80,7 +80,7 @@ public class cUserManagement implements cConstantes{
     }
     
     public boolean checkInputedPassword(String sStringPassword){
-        // verifica se as strings recebidas estão de acordo com os parametros definidos
+        // verifica se as strings recebidas estï¿½o de acordo com os parametros definidos
         
         if(sStringPassword.length() <= MAXPASSNCHAR && !hasspecialcharacters(sStringPassword) && sStringPassword.length() != 0)
             return true;
