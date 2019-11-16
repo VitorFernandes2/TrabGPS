@@ -1,0 +1,133 @@
+.DefaultButton{
+
+    -fx-background-color: #3282cc;
+    -fx-border-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-pref-width: 200px;
+
+}
+
+.DefaultButton:hover {
+
+    -fx-background-color: #004bec;
+    -fx-border-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+
+}
+
+.StringTextfield{
+
+    -fx-background-radius: 10;
+    -fx-font-size: 15px;
+    -fx-max-width: 300px;
+    -fx-min-height: 35px;
+
+}
+
+.PassField{
+
+    -fx-background-radius: 10;
+    -fx-font-size: 15px;
+    -fx-max-width: 300px;
+    -fx-min-height: 35px;
+
+}
+
+.menu-bar{
+    -fx-background-color: #383838;
+   -fx-border-width: 2
+  
+  }
+  
+  .menu-bar .label {
+      -fx-font-size: 15 pt;
+      -fx-text-fill: #dedede;
+  
+  }  
+  
+  .menu:hover {
+      -fx-background-color: #535353;
+  }
+
+  .LabelTitle{
+
+      -fx-font-size: 20 pt;    
+      -fx-font-weight: bold;
+
+  }
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #9e9e9e;
+    -fx-text-fill: white;
+    -fx-border-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.list-cell:even { /* <=== changed to even */
+    -fx-background-color: white;
+    -fx-border-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: white;
+    -fx-border-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.list-view{
+
+    -fx-border-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-size: 15px;
+}
+
+.QueryButton{
+
+    -fx-background-color: #424242;
+    -fx-border-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+
+}
+
+.QueryButton:hover {
+
+    -fx-background-color: #727272;
+    -fx-border-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+
+}
+
+.choice-box {
+    -fx-background-color: #bbbbbb;
+    -fx-border-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #ffffff;
+  }
+  
+  .choice-box > .label { 
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+    -fx-background-color: #bbbbbb;
+    -fx-background-radius: 10;
+    -fx-prompt-text-fill: #ffffff;
+    -fx-border-radius: 10;
+  }
