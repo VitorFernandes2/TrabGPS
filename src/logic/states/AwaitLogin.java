@@ -12,7 +12,6 @@ public class AwaitLogin extends StateAdapter {
     @Override
     public IStates Login(String sUsername, String sPassword) {
 
-        //fazer funções de login
         if(!data.verificaInputUsername(sUsername))
             data.setErro(ERROINPUTUSER);
         else if (!data.verificaInputPassword(sPassword))
@@ -21,10 +20,12 @@ public class AwaitLogin extends StateAdapter {
             data.setErro(UTILIZADORNAOEXISTE);
         else if (!data.verificaDadosLogin(sUsername, sPassword))
             data.setErro(ERRODADOSUTILIZADOR);
-        else
+        else{
+            data.setErro(LOGINNORMAL);
             return new AwaitQuery(data);
-            
-        return super.Login(sUsername, sPassword);
+        }
+
+        return new AwaitLogin(data);
     }
 
     @Override

@@ -64,7 +64,7 @@ public class RegisterPane extends StackPane implements Constants, PropertyChange
             this.logic.goToLogin();
         });
     }
-    
+
     public Pane getRoot() {
         return this;
     }

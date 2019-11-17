@@ -19,4 +19,5 @@ public interface cConstantes {
     public static final int UTILIZADORNAOEXISTE = 4;
     public static final int UTILIZADORJAEXISTE = 5;
     public static final int PASSWORDSDIFERENTES = 6;
+    public static final int LOGINNORMAL = 7;
 }

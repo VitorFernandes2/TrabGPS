@@ -24,7 +24,7 @@ public class E2UData {
     private ArrayList<cPosto> listaPostos = new ArrayList<>(); 
     private ArrayList<cDisponibilidadesByTempo> listaDisponibilidades = new ArrayList<>(); 
     private String sRegiaoUtilizador;
-    private int erro = 0;
+    private static int erro = 0;
 
     private int userLogado;
     public ArrayList<cReserva> getListaReservas() {
@@ -186,6 +186,7 @@ public class E2UData {
             if(sUsername.equals(listaUtilizadores.get(i).getUsername())){
                 return true;
             }
+
         }
         
         return false;
