@@ -13,22 +13,27 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import logic.E2ULogic;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class RegisterPane extends StackPane implements Constants, PropertyChangeListener {
 
-
+    E2ULogic logic;
     Button bRegisto;
     StringTextfield tfUsername;
     ViewImage ivLogo;
     PassField pfPalavraPasse,pfConfirmaPalavraPasse;
     Label lErro;
 
-    public RegisterPane() {
+    public RegisterPane(E2ULogic logic) {
+        this.logic = logic;
+        this.logic.addPropertyChangeListener(this);
+
         createComponents();
         registerListeners();
+        propertyChange(null);
     }
 
     private void createComponents(){
@@ -66,6 +71,6 @@ public class RegisterPane extends StackPane implements Constants, PropertyChange
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        setVisible(this.logic.inRegister());
     }
 }

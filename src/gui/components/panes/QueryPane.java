@@ -12,14 +12,21 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
+import logic.E2ULogic;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class QueryPane extends StackPane implements PropertyChangeListener {
 
-    public QueryPane() {
+    private E2ULogic logic;
+
+    public QueryPane(E2ULogic logic) {
+        this.logic = logic;
+        this.logic.addPropertyChangeListener(this);
+
         createComponents();
+        propertyChange(null);
     }
 
     private void createComponents() {

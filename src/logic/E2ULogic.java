@@ -16,7 +16,8 @@ public class E2ULogic extends PropertyChangeSupport {
     public E2ULogic(IStates state) {
         super(state);
         this.state = state;
-        state = new AwaitLogin();
+        this.data = new E2UData();
+        state = new AwaitLogin(data);
     }
 
     public boolean inLogin(){
@@ -33,6 +34,39 @@ public class E2ULogic extends PropertyChangeSupport {
 
     public boolean inLogout(){
         return this.state instanceof AwaitLogout;
+    }
+
+    public int goToLogin(){
+
+        if (inRegister()){
+
+            this.state = this.state.goToLogin();
+            // informa o estado da interface
+            firePropertyChange(null, false, true);
+
+            return 1;
+
+        }
+
+        return -1;
+
+    }
+
+    public int goToRegister(){
+
+        if (inLogin()){
+
+            this.state = this.state.goToRegisto();
+
+            // informa o estado da interface
+            firePropertyChange(null, false, true);
+
+            return 1;
+
+        }
+
+        return -1;
+
     }
 
     public int Login(String sUsername, String sPassword){

@@ -11,4 +11,5 @@ public class E2UData {
     public E2UData() {
         this.reservas = new ArrayList<>();
     }
+
 }
