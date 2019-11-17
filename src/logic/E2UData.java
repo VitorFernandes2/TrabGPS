@@ -348,30 +348,6 @@ public class E2UData {
         return -1;
     }
 
-    public List<String> infoPostosByPesquisa(String regiao, String tempo){
-
-        List<String> lista = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-
-        for(cPosto posto : listaPostos){
-            if(posto.getIdRegiao() == idRegiao(regiao) && posto.getPrecoCarregamento() == idIntervalo(tempo))
-                for(cDisponibilidadesByTempo c : listaDisponibilidades){
-                    if(c.getIdPosto() == posto.getIdPosto()){
-                        sb.append("Posto: " + posto.getLocalizacao() + " ");
-                        sb.append("Preço: " + posto.getPrecoCarregamento() + " ");
-                        cIntervaloTempo intervalo = listaTempos.get(c.getIdIntervaloTempo());
-                        sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraInicio());
-                        if(c.isDisponibilidade())
-                            sb.append("Disponivel");
-                        else
-                            sb.append("Indisponivel");
-                        lista.add(sb.toString());
-                    }
-                }
-        }
-        return lista;
-    }
-
     public ArrayList<String> infoPosto(){
 
         ArrayList<String> lista = new ArrayList<>();
@@ -386,12 +362,84 @@ public class E2UData {
                     sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraFim());
 
                     if(c.isDisponibilidade())
-                        sb.append(" Disponivel");
+                        sb.append("Disponivel");
                     else
-                        sb.append(" Indisponivel");
+                        sb.append("Indisponivel");
 
                     lista.add(sb.toString());
+                    sb.delete(0, sb.length());
                 }
+            }
+        }
+        return lista;
+    }
+
+    public List<String> infoPostosByPesquisa(String regiao, String tempo){
+        int conta = 0;
+        List<String> lista = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+
+        if(regiao != null && tempo != null){
+            for(cPosto posto : listaPostos){
+                if(posto.getIdRegiao() == idRegiao(regiao))
+                    for(cDisponibilidadesByTempo c : listaDisponibilidades){
+                        if(c.getIdPosto() == posto.getIdPosto() && c.getIdIntervaloTempo()==idIntervalo(tempo)){
+                            sb.append("Posto: " + posto.getLocalizacao() + " ");
+                            sb.append("Preço: " + posto.getPrecoCarregamento() + " ");
+                            cIntervaloTempo intervalo = listaTempos.get(c.getIdIntervaloTempo());
+                            sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraFim());
+                            if(c.isDisponibilidade())
+                                sb.append("Disponivel");
+                            else
+                                sb.append("Indisponivel");
+                            lista.add(sb.toString());
+                            sb.delete(0, sb.length());
+                        }
+                    }
+            }
+        }else if(regiao == null && tempo != null){
+            for(cPosto posto : listaPostos){
+                for(cDisponibilidadesByTempo c : listaDisponibilidades){
+                    if(c.getIdPosto() == posto.getIdPosto() && c.getIdIntervaloTempo()==idIntervalo(tempo)){
+                        conta++;
+                        sb.append("Posto: " + posto.getLocalizacao() + " ");
+                        sb.append("Preço: " + posto.getPrecoCarregamento() + " ");
+                        cIntervaloTempo intervalo = listaTempos.get(c.getIdIntervaloTempo());
+                        sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraFim());
+                        if(c.isDisponibilidade())
+                            sb.append("Disponivel");
+                        else
+                            sb.append("Indisponivel");
+                        lista.add(sb.toString());
+                        sb.delete(0, sb.length());
+                    }
+                }
+            }
+            if(conta!=0){
+                setErro(SEMPOSTOSINTERVALO);
+            }
+        }else if(regiao != null && tempo == null){
+            for(cPosto posto : listaPostos){
+                if(posto.getIdRegiao() == idRegiao(regiao)){
+                    for(cDisponibilidadesByTempo c : listaDisponibilidades){
+                        if(c.getIdPosto() == posto.getIdPosto()){
+                            conta++;
+                            sb.append("Posto: " + posto.getLocalizacao() + " ");
+                            sb.append("Preço: " + posto.getPrecoCarregamento() + " ");
+                            cIntervaloTempo intervalo = listaTempos.get(c.getIdIntervaloTempo());
+                            sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraFim());
+                            if(c.isDisponibilidade())
+                                sb.append("Disponivel");
+                            else
+                                sb.append("Indisponivel");
+                            lista.add(sb.toString());
+                            sb.delete(0, sb.length());
+                        }
+                    }
+                }
+            }
+            if(conta!=0){
+                setErro(SEMPOSTOSREGIAO);
             }
         }
         return lista;

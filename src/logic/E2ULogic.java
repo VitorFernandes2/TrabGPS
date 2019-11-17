@@ -15,10 +15,10 @@ public class E2ULogic extends PropertyChangeSupport {
     private IStates state;
     private E2UData data;
 
-    public E2ULogic(IStates state) throws IOException {
+    public E2ULogic(E2UData data,IStates state) throws IOException {
         super(state);
         this.state = state;
-        this.data = new E2UData();
+        this.data = data;
     }
 
     public boolean inLogin(){

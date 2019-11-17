@@ -22,4 +22,7 @@ public interface cConstantes {
     public static final int PASSWORDSDIFERENTES = 6;
     public static final int LOGINNORMAL = 7;
     public static final int REGISTONORMAL = 9;
+    public static final int SEMPOSTOS = 20;
+    public static final int SEMPOSTOSREGIAO = 21;
+    public static final int SEMPOSTOSINTERVALO = 22;
 }

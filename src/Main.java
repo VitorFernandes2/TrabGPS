@@ -13,8 +13,8 @@ public class Main extends Application implements Constants {
 
     @Override
     public void start(Stage stage) throws FileNotFoundException, IOException {
-
-        E2ULogic logic = new E2ULogic(new AwaitLogin(new E2UData()));
+        E2UData data = new E2UData();
+        E2ULogic logic = new E2ULogic(data, new AwaitLogin(data));
 
         GraphicInterface graphicInterface = new GraphicInterface(logic, stage);
         graphicInterface.run();

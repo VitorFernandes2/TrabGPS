@@ -20,6 +20,28 @@
 
 }
 
+.GreyButton{
+
+    -fx-background-color: #bbbbbb;
+    -fx-border-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-pref-width: 200px;
+
+}
+
+.GreyButton:hover {
+
+    -fx-background-color: #696969;
+    -fx-border-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+
+}
+
 .StringTextfield{
 
     -fx-background-radius: 10;
