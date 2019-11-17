@@ -1,5 +1,6 @@
 package gui.components.panes;
 
+import gui.components.buttons.QueryButton;
 import gui.components.labels.LabelTitle;
 import gui.components.listviews.LsView;
 import gui.components.menubars.MainMenuBar;
@@ -20,6 +21,17 @@ import java.beans.PropertyChangeListener;
 public class QueryPane extends StackPane implements PropertyChangeListener {
 
     private E2ULogic logic;
+    private BorderPane borderPane;
+    private MainMenuBar mainMenuBar;
+    private VBox leftbox;
+    private VBox vBox;
+    private LabelTitle lblPesquisa;
+    private ChoiceBox cbHorario;
+    private HBox hbHorario;
+    private ChoiceBox cbLocalidade;
+    private VBox rightbox;
+    private LabelTitle lblPostos;
+    private LsView list;
 
     public QueryPane(E2ULogic logic) {
         this.logic = logic;
@@ -38,35 +50,60 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
 
     private BorderPane interfaceA(){
 
-        BorderPane borderPane = new BorderPane();
-        MainMenuBar mainMenuBar = new MainMenuBar();
+        borderPane = new BorderPane();
+        mainMenuBar = new MainMenuBar();
 
-        VBox vBox = new VBox(mainMenuBar);
+        vBox = new VBox(mainMenuBar);
         borderPane.setTop(vBox);
 
-        VBox leftbox = new VBox();
+        leftbox = new VBox();
         leftbox.setPadding(new Insets(100,0,0,100));
 
-        LabelTitle lblPesquisa = new LabelTitle("Pesquisa:");
-        ChoiceBox cbHorario = new ChoiceBox(
+        lblPesquisa = new LabelTitle("Pesquisa:");
+        cbHorario = new ChoiceBox(
                 FXCollections.observableArrayList(this.logic.getHorarios())
         );
 
-        HBox hbHorario = new HBox(cbHorario);
+        hbHorario = new HBox(cbHorario);
         hbHorario.setPadding(new Insets(0,0,15,0));
 
-        ChoiceBox cbLocalidade = new ChoiceBox(
+        cbLocalidade = new ChoiceBox(
                 FXCollections.observableArrayList(this.logic.getLocalidades())
         );
 
         leftbox.getChildren().addAll(lblPesquisa, hbHorario, cbLocalidade);
 
-        VBox rightbox = new VBox();
+        rightbox = new VBox();
         rightbox.setPadding(new Insets(100,100,100,100));
-        LabelTitle lblPostos = new LabelTitle("Postos:");
-        //ListView<String> list = new ListView<String>();
+        lblPostos = new LabelTitle("Postos:");
 
-        LsView list = new LsView();
+        list = new LsView();
+
+        for (String item : this.logic.getPostos()) {
+
+            Label TextPost = new Label(item);
+            QueryButton testButton = new QueryButton("Reservar");
+
+            HBox box2 = new HBox(TextPost);
+            box2.setAlignment(Pos.CENTER_LEFT);
+            box2.setHgrow(TextPost, Priority.ALWAYS);
+
+            HBox box4 = new HBox(testButton);
+            box4.setAlignment(Pos.CENTER_RIGHT);
+
+            HBox mainBox = new HBox(box2);
+            mainBox.setSpacing(20);
+            mainBox.setAlignment(Pos.CENTER_LEFT);
+
+            HBox box = new HBox(mainBox, box4);
+            box.setHgrow(mainBox, Priority.ALWAYS);
+            box.setSpacing(30);
+
+            ObservableList<HBox> items = FXCollections.observableArrayList(box);
+
+            list.setItems(items);
+
+        }
 
         rightbox.getChildren().addAll(lblPostos, list);
 

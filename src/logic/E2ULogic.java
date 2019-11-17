@@ -109,4 +109,12 @@ public class E2ULogic extends PropertyChangeSupport {
         return aux;
     }
 
+    public ArrayList<String> getPostos(){
+        return data.infoPosto();
+    }
+
+    public List<String> infoPostosByPesquisa(String regiao,String tempo){
+        return data.infoPostosByPesquisa(regiao,tempo);
+    }
+
 }
