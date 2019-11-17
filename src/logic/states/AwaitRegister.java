@@ -13,10 +13,11 @@ public class AwaitRegister extends StateAdapter {
     @Override
     public IStates Registo(String sUsername, String sPassword, String sConPassord) {
 
-        if (!sUsername.isEmpty() && !sPassword.isEmpty() && !sConPassord.isEmpty())
-            return null;
-
-        return new AwaitRegister(data);
+        if (!data.criaRegisto(sUsername, sPassword, sConPassord))
+              return new AwaitRegister(data);
+        else
+            return new AwaitLogin(data);
+      
     }
 
     @Override

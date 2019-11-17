@@ -3,7 +3,9 @@ package logic;
 import logic.states.*;
 
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import logic.classes.cIntervaloTempo;
 import logic.classes.cPosto;
 import logic.classes.cRegiao;
@@ -13,11 +15,10 @@ public class E2ULogic extends PropertyChangeSupport {
     private IStates state;
     private E2UData data;
 
-    public E2ULogic(IStates state) {
+    public E2ULogic(IStates state) throws IOException {
         super(state);
         this.state = state;
         this.data = new E2UData();
-        state = new AwaitLogin(data);
     }
 
     public boolean inLogin(){
@@ -35,91 +36,51 @@ public class E2ULogic extends PropertyChangeSupport {
     public boolean inLogout(){
         return this.state instanceof AwaitLogout;
     }
+    
+    public int getErro(){
+        return data.getErro();
+    }
 
-    public int goToLogin(){
+    public void goToLogin(){
 
         if (inRegister()){
 
             this.state = this.state.goToLogin();
             // informa o estado da interface
             firePropertyChange(null, false, true);
-
-            return 1;
-
         }
-
-        return -1;
-
     }
 
-    public int goToRegister(){
+    public void goToRegister(){
 
         if (inLogin()){
-
             this.state = this.state.goToRegisto();
-
             // informa o estado da interface
             firePropertyChange(null, false, true);
-
-            return 1;
-
         }
-
-        return -1;
-
     }
 
-    public int Login(String sUsername, String sPassword){
+    public void Login(String sUsername, String sPassword){
 
         //se houver dados nas strings
-        if (!sUsername.isEmpty() && !sPassword.isEmpty())
-            if (inLogin()){
-
-                this.state = this.state.Login(sUsername, sPassword);
-
-                // informa o estado da interface
-                firePropertyChange(null, false, true);
-
-                //se login bem efetuado
-                if (inQuery())
-                    return 1;
-                //se login mal feito
-                else
-                    return -2;
-
-            }
-
-        //dados não preenchidos
-        return -1;
-
+        if (inLogin()){
+            this.state = this.state.Login(sUsername, sPassword);
+            // informa o estado da interface
+            firePropertyChange(null, false, true);
+        }
     }
 
-    public int Register(String sUsername, String sPassword, String sConfPassword){
+    public void Register(String sUsername, String sPassword, String sConfPassword){
 
-        //Se tiver os dados todos preenchidos
-        if (!sUsername.isEmpty() && !sPassword.isEmpty() && !sConfPassword.isEmpty())
             if (inRegister()){
-
                 this.state = this.state.Registo(sUsername, sPassword, sConfPassword);
 
                 // informa o estado da interface
                 firePropertyChange(null, false, true);
-
-                //se registo bem efetuado
-                if (inLogin())
-                    return 1;
-                //se registo mal feito
-                else
-                    return -2;
-
             }
-
-        //Se não tiver os dados todos preenchidos
-        return -1;
-
     }
 
-    public int Query(String sLocalidade, String sHoraInicio, String sHoraFim){
+    public void Query(String sLocalidade, String sHoraInicio, String sHoraFim){
 
         //se estiver no menu de pesquisa
         if (inQuery()){
@@ -129,37 +90,29 @@ public class E2ULogic extends PropertyChangeSupport {
 
             // informa o estado da interface
             firePropertyChange(null, false, true);
-
-            //pesquisa corre sempre bem se estiver neste menu
-            return 1;
-
         }
-
-        //se não estiver no menu de pesquisa
-        return -1;
-
     }
     
     //Get's de valores
-    public ArrayList<String> getPostos(ArrayList<cPosto> alPosto){
-        ArrayList<String> aux = new ArrayList<>();
-        for(cPosto p : alPosto){
-            aux.add(p.getLocalizacao());
-        }
-        return aux;
+    public List<String> getPostos(){
+        List<String> lista = new ArrayList<>();
+        
+       // for(cPosto c : data.getListaPostos())
+        //    lista += data.infoPosto(c.getIdPosto());
+        return lista;
     }
     
-    public ArrayList<String> getLocalidades(ArrayList<cRegiao> alRegiao){
+    public ArrayList<String> getLocalidades(){
         ArrayList<String> aux = new ArrayList<>();
-        for(cRegiao r : alRegiao){
+        for(cRegiao r : data.getListaRegioes()){
             aux.add(r.getNomeRegiao());
         }
         return aux;
     }
     
-    public ArrayList<String> getHorarios(ArrayList<cIntervaloTempo> alIntervaloTempo){
+    public ArrayList<String> getHorarios(){
         ArrayList<String> aux = new ArrayList<>();
-        for(cIntervaloTempo i : alIntervaloTempo){
+        for(cIntervaloTempo i : data.getListaTempos()){
             aux.add(i.getHoraInicio());
         }
         return aux;

@@ -1,72 +1,69 @@
 
 package logic.classes;
 
-public class cReserva {
-        private static  int icontaReserva = 1;
+import java.util.GregorianCalendar;
 
+public class cReserva {
+    private static  int icontaReserva = 1;
+    private static  int icontaServicos = 200;
     private int iidReserva;
     private int icodServico;
     private double dcustoPrevisto;
     private int iidPosto;
     private String sestado;
     private int iidUtilizador;
+    private String sdiaReserva;
 
-    public cReserva(int codServico, double dcustoPrevisto, int idPosto, String estado, int idUtilizador) {
-        this.icodServico = codServico;
+    public cReserva( double dcustoPrevisto, int idPosto, int idUtilizador) {
+        this.icodServico = icontaServicos+10;
         this.dcustoPrevisto = dcustoPrevisto;
         this.iidPosto = idPosto;
-        this.sestado = estado;
+        this.sestado = "ativa";
         this.iidUtilizador = idUtilizador;
         iidReserva = icontaReserva++;
+        sdiaReserva = getData();
+    }
+    public String getData(){
+        GregorianCalendar calendar = new GregorianCalendar();
+        int dia = calendar.get(GregorianCalendar.DAY_OF_MONTH);
+        int mes = calendar.get(GregorianCalendar.MONTH);
+        int ano = calendar.get(GregorianCalendar.YEAR);
+        return dia+"/"+mes+"/"+ano;
+    }
+    
+    public static int getIcontaReserva() {
+        return icontaReserva;
     }
 
-    public int getIdReserva() {
+    public int getIidReserva() {
         return iidReserva;
     }
 
-    public void setIdReserva(int idReserva) {
-        this.iidReserva = idReserva;
-    }
-
-    public int getCodServico() {
+    public int getIcodServico() {
         return icodServico;
     }
 
-    public void setCodServico(int codServico) {
-        this.icodServico = codServico;
-    }
-
-    public double getCustoPrevisto() {
+    public double getDcustoPrevisto() {
         return dcustoPrevisto;
     }
 
-    public void setCustoPrevisto(double dcustoPrevisto) {
-        this.dcustoPrevisto = dcustoPrevisto;
-    }
-
-    public int getIdPosto() {
+    public int getIidPosto() {
         return iidPosto;
     }
 
-    public void setIdPosto(int idPosto) {
-        this.iidPosto = idPosto;
-    }
-
-    public String getEstado() {
+    public String getSestado() {
         return sestado;
     }
 
-    public void setEstado(String estado) {
-        this.sestado = estado;
-    }
-
-    public int getIdUtilizador() {
+    public int getIidUtilizador() {
         return iidUtilizador;
     }
 
-    public void setIdUtilizador(int idUtilizador) {
-        this.iidUtilizador = idUtilizador;
+    public String getDiaReserva() {
+        return sdiaReserva;
     }
+
+    
     
     
 }

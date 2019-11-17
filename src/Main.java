@@ -7,11 +7,12 @@ import logic.E2ULogic;
 import logic.states.AwaitLogin;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Main extends Application implements Constants {
 
     @Override
-    public void start(Stage stage) throws FileNotFoundException {
+    public void start(Stage stage) throws FileNotFoundException, IOException {
 
         E2ULogic logic = new E2ULogic(new AwaitLogin(new E2UData()));
 
