@@ -57,9 +57,9 @@ public class E2ULogic extends PropertyChangeSupport {
 
     public int Register(String sUsername, String sPassword, String sConfPassword){
 
+        //Se tiver os dados todos preenchidos
         if (!sUsername.isEmpty() && !sPassword.isEmpty() && !sConfPassword.isEmpty())
             if (inRegister()){
-
 
                 this.state = this.state.Registo(sUsername, sPassword, sConfPassword);
 
@@ -75,6 +75,7 @@ public class E2ULogic extends PropertyChangeSupport {
 
             }
 
+        //Se não tiver os dados todos preenchidos
         return -1;
 
     }
