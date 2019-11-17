@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -20,12 +21,13 @@ import java.beans.PropertyChangeListener;
 
 public class RegisterPane extends StackPane implements Constants, PropertyChangeListener {
 
-    E2ULogic logic;
-    Button bRegisto;
-    StringTextfield tfUsername;
-    ViewImage ivLogo;
-    PassField pfPalavraPasse,pfConfirmaPalavraPasse;
-    Label lErro;
+    private E2ULogic logic;
+    private Button bRegisto;
+    private StringTextfield tfUsername;
+    private Hyperlink hlLogin;
+    private ViewImage ivLogo;
+    private PassField pfPalavraPasse,pfConfirmaPalavraPasse;
+    private Label lErro;
 
     public RegisterPane(E2ULogic logic) {
         this.logic = logic;
@@ -41,6 +43,7 @@ public class RegisterPane extends StackPane implements Constants, PropertyChange
         tfUsername = new StringTextfield("Nome do Utilizador");
         pfPalavraPasse = new PassField("Password");
         pfConfirmaPalavraPasse = new PassField("Confirmar Password");
+        hlLogin = new Hyperlink("Voltar ao Login");
         lErro = new Label();
         ivLogo = new ViewImage("../../" + sLogo);
 
@@ -48,7 +51,7 @@ public class RegisterPane extends StackPane implements Constants, PropertyChange
         hBox.setAlignment(Pos.CENTER);
         hBox.setPadding(new Insets(20,0,60,0));
 
-        VBox box = new VBox(hBox,tfUsername,pfPalavraPasse,pfConfirmaPalavraPasse,lErro,bRegisto);
+        VBox box = new VBox(hBox,tfUsername,pfPalavraPasse,pfConfirmaPalavraPasse,lErro,bRegisto, hlLogin);
         box.setAlignment(Pos.CENTER);
         box.setSpacing(15);
 
@@ -57,14 +60,11 @@ public class RegisterPane extends StackPane implements Constants, PropertyChange
     }
 
     private void registerListeners(){
-        bRegisto.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-
-            }
+        hlLogin.setOnMouseClicked(e -> {
+            this.logic.goToLogin();
         });
-
     }
+    
     public Pane getRoot() {
         return this;
     }
