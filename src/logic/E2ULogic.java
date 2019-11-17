@@ -10,7 +10,8 @@ import logic.classes.cRegiao;
 
 public class E2ULogic extends PropertyChangeSupport {
 
-    IStates state;
+    private IStates state;
+    private E2UData data;
 
     public E2ULogic(IStates state) {
         super(state);
