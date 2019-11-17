@@ -59,28 +59,6 @@ public class cOrdenaPosto {
             
         }
         
-        //Organiza��o por sCidade principal
-        for(int i = 0; i < cPostoList.size(); i++){
-            
-            if(getNomeCidade(cPostoList.get(i).getIdRegiao()).equalsIgnoreCase(this.sCidade)){
-                
-                cPosto aux = cPostoList.get(i);
-                if(i != 0){
-                    
-                    for(int j = i; j > 0; j--){
-                        
-                       cPosto aux2 = cPostoList.get(j-1);
-                       cPostoList.set(j-1, aux);
-                       cPostoList.set(j, aux2);
-                       
-                    }
-                    
-                }
-                
-            }
-            
-        }
-        
         //Organiza��o por scRegiao principal
         for(int i = 0; i < cPostoList.size(); i++){
             
@@ -173,21 +151,6 @@ public class cOrdenaPosto {
             }
             
         }
-        
-    }
-    
-    private String getNomeCidade(int iId){
-        
-        for(cRegiao r : cRegiaoList){
-            
-            if(r.getIdRegiao()== iId){
-                
-                return r.getNomeCidade();
-                
-            }
-        }
-        
-        return null;
         
     }
     

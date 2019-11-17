@@ -75,7 +75,7 @@ public class E2UData {
         this.listaReservas = new ArrayList<>();
         listaUtilizadores = new ArrayList<>();
         inicializaListas();
-        getUtilizadorArea();
+        //getUtilizadorArea();
         userLogado=0;
     }
     
@@ -273,7 +273,7 @@ public class E2UData {
         return null;
     }
     
-    private void getUtilizadorArea() throws IOException{
+    /*private void getUtilizadorArea() throws IOException{
         
         URL urlIpapi = new URL("https://urlIpapi.co/json/");
         URLConnection urlcConnection = urlIpapi.openConnection();
@@ -329,5 +329,6 @@ public class E2UData {
                 }
             }
         }
-    }
+    }*/
+
 }
