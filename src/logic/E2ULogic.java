@@ -3,6 +3,10 @@ package logic;
 import logic.states.*;
 
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import logic.classes.cIntervaloTempo;
+import logic.classes.cPosto;
+import logic.classes.cRegiao;
 
 public class E2ULogic extends PropertyChangeSupport {
 
@@ -99,6 +103,31 @@ public class E2ULogic extends PropertyChangeSupport {
         //se não estiver no menu de pesquisa
         return -1;
 
+    }
+    
+    //Get's de valores
+    public ArrayList<String> getPostos(ArrayList<cPosto> alPosto){
+        ArrayList<String> aux = new ArrayList<>();
+        for(cPosto p : alPosto){
+            aux.add(p.getLocalizacao());
+        }
+        return aux;
+    }
+    
+    public ArrayList<String> getLocalidades(ArrayList<cRegiao> alRegiao){
+        ArrayList<String> aux = new ArrayList<>();
+        for(cRegiao r : alRegiao){
+            aux.add(r.getNomeRegiao());
+        }
+        return aux;
+    }
+    
+    public ArrayList<String> getHorarios(ArrayList<cIntervaloTempo> alIntervaloTempo){
+        ArrayList<String> aux = new ArrayList<>();
+        for(cIntervaloTempo i : alIntervaloTempo){
+            aux.add(i.getHoraInicio());
+        }
+        return aux;
     }
 
 }

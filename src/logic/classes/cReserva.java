@@ -6,14 +6,14 @@ public class cReserva {
 
     private int iidReserva;
     private int icodServico;
-    private double custoPrevisto;
+    private double dcustoPrevisto;
     private int iidPosto;
     private String sestado;
     private int iidUtilizador;
 
-    public cReserva(int codServico, double custoPrevisto, int idPosto, String estado, int idUtilizador) {
+    public cReserva(int codServico, double dcustoPrevisto, int idPosto, String estado, int idUtilizador) {
         this.icodServico = codServico;
-        this.custoPrevisto = custoPrevisto;
+        this.dcustoPrevisto = dcustoPrevisto;
         this.iidPosto = idPosto;
         this.sestado = estado;
         this.iidUtilizador = idUtilizador;
@@ -37,11 +37,11 @@ public class cReserva {
     }
 
     public double getCustoPrevisto() {
-        return custoPrevisto;
+        return dcustoPrevisto;
     }
 
-    public void setCustoPrevisto(double custoPrevisto) {
-        this.custoPrevisto = custoPrevisto;
+    public void setCustoPrevisto(double dcustoPrevisto) {
+        this.dcustoPrevisto = dcustoPrevisto;
     }
 
     public int getIdPosto() {

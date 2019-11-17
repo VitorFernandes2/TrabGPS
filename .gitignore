@@ -9,3 +9,5 @@
 .idea/vcs.xml
 .idea/workspace.xml
 out/
+/build/
+/dist/

@@ -5,12 +5,12 @@ public class cPosto {
     private int iidPosto;
     private int iidRegiao;
     private String slocalizacao;
-    private double precoCarregamento;
+    private double dprecoCarregamento;
 
-    public cPosto(int idRegiao, String localizacao, double precoCarregamento) {
+    public cPosto(int idRegiao, String localizacao, double dprecoCarregamento) {
         this.iidRegiao = idRegiao;
         this.slocalizacao = localizacao;
-        this.precoCarregamento = precoCarregamento;
+        this.dprecoCarregamento = dprecoCarregamento;
         iidPosto=icontaPosto++;
     }
 
@@ -39,11 +39,11 @@ public class cPosto {
     }
 
     public double getPrecoCarregamento() {
-        return precoCarregamento;
+        return dprecoCarregamento;
     }
 
-    public void setPrecoCarregamento(double precoCarregamento) {
-        this.precoCarregamento = precoCarregamento;
+    public void setPrecoCarregamento(double dprecoCarregamento) {
+        this.dprecoCarregamento = dprecoCarregamento;
     }
     
     

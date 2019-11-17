@@ -26,6 +26,8 @@ public class cUserManagement implements cConstantes{
 
     public cUserManagement() {
         this.users = new ArrayList<cUtilizador>();
+        //valor adicionado apenas para testes padrão:
+        this.users.add(new cUtilizador("Vitor", "Fernandes"));
     }
     
     public boolean checkexistance(String sUsername,String sPassword){
