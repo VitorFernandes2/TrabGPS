@@ -374,6 +374,14 @@ public class E2UData {
         return lista;
     }
 
+    public int pesquisaTempos(String horaInicio){
+        for (int i = 0; i < listaTempos.size();i++){
+            if (listaTempos.get(i).getHoraInicio().equals(horaInicio))
+                return i;
+        }
+        return -1;
+    }
+
     public List<String> infoPostosByPesquisa(String regiao, String tempo){
         int conta = 0;
         List<String> lista = new ArrayList<>();
@@ -387,7 +395,7 @@ public class E2UData {
                             conta++;
                             sb.append("Posto: " + posto.getLocalizacao() + " ");
                             sb.append("Preço: " + posto.getPrecoCarregamento() + " ");
-                            cIntervaloTempo intervalo = listaTempos.get(c.getIdIntervaloTempo());
+                            cIntervaloTempo intervalo = listaTempos.get(pesquisaTempos(tempo));
                             sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraFim());
                             if(c.isDisponibilidade())
                                 sb.append("Disponivel");
@@ -407,7 +415,7 @@ public class E2UData {
                         conta++;
                         sb.append("Posto: " + posto.getLocalizacao() + " ");
                         sb.append("Preço: " + posto.getPrecoCarregamento() + " ");
-                        cIntervaloTempo intervalo = listaTempos.get(c.getIdIntervaloTempo());
+                        cIntervaloTempo intervalo = listaTempos.get(pesquisaTempos(tempo));
                         sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraFim());
                         if(c.isDisponibilidade())
                             sb.append("Disponivel");
@@ -429,7 +437,7 @@ public class E2UData {
                             conta++;
                             sb.append("Posto: " + posto.getLocalizacao() + " ");
                             sb.append("Preço: " + posto.getPrecoCarregamento() + " ");
-                            cIntervaloTempo intervalo = listaTempos.get(c.getIdIntervaloTempo());
+                            cIntervaloTempo intervalo = listaTempos.get(pesquisaTempos(tempo));
                             sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraFim());
                             if(c.isDisponibilidade())
                                 sb.append("Disponivel");
