@@ -93,15 +93,6 @@ public class E2ULogic extends PropertyChangeSupport {
         }
     }
     
-    //Get's de valores
-    public List<String> getPostos(){
-        List<String> lista = new ArrayList<>();
-        
-       // for(cPosto c : data.getListaPostos())
-        //    lista += data.infoPosto(c.getIdPosto());
-        return lista;
-    }
-    
     public ArrayList<String> getLocalidades(){
         ArrayList<String> aux = new ArrayList<>();
         for(cRegiao r : data.getListaRegioes()){
