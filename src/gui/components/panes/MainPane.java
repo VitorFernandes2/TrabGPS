@@ -3,7 +3,10 @@ package gui.components.panes;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.StackPane;
 
-public class MainPane extends StackPane {
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+public class MainPane extends StackPane implements PropertyChangeListener {
 
     public MainPane() {
 
@@ -25,4 +28,8 @@ public class MainPane extends StackPane {
 
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
 }

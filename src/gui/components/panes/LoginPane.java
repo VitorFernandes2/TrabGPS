@@ -13,8 +13,11 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class LoginPane extends StackPane implements Constants {
+
+public class LoginPane extends StackPane implements Constants, PropertyChangeListener {
 
     DefaultButton bLogin;
     StringTextfield tfUsername;
@@ -62,4 +65,8 @@ public class LoginPane extends StackPane implements Constants {
         });
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
 }

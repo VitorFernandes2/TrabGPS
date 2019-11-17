@@ -1,4 +1,13 @@
 package gui.components.panes;
 
-public class HistoryPane {
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+public class HistoryPane implements PropertyChangeListener {
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
+
 }

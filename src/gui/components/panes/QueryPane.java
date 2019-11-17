@@ -13,7 +13,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
 
-public class QueryPane extends StackPane {
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+public class QueryPane extends StackPane implements PropertyChangeListener {
 
     public QueryPane() {
         createComponents();
@@ -66,4 +69,8 @@ public class QueryPane extends StackPane {
 
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
 }

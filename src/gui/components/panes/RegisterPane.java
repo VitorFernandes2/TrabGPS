@@ -14,7 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
-public class RegisterPane extends StackPane implements Constants {
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+public class RegisterPane extends StackPane implements Constants, PropertyChangeListener {
 
 
     Button bRegisto;
@@ -22,10 +25,12 @@ public class RegisterPane extends StackPane implements Constants {
     ViewImage ivLogo;
     PassField pfPalavraPasse,pfConfirmaPalavraPasse;
     Label lErro;
+
     public RegisterPane() {
         createComponents();
         registerListeners();
     }
+
     private void createComponents(){
         bRegisto = new DefaultButton("Registar");
         tfUsername = new StringTextfield("Nome do Utilizador");
@@ -59,4 +64,8 @@ public class RegisterPane extends StackPane implements Constants {
         return this;
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
 }
