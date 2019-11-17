@@ -15,9 +15,11 @@ public interface cConstantes {
     public static final int MAXPASSNCHAR = 16;
     public static final int ERROINPUTUSER = 1;
     public static final int ERROINPUTPASS = 2;
+    public static final int ERROINPUTCONFPASS = 8;
     public static final int ERRODADOSUTILIZADOR = 3;
     public static final int UTILIZADORNAOEXISTE = 4;
     public static final int UTILIZADORJAEXISTE = 5;
     public static final int PASSWORDSDIFERENTES = 6;
     public static final int LOGINNORMAL = 7;
+    public static final int REGISTONORMAL = 9;
 }

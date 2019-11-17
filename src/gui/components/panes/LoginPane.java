@@ -52,7 +52,7 @@ public class LoginPane extends StackPane implements Constants, PropertyChangeLis
         hBox.setAlignment(Pos.CENTER);
         hBox.setPadding(new Insets(20,0,60,0));
 
-        VBox box = new VBox(hBox,tfUsername,pfPalavraPasse,bLogin,label,hlRegisto);
+        VBox box = new VBox(hBox,tfUsername,pfPalavraPasse,label,bLogin,hlRegisto);
         box.setAlignment(Pos.CENTER);
         box.setSpacing(15);
 
@@ -87,6 +87,11 @@ public class LoginPane extends StackPane implements Constants, PropertyChangeLis
 
         });
         hlRegisto.setOnMouseClicked(e -> {
+            pfPalavraPasse.setNormal();
+            pfPalavraPasse.clear();
+            tfUsername.setNormal();
+            tfUsername.clear();
+            label.setVisible(false);
             this.logic.goToRegister();
         });
     }

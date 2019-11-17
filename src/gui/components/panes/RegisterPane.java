@@ -14,6 +14,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import logic.E2ULogic;
 
 import java.beans.PropertyChangeEvent;
@@ -44,7 +45,10 @@ public class RegisterPane extends StackPane implements Constants, PropertyChange
         pfPalavraPasse = new PassField("Password");
         pfConfirmaPalavraPasse = new PassField("Confirmar Password");
         hlLogin = new Hyperlink("Voltar ao Login");
-        lErro = new Label();
+        lErro = new Label("Utilizador já existe na base de dados");
+        lErro.setTextFill(Color.RED);
+        lErro.setVisible(false);
+
         ivLogo = new ViewImage("../../" + sLogo);
 
         HBox hBox = new HBox(ivLogo);
@@ -60,7 +64,59 @@ public class RegisterPane extends StackPane implements Constants, PropertyChange
     }
 
     private void registerListeners(){
+        bRegisto.setOnMouseClicked(e -> {
+            this.logic.Register(
+                    tfUsername.getText(),
+                    pfPalavraPasse.getText(),
+                    pfConfirmaPalavraPasse.getText()
+            );
+
+            tfUsername.setNormal();
+            pfConfirmaPalavraPasse.setNormal();
+            pfPalavraPasse.setNormal();
+            lErro.setVisible(false);
+
+            switch (this.logic.getErro()){
+
+                case 1:
+                    tfUsername.setError();
+                    break;
+                case 2:
+                    pfPalavraPasse.setError();
+                    break;
+                case 8:
+                    pfConfirmaPalavraPasse.setError();
+                    break;
+                case 6:
+                    pfPalavraPasse.setError();
+                    pfConfirmaPalavraPasse.setError();
+                    break;
+                case 5:
+                    //Login mal efetuado
+                    tfUsername.setError();
+                    lErro.setVisible(true);
+                    break;
+                case 9:
+                    tfUsername.clear();
+                    pfConfirmaPalavraPasse.clear();
+                    pfPalavraPasse.clear();
+                    tfUsername.setNormal();
+                    pfConfirmaPalavraPasse.setNormal();
+                    pfPalavraPasse.setNormal();
+                    lErro.setVisible(false);
+                    break;
+
+            }
+
+        });
         hlLogin.setOnMouseClicked(e -> {
+            tfUsername.clear();
+            pfConfirmaPalavraPasse.clear();
+            pfPalavraPasse.clear();
+            tfUsername.setNormal();
+            pfConfirmaPalavraPasse.setNormal();
+            pfPalavraPasse.setNormal();
+            lErro.setVisible(false);
             this.logic.goToLogin();
         });
     }

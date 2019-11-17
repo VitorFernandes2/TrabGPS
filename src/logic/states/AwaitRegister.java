@@ -1,6 +1,7 @@
 package logic.states;
 
 import logic.E2UData;
+import static logic.classes.cConstantes.*;
 
 public class AwaitRegister extends StateAdapter {
 
@@ -13,10 +14,25 @@ public class AwaitRegister extends StateAdapter {
     @Override
     public IStates Registo(String sUsername, String sPassword, String sConPassord) {
 
-        if (!data.criaRegisto(sUsername, sPassword, sConPassord))
-              return new AwaitRegister(data);
-        else
-            return new AwaitLogin(data);
+        if(!data.verificaInputUsername(sUsername))
+            data.setErro(ERROINPUTUSER);
+        else if (!data.verificaInputPassword(sPassword))
+            data.setErro(ERROINPUTPASS);
+        else if (!data.verificaInputPassword(sConPassord))
+            data.setErro(ERROINPUTCONFPASS);
+        else if (!sConPassord.equals(sPassword))
+            data.setErro(PASSWORDSDIFERENTES);
+        else if (data.verificaUsername(sUsername))
+            data.setErro(UTILIZADORJAEXISTE);
+        else{
+            data.setErro(REGISTONORMAL);
+
+            if (data.criaRegisto(sUsername,sPassword,sConPassord))
+                return new AwaitLogin(data);
+
+        }
+
+        return new AwaitRegister(data);
       
     }
 
