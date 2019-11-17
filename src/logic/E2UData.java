@@ -381,13 +381,15 @@ public class E2UData {
             for(cDisponibilidadesByTempo c : listaDisponibilidades){
                 if(c.getIdPosto() == posto.getIdPosto()){
                     sb.append("Posto: " + posto.getLocalizacao() + " ");
-                    sb.append("Preço: " + posto.getPrecoCarregamento() + " ");
+                    sb.append("Preço: " + posto.getPrecoCarregamento() + "€ ");
                     cIntervaloTempo intervalo = listaTempos.get(c.getIdIntervaloTempo());
-                    sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraInicio());
+                    sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraFim());
+
                     if(c.isDisponibilidade())
-                        sb.append("Disponivel");
+                        sb.append(" Disponivel");
                     else
-                        sb.append("Indisponivel");
+                        sb.append(" Indisponivel");
+
                     lista.add(sb.toString());
                 }
             }
