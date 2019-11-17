@@ -9,7 +9,6 @@ public class GraphicInterface implements Constants {
 
     private Stage primaryStage;
     private E2ULogic logic;
-    //Implementar aqui a lógica da aplicação para poder ser tratada pelo
 
     public GraphicInterface(E2ULogic logic,Stage primaryStage) {
         this.primaryStage = primaryStage;

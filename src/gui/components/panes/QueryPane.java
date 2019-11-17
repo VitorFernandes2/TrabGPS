@@ -78,6 +78,7 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        setVisible(this.logic.inQuery());
     }
+
 }
