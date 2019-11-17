@@ -384,6 +384,7 @@ public class E2UData {
                 if(posto.getIdRegiao() == idRegiao(regiao))
                     for(cDisponibilidadesByTempo c : listaDisponibilidades){
                         if(c.getIdPosto() == posto.getIdPosto() && c.getIdIntervaloTempo()==idIntervalo(tempo)){
+                            conta++;
                             sb.append("Posto: " + posto.getLocalizacao() + " ");
                             sb.append("Preço: " + posto.getPrecoCarregamento() + " ");
                             cIntervaloTempo intervalo = listaTempos.get(c.getIdIntervaloTempo());
@@ -397,6 +398,8 @@ public class E2UData {
                         }
                     }
             }
+            if (conta == 0)
+                setErro(SEMPOSTOS);
         }else if(regiao == null && tempo != null){
             for(cPosto posto : listaPostos){
                 for(cDisponibilidadesByTempo c : listaDisponibilidades){
@@ -415,7 +418,7 @@ public class E2UData {
                     }
                 }
             }
-            if(conta!=0){
+            if(conta==0){
                 setErro(SEMPOSTOSINTERVALO);
             }
         }else if(regiao != null && tempo == null){
@@ -438,10 +441,18 @@ public class E2UData {
                     }
                 }
             }
-            if(conta!=0){
+            if(conta==0){
                 setErro(SEMPOSTOSREGIAO);
             }
+
         }
+        else{
+            lista.addAll(infoPosto());
+        }
+
+        if (conta > 0)
+            setErro(PESQUISANORMAL);
+
         return lista;
     }
 

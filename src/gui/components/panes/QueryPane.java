@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.E2ULogic;
 
@@ -35,6 +36,9 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
     private LsView list;
     private HBox hbLocalidade;
     private Button btPesquisa;
+    private Label label;
+    private Label label2;
+    private Label label3;
 
     public QueryPane(E2ULogic logic) {
         this.logic = logic;
@@ -53,6 +57,18 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
     }
 
     private BorderPane interfaceA(){
+
+        label = new Label("Não existem postos nesta região");
+        label.setTextFill(Color.RED);
+        label.setVisible(false);
+
+        label2 = new Label("Não existem horários para este intervalo");
+        label2.setTextFill(Color.RED);
+        label2.setVisible(false);
+
+        label3 = new Label("Não existem postos para esta pesquisa");
+        label3.setTextFill(Color.RED);
+        label3.setVisible(false);
 
         btPesquisa = new GreyButton("Pesquisar");
         borderPane = new BorderPane();
@@ -86,7 +102,7 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
         hbLocalidade.setAlignment(Pos.CENTER_LEFT);
 
 
-        leftbox.getChildren().addAll(lblPesquisa, hbHorario, hbLocalidade, btPesquisa);
+        leftbox.getChildren().addAll(lblPesquisa, hbHorario, hbLocalidade, btPesquisa, label, label2, label3);
 
         rightbox = new VBox();
         rightbox.setPadding(new Insets(100,100,100,100));
@@ -131,7 +147,9 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
 
     private void registerListeners(){
         btPesquisa.setOnMouseClicked(e ->{
-
+            label.setVisible(false);
+            label2.setVisible(false);
+            label3.setVisible(false);
             list.getItems().clear();
 
             for (String item : this.logic.infoPostosByPesquisa((String) cbLocalidade.getValue(), (String) cbHorario.getValue())) {
@@ -158,6 +176,19 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
 
                 list.getItems().add(box);
 
+            }
+
+            switch (this.logic.getErro()){
+
+                case 20:
+                    label3.setVisible(true);
+                    break;
+                case 21:
+                    label.setVisible(true);
+                    break;
+                case 22:
+                    label2.setVisible(true);
+                    break;
             }
 
         });

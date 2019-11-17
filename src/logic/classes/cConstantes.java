@@ -25,4 +25,5 @@ public interface cConstantes {
     public static final int SEMPOSTOS = 20;
     public static final int SEMPOSTOSREGIAO = 21;
     public static final int SEMPOSTOSINTERVALO = 22;
+    public static final int PESQUISANORMAL = 23;
 }
