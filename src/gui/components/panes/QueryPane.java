@@ -48,17 +48,18 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
         leftbox.setPadding(new Insets(100,0,0,100));
 
         LabelTitle lblPesquisa = new LabelTitle("Pesquisa:");
-        ChoiceBox cbLocalidade = new ChoiceBox(FXCollections.observableArrayList(
-                "First", "Second", "Third")
-        );
-        HBox hbLocalidade = new HBox(cbLocalidade);
-        hbLocalidade.setPadding(new Insets(0,0,15,0));
-
-        ChoiceBox cbPosto = new ChoiceBox(FXCollections.observableArrayList(
-                "First", "Second", "Third")
+        ChoiceBox cbHorario = new ChoiceBox(
+                FXCollections.observableArrayList(this.logic.getHorarios())
         );
 
-        leftbox.getChildren().addAll(lblPesquisa, hbLocalidade, cbPosto);
+        HBox hbHorario = new HBox(cbHorario);
+        hbHorario.setPadding(new Insets(0,0,15,0));
+
+        ChoiceBox cbLocalidade = new ChoiceBox(
+                FXCollections.observableArrayList(this.logic.getLocalidades())
+        );
+
+        leftbox.getChildren().addAll(lblPesquisa, hbHorario, cbLocalidade);
 
         VBox rightbox = new VBox();
         rightbox.setPadding(new Insets(100,100,100,100));
