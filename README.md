@@ -26,9 +26,9 @@ Visto também estes automóveis terem pouca autonomia, exige ao proprietário um
 - [ ] Consultar Histórico
 - [ ] Definir Itinerário
 > Testes
-- [ X ] Login
-- [ X ] Registo
-- [ X ] Consultar Postos
+- [X] Login
+- [X] Registo
+- [X] Consultar Postos
 - [ ] Fazer Reserva
 - [ ] Cancelar Reserva
 - [ ] Consultar Histórico
