@@ -2,17 +2,48 @@ package gui.components.menubars;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import logic.E2ULogic;
 
 public class MainMenuBar extends MenuBar {
 
-    public MainMenuBar() {
-        Menu menu1 = new Menu("Inicio");
-        Menu menu2 = new Menu("Itinerário");
-        Menu menu3 = new Menu("Histórico");
-        Menu menu4 = new Menu("Pendentes");
+    private E2ULogic logic;
+    private Menu menu1;
+    private Menu menu2;
+    private Menu menu3;
+    private Menu menu4;
+
+    public MainMenuBar(E2ULogic logic) {
+        this.logic = logic;
+
+        menu1 = new Menu("Inicio");
+        menu2 = new Menu("Itinerário");
+        menu3 = new Menu("Histórico");
+        menu4 = new Menu("Pendentes");
 
         this.getMenus().addAll(menu1, menu2, menu3, menu4);
         this.getStyleClass().add("MainMenuBar");
+
+        registerListeners();
+
+    }
+
+    private void registerListeners(){
+
+        menu1.setOnAction(e->{
+
+        });
+
+        menu2.setOnAction(e->{
+
+        });
+
+        menu3.setOnAction(e->{
+
+        });
+
+        menu4.setOnAction(e->{
+
+        });
 
     }
 

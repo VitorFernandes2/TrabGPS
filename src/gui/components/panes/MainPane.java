@@ -28,6 +28,11 @@ public class MainPane extends StackPane implements PropertyChangeListener {
         registerPane.setVisible(false);
         QueryPane queryPane = new QueryPane(logic);
         queryPane.setVisible(false);
+        HistoryPane historyPane = new HistoryPane(logic);
+        historyPane.setVisible(false);
+        PendingPane pendingPane = new PendingPane(logic);
+        pendingPane.setVisible(false);
+
 
         ObservableList children = this.getChildren();
         children.addAll(loginPane, registerPane, queryPane);

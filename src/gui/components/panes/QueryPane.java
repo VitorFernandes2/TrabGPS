@@ -72,7 +72,7 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
 
         btPesquisa = new GreyButton("Pesquisar");
         borderPane = new BorderPane();
-        mainMenuBar = new MainMenuBar();
+        mainMenuBar = new MainMenuBar(logic);
 
         vBox = new VBox(mainMenuBar);
         borderPane.setTop(vBox);
