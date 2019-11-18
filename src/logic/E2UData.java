@@ -4,7 +4,9 @@ import java.io.IOException;
 import logic.classes.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static logic.classes.cConstantes.*;
@@ -13,7 +15,6 @@ public class E2UData {
 
     private ArrayList<cReserva> listaReservas;
     private ArrayList<cUtilizador> listaUtilizadores;
-     
     private ArrayList<cRegiao> listaRegioes = new ArrayList<>(); 
     private ArrayList<cIntervaloTempo> listaTempos = new ArrayList<>(); 
     private ArrayList<cPosto> listaPostos = new ArrayList<>(); 
@@ -148,9 +149,9 @@ public class E2UData {
                 cIntervaloTempo intervalo = listaTempos.get(c.getIdIntervaloTempo());
                 sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraInicio());
                 if(c.isDisponibilidade())
-                    sb.append("Disponivel");
+                    sb.append(" - Disponivel");
                 else
-                    sb.append("Indisponivel");
+                    sb.append(" - Indisponivel");
                 lista.add(sb.toString());
             }
         
@@ -479,5 +480,27 @@ public class E2UData {
 
         return lista;
     }
+    
+    public boolean efetuarReserva(String sdados){
+        
+        //listaReservas.add(new cReserva(,,userLogado));
+        return true;
+    }
+    
+     /*public static HashMap<String,String> ResolveMessages(String message){
+        /*StringTokenizer t,tokens = new StringTokenizer(message,"Posto: ");
+        String key,val;
+        HashMap<String,String> messages = new HashMap<>();
+        while (tokens.hasMoreElements()) {
+            t = new StringTokenizer(tokens.nextElement().toString()," | ");  
+            key = t.nextElement().toString();
+            val = t.nextElement().toString();
+            messages.put(key, val);
+        }
+        return messages;
+        
+        
+    }*/
+    
 
 }
