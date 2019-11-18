@@ -10,9 +10,9 @@ Visto também estes automóveis terem pouca autonomia, exige ao proprietário um
 
 # Funcionalidades
 > Lógica de Cliente
-- [ ] Login
-- [ ] Registo
-- [ ] Consultar Postos
+- [X] Login
+- [X] Registo
+- [X] Consultar Postos
 - [ ] Fazer Reserva
 - [ ] Cancelar Reserva
 - [ ] Consultar Histórico
@@ -20,15 +20,15 @@ Visto também estes automóveis terem pouca autonomia, exige ao proprietário um
 > Interface gráfica
 - [X] Login
 - [X] Registo
-- [ ] Consultar Postos
+- [X] Consultar Postos
 - [ ] Fazer Reserva
 - [ ] Cancelar Reserva
 - [ ] Consultar Histórico
 - [ ] Definir Itinerário
 > Testes
-- [ ] Login
-- [ ] Registo
-- [ ] Consultar Postos
+- [ X ] Login
+- [ X ] Registo
+- [ X ] Consultar Postos
 - [ ] Fazer Reserva
 - [ ] Cancelar Reserva
 - [ ] Consultar Histórico
