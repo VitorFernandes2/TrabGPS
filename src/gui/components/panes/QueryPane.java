@@ -172,8 +172,6 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
                 box.setHgrow(mainBox, Priority.ALWAYS);
                 box.setSpacing(30);
 
-                ObservableList<HBox> items = FXCollections.observableArrayList(box);
-
                 list.getItems().add(box);
 
             }
@@ -190,6 +188,9 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
                     label2.setVisible(true);
                     break;
             }
+
+            cbHorario.setValue(null);
+            cbLocalidade.setValue(null);
 
         });
 
