@@ -13,16 +13,35 @@ public class cReserva {
     private String sestado;
     private int iidUtilizador;
     private String sdiaReserva;
+     private int iidIntervaloTempo;
 
-    public cReserva( double dcustoPrevisto, int idPosto, int idUtilizador) {
+    public cReserva( double dcustoPrevisto, int idPosto, int idUtilizador, int iidIntervaloTempo) {
         this.icodServico = icontaServicos+10;
         this.dcustoPrevisto = dcustoPrevisto;
         this.iidPosto = idPosto;
-        this.sestado = "ativa";
+        this.sestado = "Ativa";
         this.iidUtilizador = idUtilizador;
         iidReserva = icontaReserva++;
         sdiaReserva = getData();
+        this.iidIntervaloTempo=iidIntervaloTempo;
     }
+
+    public String getSdiaReserva() {
+        return sdiaReserva;
+    }
+
+    public void setSdiaReserva(String sdiaReserva) {
+        this.sdiaReserva = sdiaReserva;
+    }
+
+    public int getIidIntervaloTempo() {
+        return iidIntervaloTempo;
+    }
+
+    public void setIidIntervaloTempo(int iidIntervaloTempo) {
+        this.iidIntervaloTempo = iidIntervaloTempo;
+    }
+    
     public String getData(){
         GregorianCalendar calendar = new GregorianCalendar();
         int dia = calendar.get(GregorianCalendar.DAY_OF_MONTH);
@@ -63,6 +82,15 @@ public class cReserva {
         return sdiaReserva;
     }
 
+    public void setDcustoPrevisto(double dcustoPrevisto) {
+        this.dcustoPrevisto = dcustoPrevisto;
+    }
+
+    public void setSestado(String sestado) {
+        this.sestado = sestado;
+    }
+
+    
     
     
     

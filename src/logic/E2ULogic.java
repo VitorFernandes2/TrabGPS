@@ -5,10 +5,9 @@ import logic.states.*;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import logic.classes.cIntervaloTempo;
-import logic.classes.cPosto;
-import logic.classes.cRegiao;
+import logic.classes.*;
 
 public class E2ULogic extends PropertyChangeSupport {
 
@@ -115,6 +114,14 @@ public class E2ULogic extends PropertyChangeSupport {
 
     public List<String> infoPostosByPesquisa(String regiao,String tempo){
         return data.infoPostosByPesquisa(regiao,tempo);
+    }
+    
+     public List<String> getListaPendentes(){
+        return data.getListaPendentes();
+    }
+     
+    public HashMap<Integer,HashMap<String,String>> getListaHistorico(){
+        return data.getListaHistorico();
     }
 
 }
