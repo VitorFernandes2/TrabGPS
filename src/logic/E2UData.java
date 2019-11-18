@@ -377,6 +377,17 @@ public class E2UData {
         return -1;
     }
 
+    public int pesquisaIntervaloById(int id){
+
+        for (int i = 0; i < listaTempos.size(); i++) {
+            if (listaTempos.get(i).getIdIntervalo() == id)
+                return i;
+        }
+
+        return -1;
+
+    }
+
     public List<String> infoPostosByPesquisa(String regiao, String tempo){
         int conta = 0;
         List<String> lista = new ArrayList<>();
@@ -403,7 +414,8 @@ public class E2UData {
             }
             if (conta == 0)
                 setErro(SEMPOSTOS);
-        }else if(regiao == null && tempo != null){
+        }
+        else if(regiao == null && tempo != null){
             for(cPosto posto : listaPostos){
                 for(cDisponibilidadesByTempo c : listaDisponibilidades){
                     if(c.getIdPosto() == posto.getIdPosto() && c.getIdIntervaloTempo()==idIntervalo(tempo)){
@@ -424,22 +436,31 @@ public class E2UData {
             if(conta==0){
                 setErro(SEMPOSTOSINTERVALO);
             }
-        }else if(regiao != null && tempo == null){
+        }
+        else if(regiao != null && tempo == null){
             for(cPosto posto : listaPostos){
-                if(posto.getIdRegiao() == idRegiao(regiao)){
+                int idRegiao = idRegiao(regiao);
+                if(posto.getIdRegiao() == idRegiao){
                     for(cDisponibilidadesByTempo c : listaDisponibilidades){
                         if(c.getIdPosto() == posto.getIdPosto()){
+
                             conta++;
+
                             sb.append("Posto: " + posto.getLocalizacao() + " ");
                             sb.append("Preço: " + posto.getPrecoCarregamento() + " ");
-                            cIntervaloTempo intervalo = listaTempos.get(pesquisaTempos(tempo));
+
+                            cIntervaloTempo intervalo = listaTempos.get(pesquisaIntervaloById(c.getIdIntervaloTempo()));
+
                             sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraFim());
+
                             if(c.isDisponibilidade())
                                 sb.append("Disponivel");
                             else
                                 sb.append("Indisponivel");
+
                             lista.add(sb.toString());
                             sb.delete(0, sb.length());
+
                         }
                     }
                 }
