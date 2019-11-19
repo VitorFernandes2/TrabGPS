@@ -23,7 +23,7 @@ public class MainPane extends StackPane implements PropertyChangeListener {
     private void setupComponents(){
 
         LoginPane loginPane = new LoginPane(logic);
-        loginPane.setVisible(true);
+        loginPane.setVisible(false);
         RegisterPane registerPane = new RegisterPane(logic);
         registerPane.setVisible(false);
         QueryPane queryPane = new QueryPane(logic);
@@ -33,10 +33,10 @@ public class MainPane extends StackPane implements PropertyChangeListener {
         PendingPane pendingPane = new PendingPane(logic);
         pendingPane.setVisible(false);
         ItineraryPane itineraryPane = new ItineraryPane(logic);
-        itineraryPane.setVisible(false);
+        itineraryPane.setVisible(true);
 
         ObservableList children = this.getChildren();
-        children.addAll(loginPane, registerPane, queryPane, historyPane, pendingPane);
+        children.addAll(loginPane, registerPane, queryPane, historyPane, pendingPane, itineraryPane);
 
     }
 

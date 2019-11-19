@@ -153,3 +153,26 @@
     -fx-prompt-text-fill: #ffffff;
     -fx-border-radius: 10;
   }
+
+.check-box {
+    /* default properties */
+    selected-box-color: rgb(177, 177, 177);
+    box-color: rgb(177, 177, 177);
+    mark-color: white;
+}
+
+.check-box:selected > .box {
+    /* background color for selected checkbox */
+    -fx-background-color: selected-box-color;
+}
+
+.check-box > .box {
+    /* background color of unselected checkbox */
+    -fx-background-color: box-color;
+}
+
+.check-box:selected > .box > .mark,
+.check-box:indeterminate  > .box > .mark {
+    /* modify mark color */
+    -fx-background-color: mark-color;
+}
