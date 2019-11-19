@@ -13,6 +13,9 @@ import logic.E2ULogic;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class HistoryPane extends StackPane implements PropertyChangeListener {
 
@@ -48,7 +51,7 @@ public class HistoryPane extends StackPane implements PropertyChangeListener {
         listaDados = new LsView();
         mainMenuBar = new MainMenuBar(logic);
 
-        acrescentaDados();
+        acrescentaDados(this.logic.getListaHistorico());
 
         dataPanel.getChildren().addAll(titlePostosLabel, listaDados);
         mainPanel.getChildren().addAll(titleLabel, dataPanel);
@@ -62,9 +65,13 @@ public class HistoryPane extends StackPane implements PropertyChangeListener {
     /**
      * Esta função acrescenta todos os dados ao histórico, isto permite que o código seja mais limpo
      */
-    private void acrescentaDados(){
+    private void acrescentaDados(HashMap<Integer,HashMap<String, String>> lista){
 
+        for (int i = 1; i < lista.size() + 1; i++) {
 
+            System.out.println(lista.toString());
+
+        }
 
     }
 

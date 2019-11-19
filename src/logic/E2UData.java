@@ -500,7 +500,6 @@ public class E2UData {
                 + getHorario(reserva.getIidIntervaloTempo())+" Preço: " + reserva.getDcustoPrevisto() );
                 aux.put("estado", reserva.getSestado());
                 lista.put(reserva.getIidReserva(),aux);
-                aux.clear();
                 conta++;
             }
        }
