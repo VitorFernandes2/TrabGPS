@@ -77,6 +77,9 @@ public class E2UData {
     
     public void inicializaListas(){
         
+        listaReservas.add(new cReserva(30*1.5,1,1,1));
+        listaReservas.add(new cReserva(10*1.5,1,1,1)); 
+        listaReservas.get(1).setSestado("Efetuada");
         listaRegioes.add(new cRegiao("Cantanhede"));// id 1
         listaRegioes.add(new cRegiao("Coimbra"));// id 2
         listaRegioes.add(new cRegiao("Penela"));// id 3
@@ -473,6 +476,50 @@ public class E2UData {
         return lista;
     }
     
+    public String getPosto(int id){return listaPostos.get(id).getLocalizacao();}
+    public String getHorario(int id){
+        return "das " + listaTempos.get(id).getHoraInicio() + " às " + listaTempos.get(id).getHoraFim();
+    }
+    public HashMap<Integer,HashMap<String,String>> getListaHistorico(){
+    
+        HashMap<Integer,HashMap<String,String>> lista = new HashMap<Integer,HashMap<String,String>>();
+        HashMap<String,String> aux = new HashMap<String,String>();
+        int conta = 0;
+        
+        for(cReserva reserva : listaReservas){
+            if(!reserva.getSestado().equalsIgnoreCase("Ativo")){
+                aux.put("info","Posto: " +getPosto(reserva.getIidPosto())+" Data: " + reserva.getDiaReserva() + " " 
+                + getHorario(reserva.getIidIntervaloTempo())+" Preço: " + reserva.getDcustoPrevisto() );
+                aux.put("estado", reserva.getSestado());
+                lista.put(reserva.getIidReserva(),aux);
+                aux.clear();
+                conta++;
+            }
+       }
+        if(conta==0)
+            setErro(FALTARESERVASHISTORICO);
+        return lista;
+    }
+    
+    public List<String> getListaPendentes(){
+    
+        int conta = 0;
+        List<String> pendentes = new ArrayList<>();
+        for(cReserva reserva : listaReservas){
+            if(reserva.getSestado().equalsIgnoreCase("Ativo")){
+                pendentes.add("Posto: " +getPosto(reserva.getIidPosto())+" Data: " + reserva.getDiaReserva() + " " 
+                + getHorario(reserva.getIidIntervaloTempo())+" Preço: " + reserva.getDcustoPrevisto());
+            
+                conta++;                
+            }
+        }
+        if(conta==0)
+             setErro(FALTARESERVASPENDENTES);
+        
+        return pendentes;
+    }
+    
+          
     public boolean efetuarReserva(String sdados){
         HashMap<String,String> a =ResolveMessages(sdados);
         Integer idPosto = null,idIntervalo = null;

@@ -9,21 +9,40 @@ public class cReserva {
     private int iidReserva;
     private int icodServico;
     private double dcustoPrevisto;
-    private int iidPosto,iidIntervaloTempo;
+    private int iidPosto;
     private String sestado;
     private int iidUtilizador;
     private String sdiaReserva;
+    private int iidIntervaloTempo;
 
     public cReserva( double dcustoPrevisto, int idPosto, int idUtilizador, int idIntervaloTempo) {
         this.icodServico = icontaServicos+10;
         this.dcustoPrevisto = dcustoPrevisto;
         this.iidPosto = idPosto;
         this.iidIntervaloTempo = idIntervaloTempo;
-        this.sestado = "ativa";
+        this.sestado = "Ativa";
         this.iidUtilizador = idUtilizador;
         iidReserva = icontaReserva++;
         sdiaReserva = getData();
+     
     }
+
+    public String getSdiaReserva() {
+        return sdiaReserva;
+    }
+
+    public void setSdiaReserva(String sdiaReserva) {
+        this.sdiaReserva = sdiaReserva;
+    }
+
+    public int getIidIntervaloTempo() {
+        return iidIntervaloTempo;
+    }
+
+    public void setIidIntervaloTempo(int iidIntervaloTempo) {
+        this.iidIntervaloTempo = iidIntervaloTempo;
+    }
+    
     public String getData(){
         GregorianCalendar calendar = new GregorianCalendar();
         int dia = calendar.get(GregorianCalendar.DAY_OF_MONTH);
@@ -51,9 +70,7 @@ public class cReserva {
     public int getIidPosto() {
         return iidPosto;
     }
-    public int getIidIntervaloTempo() {
-        return iidIntervaloTempo;
-    }
+    
 
     public String getSestado() {
         return sestado;
@@ -66,11 +83,15 @@ public class cReserva {
     public String getDiaReserva() {
         return sdiaReserva;
     }
+    
 
-    public void setSestado(String estado){
-       this.sestado = estado;
+    public void setDcustoPrevisto(double dcustoPrevisto) {
+        this.dcustoPrevisto = dcustoPrevisto;
     }
-    
-    
+
+    public void setSestado(String sestado) {
+        this.sestado = sestado;
+    }
+
     
 }
