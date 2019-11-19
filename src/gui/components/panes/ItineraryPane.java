@@ -28,9 +28,9 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
     private VBox leftbox;
     private VBox vBox;
     private LabelTitle lblPesquisa;
-    private ChoiceBox cbHorario;
+    private ChoiceBox cbPartida;
     private HBox hbHorario;
-    private ChoiceBox cbLocalidade;
+    private ChoiceBox cbDestino;
     private VBox rightbox;
     private LabelTitle lblPostos;
     private LsView list;
@@ -59,6 +59,14 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
     private BorderPane interfaceA(){
 
         borderPane = new BorderPane();
+
+        leftbox = new VBox();
+        rightbox = new VBox();
+
+
+
+        borderPane.setCenter(rightbox);
+        borderPane.setLeft(leftbox);
 
         return borderPane;
 

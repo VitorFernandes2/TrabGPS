@@ -272,64 +272,6 @@ public class E2UData {
         
         return null;
     }
-    
-    /*private void getUtilizadorArea() throws IOException{
-        
-        URL urlIpapi = new URL("https://urlIpapi.co/json/");
-        URLConnection urlcConnection = urlIpapi.openConnection();
-        urlcConnection.setRequestProperty("User-Agent", "java-urlIpapi-client");
-        BufferedReader brReader = null;
-        try{
-            
-            brReader = new BufferedReader(
-                    new InputStreamReader(urlcConnection.getInputStream())
-            );
-            
-        }
-        catch(UnknownHostException ex){
-            
-            ex.printStackTrace();
-            System.out.println("[ERROR]Poder� n�o existir conec��o com a Internet.");
-            
-        }
-
-        String sAuxi;
-
-        StringBuilder sbString = new StringBuilder();
-        
-        try{
-            
-            while ((sAuxi = brReader.readLine()) != null) {
-                
-                sbString.append(sAuxi.replace('{', ' ').replace('}', ' ').replace('"', ' ').trim());
-                
-            }
-            
-        }
-        catch(NullPointerException ex){
-            
-            ex.printStackTrace();
-            System.out.println("[ERROR]N�o foi recebida nenhuma informa��o da conec��o do utilizador.");
-            
-        }
-        
-        String [] sCortes = sbString.toString().replaceAll(" ", "").split(",");
-        
-        for(int i = 0; i < sCortes.length; i++){
-            
-            if(sRegiaoUtilizador != null){
-                break;
-            }
-            if(sCortes[i].contains(":")){
-                String [] sDetalhes = sCortes[i].split(":");
-                
-                if(sDetalhes[0].equalsIgnoreCase("region")){
-                    this.sRegiaoUtilizador = sDetalhes[1];
-                    
-                }
-            }
-        }
-    }*/
 
     public int idRegiao(String regiao){
 
@@ -568,6 +510,5 @@ public class E2UData {
         }
         return messages;
     }
-    
 
 }
