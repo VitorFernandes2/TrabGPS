@@ -9,15 +9,16 @@ public class cReserva {
     private int iidReserva;
     private int icodServico;
     private double dcustoPrevisto;
-    private int iidPosto;
+    private int iidPosto,iidIntervaloTempo;
     private String sestado;
     private int iidUtilizador;
     private String sdiaReserva;
 
-    public cReserva( double dcustoPrevisto, int idPosto, int idUtilizador) {
+    public cReserva( double dcustoPrevisto, int idPosto, int idUtilizador, int idIntervaloTempo) {
         this.icodServico = icontaServicos+10;
         this.dcustoPrevisto = dcustoPrevisto;
         this.iidPosto = idPosto;
+        this.iidIntervaloTempo = idIntervaloTempo;
         this.sestado = "ativa";
         this.iidUtilizador = idUtilizador;
         iidReserva = icontaReserva++;
@@ -50,6 +51,9 @@ public class cReserva {
     public int getIidPosto() {
         return iidPosto;
     }
+    public int getIidIntervaloTempo() {
+        return iidIntervaloTempo;
+    }
 
     public String getSestado() {
         return sestado;
@@ -63,6 +67,9 @@ public class cReserva {
         return sdiaReserva;
     }
 
+    public void setSestado(String estado){
+       this.sestado = estado;
+    }
     
     
     
