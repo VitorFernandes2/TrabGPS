@@ -550,7 +550,7 @@ public class E2UData {
         for(cReserva reserva : listaReservas){
             if(reserva.getIidUtilizador() == userLogado && reserva.getIidPosto() == idPosto && reserva.getIidIntervaloTempo() == idIntervalo)
             {  
-                reserva.setSestado("cancelado");    
+                reserva.setSestado("Cancelada");    
                 return true;
             }
         }
