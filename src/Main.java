@@ -1,6 +1,5 @@
 import gui.*;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import logic.E2UData;
 import logic.E2ULogic;
@@ -23,5 +22,4 @@ public class Main extends Application implements Constants {
     public static void main(String[] args) {
         launch();
     }
-
 }

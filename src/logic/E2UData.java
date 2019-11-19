@@ -91,16 +91,16 @@ public class E2UData {
         listaRegioes.add(new cRegiao("Pombal"));// id 9
         listaRegioes.add(new cRegiao("Faro"));// id 10
         
-        listaTempos.add(new cIntervaloTempo("9:00","9:30"));// id 1
-        listaTempos.add(new cIntervaloTempo("9:30","10:00"));// id 2
-        listaTempos.add(new cIntervaloTempo("10:00","10:30"));// id 3
-        listaTempos.add(new cIntervaloTempo("10:30","11:00"));// id 4
-        listaTempos.add(new cIntervaloTempo("11:00","11:30"));// id 5
-        listaTempos.add(new cIntervaloTempo("11:30","12:00"));// id 6
-        listaTempos.add(new cIntervaloTempo("12:00","12:30"));// id 7
-        listaTempos.add(new cIntervaloTempo("12:30","13:00"));// id 8
-        listaTempos.add(new cIntervaloTempo("13:00","13:30"));// id 9
-        listaTempos.add(new cIntervaloTempo("13:30","14:00"));// id 10
+        listaTempos.add(new cIntervaloTempo("9h00m","9h:30m"));// id 1
+        listaTempos.add(new cIntervaloTempo("9h30m","10h:00m"));// id 2
+        listaTempos.add(new cIntervaloTempo("10h00m","10h:30m"));// id 3
+        listaTempos.add(new cIntervaloTempo("10h30m","11h:00m"));// id 4
+        listaTempos.add(new cIntervaloTempo("11h00m","11h:30m"));// id 5
+        listaTempos.add(new cIntervaloTempo("11h30m","12h:00m"));// id 6
+        listaTempos.add(new cIntervaloTempo("12h00m","12h:30m"));// id 7
+        listaTempos.add(new cIntervaloTempo("12h30m","13h:00m"));// id 8
+        listaTempos.add(new cIntervaloTempo("13h00m","13h:30m"));// id 9
+        listaTempos.add(new cIntervaloTempo("13h30m","14h:00m"));// id 10
         
         listaPostos.add(new cPosto(1,"Rua S. Pedro",0.99));// id 1
         listaPostos.add(new cPosto(1,"Rua S. Miguel",0.79));// id 2
@@ -147,14 +147,14 @@ public class E2UData {
         cPosto posto  = listaPostos.get(id);
         for(cDisponibilidadesByTempo c : listaDisponibilidades){
             if(c.getIdPosto() == posto.getIdPosto()){
-                sb.append("Posto: " + posto.getLocalizacao() + " ");
-                sb.append("Preço: " + posto.getPrecoCarregamento() + " ");
-                cIntervaloTempo intervalo = listaTempos.get(c.getIdIntervaloTempo());
-                sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraInicio());
+                sb.append("Posto: " + posto.getLocalizacao() + " ; ");
+                sb.append("Preço: " + posto.getPrecoCarregamento() + " ; ");
+                cIntervaloTempo intervalo = listaTempos.get(pesquisaIntervaloById(c.getIdIntervaloTempo()));
+                sb.append("Intervalo: "+intervalo.getHoraInicio() + "-" + intervalo.getHoraFim()+ " ; Estado: ");
                 if(c.isDisponibilidade())
-                    sb.append(" - Disponivel");
+                    sb.append("Disponivel");
                 else
-                    sb.append(" - Indisponivel");
+                    sb.append("Indisponivel");
                 lista.add(sb.toString());
             }
         
@@ -355,11 +355,10 @@ public class E2UData {
         for(cPosto posto : listaPostos){
             for(cDisponibilidadesByTempo c : listaDisponibilidades){
                 if(c.getIdPosto() == posto.getIdPosto()){
-                    sb.append("Posto: " + posto.getLocalizacao() + " ");
-                    sb.append("Preço: " + posto.getPrecoCarregamento() + "€ ");
-                    cIntervaloTempo intervalo = listaTempos.get(c.getIdIntervaloTempo());
-                    sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraFim());
-
+                    sb.append("Posto: " + posto.getLocalizacao() + " ; ");
+                    sb.append("Preço: " + posto.getPrecoCarregamento() + " ; ");
+                    cIntervaloTempo intervalo = listaTempos.get(pesquisaIntervaloById(c.getIdIntervaloTempo()));
+                    sb.append("Intervalo: "+intervalo.getHoraInicio() + "-" + intervalo.getHoraFim()+ " ; Estado: ");
                     if(c.isDisponibilidade())
                         sb.append("Disponivel");
                     else
@@ -403,10 +402,10 @@ public class E2UData {
                     for(cDisponibilidadesByTempo c : listaDisponibilidades){
                         if(c.getIdPosto() == posto.getIdPosto() && c.getIdIntervaloTempo()==idIntervalo(tempo)){
                             conta++;
-                            sb.append("Posto: " + posto.getLocalizacao() + " ");
-                            sb.append("Preço: " + posto.getPrecoCarregamento() + " ");
-                            cIntervaloTempo intervalo = listaTempos.get(pesquisaTempos(tempo));
-                            sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraFim());
+                            sb.append("Posto: " + posto.getLocalizacao() + " ; ");
+                            sb.append("Preço: " + posto.getPrecoCarregamento() + " ; ");
+                            cIntervaloTempo intervalo = listaTempos.get(pesquisaIntervaloById(c.getIdIntervaloTempo()));
+                            sb.append("Intervalo: "+intervalo.getHoraInicio() + "-" + intervalo.getHoraFim()+ " ; Estado: ");
                             if(c.isDisponibilidade())
                                 sb.append("Disponivel");
                             else
@@ -424,10 +423,10 @@ public class E2UData {
                 for(cDisponibilidadesByTempo c : listaDisponibilidades){
                     if(c.getIdPosto() == posto.getIdPosto() && c.getIdIntervaloTempo()==idIntervalo(tempo)){
                         conta++;
-                        sb.append("Posto: " + posto.getLocalizacao() + " ");
-                        sb.append("Preço: " + posto.getPrecoCarregamento() + " ");
-                        cIntervaloTempo intervalo = listaTempos.get(pesquisaTempos(tempo));
-                        sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraFim());
+                        sb.append("Posto: " + posto.getLocalizacao() + " ; ");
+                        sb.append("Preço: " + posto.getPrecoCarregamento() + " ; ");
+                        cIntervaloTempo intervalo = listaTempos.get(pesquisaIntervaloById(c.getIdIntervaloTempo()));
+                        sb.append("Intervalo: "+intervalo.getHoraInicio() + "-" + intervalo.getHoraFim()+ " ; Estado: ");
                         if(c.isDisponibilidade())
                             sb.append("Disponivel");
                         else
@@ -447,24 +446,17 @@ public class E2UData {
                 if(posto.getIdRegiao() == idRegiao){
                     for(cDisponibilidadesByTempo c : listaDisponibilidades){
                         if(c.getIdPosto() == posto.getIdPosto()){
-
                             conta++;
-
-                            sb.append("Posto: " + posto.getLocalizacao() + " ");
-                            sb.append("Preço: " + posto.getPrecoCarregamento() + " ");
-
+                            sb.append("Posto: " + posto.getLocalizacao() + " ; ");
+                            sb.append("Preço: " + posto.getPrecoCarregamento() + " ; ");
                             cIntervaloTempo intervalo = listaTempos.get(pesquisaIntervaloById(c.getIdIntervaloTempo()));
-
-                            sb.append(intervalo.getHoraInicio() + " - " + intervalo.getHoraFim());
-
+                            sb.append("Intervalo: "+intervalo.getHoraInicio() + "-" + intervalo.getHoraFim()+ " ; Estado: ");
                             if(c.isDisponibilidade())
                                 sb.append("Disponivel");
                             else
                                 sb.append("Indisponivel");
-
                             lista.add(sb.toString());
                             sb.delete(0, sb.length());
-
                         }
                     }
                 }
@@ -528,25 +520,54 @@ public class E2UData {
     
           
     public boolean efetuarReserva(String sdados){
-        
-        //listaReservas.add(new cReserva(,,userLogado));
+        HashMap<String,String> a =ResolveMessages(sdados);
+        Integer idPosto = null,idIntervalo = null;
+        for(cPosto posto : listaPostos){
+            if(posto.getLocalizacao().equals(a.get("Posto")))
+                idPosto = posto.getIdPosto();
+        }
+        for(cIntervaloTempo intervalo : listaTempos){
+            if((intervalo.getHoraInicio()+"-"+intervalo.getHoraFim()).equals(a.get("Intervalo")))
+                idIntervalo = intervalo.getIdIntervalo();
+        }
+        if(idPosto == null || idIntervalo == null)return false;
+        listaReservas.add(new cReserva(Double.parseDouble(a.get("Preço")) * 30,idPosto,userLogado,idIntervalo));
         return true;
     }
+    public boolean cancelarReserva(String sdados){
+        HashMap<String,String> a =ResolveMessages(sdados);
+        Integer idPosto = null,idIntervalo = null;
+        for(cPosto posto : listaPostos){
+            if(posto.getLocalizacao().equals(a.get("Posto")))
+                idPosto = posto.getIdPosto();
+        }
+        for(cIntervaloTempo intervalo : listaTempos){
+            if((intervalo.getHoraInicio()+"-"+intervalo.getHoraFim()).equals(a.get("Intervalo")))
+                idIntervalo = intervalo.getIdIntervalo();
+        }
+        if(idPosto == null || idIntervalo == null)return false;
+        for(cReserva reserva : listaReservas){
+            if(reserva.getIidUtilizador() == userLogado && reserva.getIidPosto() == idPosto && reserva.getIidIntervaloTempo() == idIntervalo)
+            {  
+                reserva.setSestado("Cancelada");    
+                return true;
+            }
+        }
+        return false;
+    }
     
-     /*public static HashMap<String,String> ResolveMessages(String message){
-        /*StringTokenizer t,tokens = new StringTokenizer(message,"Posto: ");
+    public static HashMap<String,String> ResolveMessages(String message){
+        StringTokenizer t,tokens = new StringTokenizer(message,";");
         String key,val;
         HashMap<String,String> messages = new HashMap<>();
         while (tokens.hasMoreElements()) {
-            t = new StringTokenizer(tokens.nextElement().toString()," | ");  
+            t = new StringTokenizer(tokens.nextElement().toString(),":");  
             key = t.nextElement().toString();
             val = t.nextElement().toString();
             messages.put(key, val);
         }
         return messages;
-        
-        
-    }*/
+    }
     
 
 }
