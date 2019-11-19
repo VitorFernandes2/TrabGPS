@@ -1,13 +1,15 @@
 package gui.components.panes;
 
+import gui.components.labels.LabelTitle;
 import gui.components.listviews.LsView;
 import gui.components.menubars.MainMenuBar;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import logic.E2ULogic;
 
 import java.beans.PropertyChangeEvent;
@@ -23,7 +25,7 @@ public class HistoryPane extends StackPane implements PropertyChangeListener {
     private BorderPane borderPane;
     private VBox mainPanel;
     private Label titleLabel;
-    private HBox dataPanel;
+    private VBox dataPanel;
     private Label titlePostosLabel;
     private LsView listaDados;
     private MainMenuBar mainMenuBar;
@@ -45,15 +47,17 @@ public class HistoryPane extends StackPane implements PropertyChangeListener {
 
         borderPane = new BorderPane();
         mainPanel = new VBox();
-        titleLabel = new Label("Histórico");
-        dataPanel = new HBox();
-        titlePostosLabel = new Label("Postos");
+        titleLabel = new LabelTitle("Histórico de Postos Reservados");
+        titleLabel.setPadding(new Insets(30,0,0,10));
+        dataPanel = new VBox();
+        dataPanel.setPadding(new Insets(10,10,10,10));
+
         listaDados = new LsView();
         mainMenuBar = new MainMenuBar(logic);
 
         acrescentaDados(this.logic.getListaHistorico());
 
-        dataPanel.getChildren().addAll(titlePostosLabel, listaDados);
+        dataPanel.getChildren().addAll(listaDados);
         mainPanel.getChildren().addAll(titleLabel, dataPanel);
         borderPane.setCenter(mainPanel);
         borderPane.setTop(mainMenuBar);
@@ -67,10 +71,39 @@ public class HistoryPane extends StackPane implements PropertyChangeListener {
      */
     private void acrescentaDados(HashMap<Integer,HashMap<String, String>> lista){
 
-        for (int i = 1; i < lista.size() + 1; i++) {
+        if (lista.size() > 0){
+            for (int i = 1; i < lista.size() + 1; i++) {
 
-            System.out.println(lista.toString());
+                HBox mainBox = new HBox();
+                HBox linha = new HBox();
 
+                HBox InfoPosto = new HBox(new Label(lista.get(i).get("info")));
+                InfoPosto.setAlignment(Pos.CENTER_LEFT);
+
+                Label lblEstado = new Label(lista.get(i).get("estado"));
+
+                if (lblEstado.getText().equals("Efetuada"))
+                    lblEstado.setTextFill(Color.GREEN);
+                else
+                    lblEstado.setTextFill(Color.RED);
+
+                HBox InfoDispo = new HBox(lblEstado);
+                InfoDispo.setAlignment(Pos.CENTER_RIGHT);
+
+                linha.getChildren().addAll(InfoPosto, InfoDispo);
+                linha.setHgrow(InfoPosto, Priority.ALWAYS);
+                linha.setHgrow(InfoDispo,Priority.ALWAYS);
+
+                mainBox.getChildren().addAll(linha);
+                mainBox.setHgrow(linha, Priority.ALWAYS);
+                mainBox.setSpacing(30);
+
+                listaDados.getItems().add(mainBox);
+
+            }
+        }
+        else{
+            listaDados.getItems().add(new Label("Não existe nenhuma reserva feita até ao momento."));
         }
 
     }

@@ -505,7 +505,7 @@ public class E2UData {
         int conta = 0;
         List<String> pendentes = new ArrayList<>();
         for(cReserva reserva : listaReservas){
-            if(reserva.getSestado().equalsIgnoreCase("Ativo")){
+            if(reserva.getSestado().equalsIgnoreCase("Ativa")){
                 pendentes.add("Posto: " +getPosto(reserva.getIidPosto())+" Data: " + reserva.getDiaReserva() + " " 
                 + getHorario(reserva.getIidIntervaloTempo())+" Preço: " + reserva.getDcustoPrevisto());
             
