@@ -26,6 +26,10 @@ import logic.E2UData;
 public class cIntenerario {
     
     private static ArrayList<String> caminhodetalhado;
+    private static double partidalat;
+    private static double partidalong;
+    private static double chegadalat;
+    private static double chegadalong;
     
     public static ArrayList getdirection(String partida,String chegada){
         
@@ -47,6 +51,8 @@ public class cIntenerario {
             
             output = getsimplepost(partida,chegada,getdistrict(info));
 
+            definegpsiniciais(info);
+            
         } catch (MalformedURLException ex) {
             System.out.println("Não foi possivel connectar a api de trajetos (MalformedURLException)");
         } catch (IOException ex) {
@@ -267,37 +273,71 @@ public class cIntenerario {
         // Inicia o array de retorno
         ArrayList retronaoarray = new ArrayList<>();
         
-        // ve o posto mais proximo no distrito atual --> TEMP, falta gps
+        
+        // ve o posto mais proximo no distrito atual
+        double closer = -1;
+        int poscloser = -1;
         for (int i=0; i< information.getListaPostos().size();i++){
             
             if (postotodistrict(information.getListaPostos().get(i).getIdPosto()).equals(partida)){
-                retronaoarray.add(information.getPosto(i));
-                break;
-            }
-                
-        }
-        
-        // ve o posto mais proximo nos restantes distritos --> TEMP, falta gps
-        for (int i=0; i< arraylist.size();i++){
-            
-            for(int j = 0; j < information.getListaPostos().size();j++){
-            
-                if (arraylist.get(i).equals(postotodistrict(information.getListaPostos().get(j).getIdPosto()))){
-                    retronaoarray.add(information.getPosto(j));
-                    break;
+
+                if(closer == -1){
+                    closer = twopointdistance(partidalat,partidalong,information.getListaPostos().get(i).getLatitude(),information.getListaPostos().get(i).getLongitude());
+                    poscloser = i;
+                }else if (twopointdistance(partidalat,partidalong,information.getListaPostos().get(i).getLatitude(),information.getListaPostos().get(i).getLongitude()) < closer){
+                    closer = twopointdistance(partidalat,partidalong,information.getListaPostos().get(i).getLatitude(),information.getListaPostos().get(i).getLongitude());
+                    poscloser = i;
                 }
-                
+                //retronaoarray.add(information.getPosto(i));
+                //break;
             }   
         }
+        if(poscloser!=-1){
+            retronaoarray.add(information.getPosto(poscloser));
+        }
         
-        // ve o posto mais proximo no distrito atual --> TEMP, falta gps
+        
+        // ve o posto mais proximo nos restantes distritos
+        for (int i=0; i< arraylist.size();i++){
+            closer = -1;
+            poscloser = -1;
+            for(int j = 0; j < information.getListaPostos().size();j++){
+
+                if (arraylist.get(i).equals(postotodistrict(information.getListaPostos().get(j).getIdPosto()))){
+                    
+                    if(closer == -1){
+                        closer = twopointdistance(partidalat,partidalong,information.getListaPostos().get(j).getLatitude(),information.getListaPostos().get(j).getLongitude());
+                        poscloser = j;
+                    }else if (twopointdistance(partidalat,partidalong,information.getListaPostos().get(j).getLatitude(),information.getListaPostos().get(j).getLongitude()) < closer){
+                        closer = twopointdistance(partidalat,partidalong,information.getListaPostos().get(j).getLatitude(),information.getListaPostos().get(j).getLongitude());
+                        poscloser = j;
+                    }
+                }
+            }
+            if(poscloser!=-1){
+            retronaoarray.add(information.getPosto(poscloser));
+            }
+        }
+        
+        // ve o posto mais proximo no distrito atual
+        closer = -1;
+        poscloser = -1;
         for (int i=0; i< information.getListaPostos().size();i++){
             
             if (postotodistrict(information.getListaPostos().get(i).getIdPosto()).equals(chegada)){
-                retronaoarray.add(information.getPosto(i));
-                break;
+                
+                if(closer == -1){
+                    closer = twopointdistance(partidalat,partidalong,information.getListaPostos().get(i).getLatitude(),information.getListaPostos().get(i).getLongitude());
+                    poscloser = i;
+                }else if (twopointdistance(partidalat,partidalong,information.getListaPostos().get(i).getLatitude(),information.getListaPostos().get(i).getLongitude()) < closer){
+                    closer = twopointdistance(partidalat,partidalong,information.getListaPostos().get(i).getLatitude(),information.getListaPostos().get(i).getLongitude());
+                    poscloser = i;
+                }
             }
                 
+        }
+        if(poscloser!=-1){
+            retronaoarray.add(information.getPosto(poscloser));
         }
         
         return retronaoarray;
@@ -390,6 +430,34 @@ public class cIntenerario {
 
     public static ArrayList<String> getCaminhodetalhado() {
         return caminhodetalhado;
+    }
+
+    private static void definegpsiniciais(String info) {
+        
+        String distance = null;
+        String pesquisa = "bbox" + "\"" + ":" + "[";
+        String endstring = "]";
+        
+        while(info.contains(pesquisa)){
+            info = info.substring(info.indexOf(pesquisa)+7);
+            
+            String copyin = info;
+            String msg = copyin.split(endstring)[0];
+            distance = msg;
+        }
+        
+        System.out.println("Distancia: " + distance + " km");
+        
+        partidalong = Double.parseDouble(distance.split(",")[0]);
+        partidalat = Double.parseDouble(distance.split(",")[1]);
+        chegadalong = Double.parseDouble(distance.split(",")[2]);
+        chegadalat = Double.parseDouble(distance.split(",")[3]);
+    }
+
+    private static double twopointdistance(double partidalat, double partidalong, double latitude, double longitude) {
+
+        return Math.sqrt(Math.pow(latitude - partidalat, 2) + Math.pow(longitude - partidalong, 2));
+    
     }
 
 }
