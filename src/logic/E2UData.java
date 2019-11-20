@@ -103,7 +103,7 @@ public class E2UData {
         listaTempos.add(new cIntervaloTempo("13h00m","13h:30m"));// id 9
         listaTempos.add(new cIntervaloTempo("13h30m","14h:00m"));// id 10
         
-        listaPostos.add(new cPosto(1,"Rua S. Pedro",0.99));// id 1
+        listaPostos.add(new cPosto(1,"Rua S. Pedro",0.99,-8.595116,40.349884));// id 1
         listaPostos.add(new cPosto(1,"Rua S. Miguel",0.79));// id 2
         listaPostos.add(new cPosto(3,"Rua de Nove de Julho",1.49));// id 3
         listaPostos.add(new cPosto(4,"Rua dos Clérigos",0.99));// id 4
