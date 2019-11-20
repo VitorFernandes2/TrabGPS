@@ -103,16 +103,16 @@ public class E2UData {
         listaTempos.add(new cIntervaloTempo("13h00m","13h:30m"));// id 9
         listaTempos.add(new cIntervaloTempo("13h30m","14h:00m"));// id 10
         
-        listaPostos.add(new cPosto(1,"Rua S. Pedro",0.99,-8.595116,40.349884));// id 1
-        listaPostos.add(new cPosto(1,"Rua S. Miguel",0.79));// id 2
-        listaPostos.add(new cPosto(3,"Rua de Nove de Julho",1.49));// id 3
-        listaPostos.add(new cPosto(4,"Rua dos Clérigos",0.99));// id 4
-        listaPostos.add(new cPosto(4,"Rua de José Falcão",1.29));// id 5
-        listaPostos.add(new cPosto(6,"Rua de Trás",0.99));// id 6
-        listaPostos.add(new cPosto(8,"Rua do Rosário",1.49));// id 7
-        listaPostos.add(new cPosto(9,"Rua de Santa Catarina",1.99));// id 8
-        listaPostos.add(new cPosto(10,"Rua de Belomonte",2.22));// id 9
-        listaPostos.add(new cPosto(10,"Rua dos Bacalhoeiros",2.00));// id 10
+        listaPostos.add(new cPosto(1,"Rua S. Pedro",0.99, -8.595116, 40.349884));                   // id 1
+        listaPostos.add(new cPosto(1,"Rua S. Miguel",0.79, -8.409035324984872, 40.19541569649263)); // id 2
+        listaPostos.add(new cPosto(3,"Rua de Nove de Julho",1.49, -8.3992249, 40.1914154));         // id 3
+        listaPostos.add(new cPosto(4,"Rua dos Clérigos",0.99, -8.4242921, 40.2017605));             // id 4
+        listaPostos.add(new cPosto(4,"Rua de José Falcão",1.29, -8.4307289, 40.201377));            // id 5
+        listaPostos.add(new cPosto(6,"Rua de Trás",0.99, -8.6351568, 41.1631267));                  // id 6
+        listaPostos.add(new cPosto(8,"Rua do Rosário",1.49, -8.6278043, 41.16463));                 // id 7
+        listaPostos.add(new cPosto(9,"Rua de Santa Catarina",1.99, -8.6218613, 41.167398));         // id 8
+        listaPostos.add(new cPosto(10,"Rua de Belomonte",2.22, -8.650833, 41.1775625));             // id 9
+        listaPostos.add(new cPosto(10,"Rua dos Bacalhoeiros",2.00, -8.6303421, 41.1650502));        // id 10
         
         listaDisponibilidades.add(new cDisponibilidadesByTempo(1,1,true));//1
         listaDisponibilidades.add(new cDisponibilidadesByTempo(1,2,true));//1
