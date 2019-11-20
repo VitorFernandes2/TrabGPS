@@ -30,19 +30,19 @@ public class MainMenuBar extends MenuBar {
     private void registerListeners(){
 
         menu1.setOnAction(e->{
-
+            this.logic.goToPesquisa();
         });
 
         menu2.setOnAction(e->{
-
+            this.logic.goToItinerario();
         });
 
         menu3.setOnAction(e->{
-
+                this.logic.goToHistorico();
         });
 
         menu4.setOnAction(e->{
-
+                this.logic.goToPendentes();
         });
 
     }
