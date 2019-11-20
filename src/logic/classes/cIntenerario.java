@@ -23,44 +23,8 @@ import logic.E2UData;
  */
 public class cIntenerario {
     
-        /*public static void main(String[] args) {
-        
-        try {
-            // TODO code application logic here
-            
-            ArrayList directionarray = new ArrayList<>();
-            
-            String partida = "Faro";
-            String saida = "Lisboa";
-            
-            URL test = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + partida + ",PT&wp.1=" + saida + ",PT&c=pt-PT&optmz=distance&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
-            
-            URLConnection returnado = test.openConnection();
-            
-            
-            returnado.setRequestProperty ("User-Agent", "java-ipapi-client");
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(returnado.getInputStream())
-            );
-            
-            String info = reader.readLine();
-            reader.close();
-            
-            getintenerario(info);
-            getdistrict(info);
-            getDistance(info);
-            getsimplepost(partida,getdistrict(info));
-            
-
-        } catch (MalformedURLException ex) {
-            System.out.println("Não foi possivel connectar a api de trajetos (MalformedURLException)");
-        } catch (IOException ex) {
-            System.out.println("Não foi possivel ler os trajetos (IOException)");
-        }
-        
-    }*/
+    private static ArrayList<String> caminhodetalhado;
     
-    //João Coelho
     public static ArrayList getdirection(String partida,String chegada){
         
             ArrayList directionarray = new ArrayList<>();
@@ -98,8 +62,7 @@ public class cIntenerario {
     }
     
     
-    //Luís Silva
-    public static ArrayList<String> getDirectionFinal(String partida, ArrayList<cPosto> posto, String chegada){
+    private static ArrayList<String> getDirectionFinal(String partida, ArrayList<cPosto> posto, String chegada){
         int iTamWaypoints = posto.size() + 2;
         ArrayList<String> directionarray = new ArrayList<>();
         List<Calendar> dWaypointDate = new ArrayList<>();
@@ -117,6 +80,8 @@ public class cIntenerario {
             );
 
             String info = reader.readLine();
+            
+            caminhodetalhado = getintenerario(info);
             
             dWaypointDate = getTime(info, iTamWaypoints);
             dWaypointDistance = getDisTotal(info, iTamWaypoints);
@@ -330,9 +295,9 @@ public class cIntenerario {
         
     }
     
-    public static void getintenerario (String info){
+    public static ArrayList<String> getintenerario (String info){
         
-        ArrayList directionarray = new ArrayList<>();
+        ArrayList directionarray = new ArrayList<String>();
         String pesquisa = "\"" + "text" + "\"" + ":";
         String endstring = "\"" + "}";
         
@@ -353,12 +318,12 @@ public class cIntenerario {
             }
         }
         
-        for(int i = 0; i < directionarray.size();i++){
+        /*for(int i = 0; i < directionarray.size();i++){
             System.out.println("Pos: " + directionarray.get(i));
-        }
+        }*/
+        return directionarray;
         
     }
-    
     
     public static ArrayList getdistrict (String info){
         
