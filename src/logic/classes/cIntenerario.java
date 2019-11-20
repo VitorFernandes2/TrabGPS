@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import logic.E2UData;
 
 /**
@@ -27,12 +29,9 @@ public class cIntenerario {
     
     public static ArrayList getdirection(String partida,String chegada){
         
-            ArrayList directionarray = new ArrayList<>();
-            ArrayList output = null;
+        ArrayList output = null;
         
         try {
-            
-            //ArrayList directionarray = new ArrayList<>();
             
             URL test = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + partida + ",PT&wp.1=" + chegada + ",PT&c=pt-PT&optmz=distance&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
             
@@ -46,11 +45,7 @@ public class cIntenerario {
             String info = reader.readLine();
             reader.close();
             
-            //getintenerario(info);
-            //getdistrict(info);
-            //getDistance(info);
             output = getsimplepost(partida,chegada,getdistrict(info));
-            
 
         } catch (MalformedURLException ex) {
             System.out.println("Não foi possivel connectar a api de trajetos (MalformedURLException)");
@@ -63,7 +58,7 @@ public class cIntenerario {
     
     
     private static ArrayList<String> getDirectionFinal(String partida, ArrayList<cPosto> posto, String chegada){
-        int iTamWaypoints = posto.size() + 2;
+        int iTamWaypoints = 2;
         ArrayList<String> directionarray = new ArrayList<>();
         List<Calendar> dWaypointDate = new ArrayList<>();
         List<Double> dWaypointDistance = new ArrayList<>();
@@ -82,6 +77,12 @@ public class cIntenerario {
             String info = reader.readLine();
             
             caminhodetalhado = getintenerario(info);
+            
+            for(cPosto cpp : posto){
+                if(getRegiaoNome(cpp) != null){
+                    iTamWaypoints++;
+                }
+            }
             
             dWaypointDate = getTime(info, iTamWaypoints);
             dWaypointDistance = getDisTotal(info, iTamWaypoints);
@@ -129,6 +130,7 @@ public class cIntenerario {
         
         StringBuilder sb = new StringBuilder();
         String sAtive = "áàãâéèêóòõôçíìîúùû";
+        String sRegNome;
         int i = 0;
         sb.append("wp").append(i++).append("=").append(sInicial);
         if(postos != null){
@@ -151,14 +153,31 @@ public class cIntenerario {
                     }
                     sbb.append(sPostoName.charAt(iPop));
                 }
-
-                sb.append(",PT&wp.").append(i++).append("=").append(sbb.toString()).append(",").append("");//neste ultimo append é onde a função de getNomeRegiao virá
+                
+                if((sRegNome = getRegiaoNome(cpp)) != null){
+                    sb.append(",PT&wp.").append(i++).append("=").append(sbb.toString()).append(",").append(sRegNome);
+                }
             }
         }
         
         sb.append(",PT&wp.").append(i++).append("=").append(sFim).append(",PT");
         
         return sb.toString();
+    }
+    
+    private static String getRegiaoNome(cPosto posto){
+        E2UData information = null;
+        try{
+            information = new E2UData();
+        }catch (IOException ex){return null;}
+        
+        for(cRegiao reg : information.getListaRegioes()){
+            if(reg.getIdRegiao() == posto.getIdRegiao()){
+                return reg.getNomeRegiao();
+            }
+        }
+        
+        return null;
     }
     
     public static List<Calendar> getTime(String info, int iTamWaypoints) {
