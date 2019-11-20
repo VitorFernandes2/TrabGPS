@@ -91,8 +91,77 @@ public class cIntenerario {
         }
         
         return output;
-    }    
+    }
     
+    public static ArrayList getdirection(String partida,ArrayList<cPosto> posto,String chegada){
+        
+            ArrayList directionarray = new ArrayList<>();
+            ArrayList output = null;
+        
+        try {
+            
+            URL test = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?" + wpCreator(partida, posto, chegada) + "&optmz=distance&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
+
+            URLConnection returnado = test.openConnection();
+
+            returnado.setRequestProperty ("User-Agent", "java-ipapi-client");
+                BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(returnado.getInputStream())
+            );
+
+            String info = reader.readLine();
+
+            getintenerario(info);
+            getdistrict(info);
+            getDistance(info);
+
+            reader.close();
+            
+
+        } catch (MalformedURLException ex) {
+            System.out.println("Não foi possivel connectar a api de trajetos (MalformedURLException)");
+        } catch (IOException ex) {
+            System.out.println("Não foi possivel ler os trajetos (IOException)");
+        }
+        
+        return output;
+    }
+    
+    public static String wpCreator(String sInicial, ArrayList<cPosto> postos, String sFim){
+        
+        StringBuilder sb = new StringBuilder();
+        String sAtive = "áàãâéèêóòõôçíìîúùû";
+        int i = 0;
+        sb.append("wp").append(i++).append("=").append(sInicial);
+        if(postos != null){
+            for(cPosto cpp : postos){
+                String sPostoName = cpp.getLocalizacao();
+                StringBuilder sbb = new StringBuilder();
+                boolean bFound = false;
+
+                for(int iPop = 0; iPop < sPostoName.length(); iPop++){
+                    for(int iYup = 0; iYup < sAtive.length(); iYup++){
+                        if(Character.compare(sAtive.charAt(iYup),sPostoName.charAt(iPop)) == 0){
+                            sbb.append("%20");
+                            bFound = true;
+                            break;
+                        }
+                    }
+                    if(!bFound){
+                        bFound = false;
+                        continue;
+                    }
+                    sbb.append(sPostoName.charAt(iPop));
+                }
+
+                sb.append(",PT&wp.").append(i++).append("=").append(sbb.toString()).append(",").append("");//neste ultimo append é onde a função de getNomeRegiao virá
+            }
+        }
+        
+        sb.append(",PT&wp.").append(i++).append("=").append(sFim).append(",PT");
+        
+        return sb.toString();
+    }
         
     private static ArrayList getsimplepost(String partida,String chegada,ArrayList<String> arraylist ){
         
