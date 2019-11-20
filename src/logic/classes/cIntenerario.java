@@ -368,6 +368,9 @@ public class cIntenerario {
         System.out.println("Distancia: " + distance + " km");
             
     }
-    
-    
+
+    public static ArrayList<String> getCaminhodetalhado() {
+        return caminhodetalhado;
+    }
+
 }
