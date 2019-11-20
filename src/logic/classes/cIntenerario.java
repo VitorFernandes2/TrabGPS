@@ -12,6 +12,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import logic.E2UData;
 
 /**
@@ -57,6 +60,7 @@ public class cIntenerario {
         
     }*/
     
+    //João Coelho
     public static ArrayList getdirection(String partida,String chegada){
         
             ArrayList directionarray = new ArrayList<>();
@@ -90,13 +94,16 @@ public class cIntenerario {
             System.out.println("Não foi possivel ler os trajetos (IOException)");
         }
         
-        return output;
+        return getDirectionFinal(partida, output, chegada);
     }
     
-    public static ArrayList getdirection(String partida,ArrayList<cPosto> posto,String chegada){
-        
-            ArrayList directionarray = new ArrayList<>();
-            ArrayList output = null;
+    
+    //Luís Silva
+    public static ArrayList<String> getDirectionFinal(String partida, ArrayList<cPosto> posto, String chegada){
+        int iTamWaypoints = posto.size() + 2;
+        ArrayList<String> directionarray = new ArrayList<>();
+        List<Calendar> dWaypointDate = new ArrayList<>();
+        List<Double> dWaypointDistance = new ArrayList<>();
         
         try {
             
@@ -110,12 +117,38 @@ public class cIntenerario {
             );
 
             String info = reader.readLine();
-
-            getintenerario(info);
-            getdistrict(info);
-            getDistance(info);
+            
+            dWaypointDate = getTime(info, iTamWaypoints);
+            dWaypointDistance = getDisTotal(info, iTamWaypoints);
 
             reader.close();
+            
+            for(int i = 0, j = 0; i < iTamWaypoints; i++){
+                
+                StringBuilder sbFinal = new StringBuilder();
+                
+                if(i == 0){
+                    sbFinal.append("Localização: ").append(partida).append(" Distância: ").append(dWaypointDistance.get(i))
+                            .append(" km Horas de Partida: ").append(dWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
+                            .append(":").append(dWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
+                            .append(dWaypointDate.get(i).get(Calendar.SECOND));
+                }
+                else if(i == iTamWaypoints - 1){
+                    sbFinal.append("Localização: ").append(chegada).append(" Distância: ").append(dWaypointDistance.get(i))
+                            .append(" km Horas de Chegada: ").append(dWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
+                            .append(":").append(dWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
+                            .append(dWaypointDate.get(i).get(Calendar.SECOND));
+                }
+                else{
+                    sbFinal.append("Localização: ").append(posto.get(j)).append(" Distância: ").append(dWaypointDistance.get(i))
+                            .append(" km Horas de Chegada: ").append(dWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
+                            .append(":").append(dWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
+                            .append(dWaypointDate.get(i).get(Calendar.SECOND));
+                    j++;
+                }
+                
+                directionarray.add(sbFinal.toString());
+            }
             
 
         } catch (MalformedURLException ex) {
@@ -124,7 +157,7 @@ public class cIntenerario {
             System.out.println("Não foi possivel ler os trajetos (IOException)");
         }
         
-        return output;
+        return directionarray;
     }
     
     public static String wpCreator(String sInicial, ArrayList<cPosto> postos, String sFim){
@@ -162,7 +195,83 @@ public class cIntenerario {
         
         return sb.toString();
     }
+    
+    public static List<Calendar> getTime(String info, int iTamWaypoints) {
+        String pesquisa = "," + "\"" + "travelDuration" + "\"" + ":";
+        String endstring = ",";
+        String endstring2 = "]";
+        String endstring3 = "}";
+        boolean save = false;
         
+        ArrayList<String> timearray = new ArrayList<>();
+        
+        while(info.contains(pesquisa)){
+            
+            info = info.substring(info.indexOf(pesquisa)+pesquisa.length());
+            
+            String copyin = info;
+            String msg = copyin.split(endstring)[0];
+            if(msg.contains(endstring2) || msg.contains(endstring3)){
+                msg = msg.replace("]", "");
+                msg = msg.replace("}", "");
+            }
+            if(save){
+                timearray.add(msg);
+                save = false;
+            }
+            if(Integer.parseInt(msg) == 0){
+                save = true;
+            }
+        }
+        
+        Calendar initial = Calendar.getInstance();
+        
+        List<Calendar> waypointTime = new ArrayList<>();
+        
+        waypointTime.add(initial);
+        
+        for(int i = 0; i < iTamWaypoints - 1; i++){
+            initial.setTimeInMillis(initial.getTimeInMillis() + Integer.parseInt(timearray.get(i))*1000);
+            waypointTime.add(initial);
+        }
+        
+        return waypointTime;
+    }
+    
+    private static List<Double> getDisTotal(String info, int iTamWaypoints) {
+        String pesquisa = "," + "\"" + "travelDistance" + "\"" + ":";
+        String endstring = ",";
+        double dDistanceTotal = 0.0;
+        boolean save = false;
+        List<Double> waypointDistance = new ArrayList<>();
+        
+        ArrayList<String> distancearray = new ArrayList<>();
+        
+        while(info.contains(pesquisa)){
+            
+            info = info.substring(info.indexOf(pesquisa)+pesquisa.length());
+            
+            String copyin = info;
+            String msg = copyin.split(endstring)[0];
+            if(save){
+                distancearray.add(msg);
+                save = false;
+            }
+            if(Double.parseDouble(msg) == 0.0){
+                save = true;
+            }
+        }
+        
+        waypointDistance.add(0.0);
+        
+        for(int i = 0; i < iTamWaypoints - 1; i++){
+            dDistanceTotal += Double.parseDouble(distancearray.get(i));
+            waypointDistance.add(dDistanceTotal);
+        }
+        
+        return waypointDistance;
+    }
+    
     private static ArrayList getsimplepost(String partida,String chegada,ArrayList<String> arraylist ){
         
         // inicia a classe
@@ -219,7 +328,6 @@ public class cIntenerario {
         
         return information.getListaRegioes().get(idregião).getNomeRegiao();
         
-      
     }
     
     public static void getintenerario (String info){
@@ -285,19 +393,15 @@ public class cIntenerario {
         
         
         while(info.contains(pesquisa)){
-            
             info = info.substring(info.indexOf(pesquisa)+16);
             
             String copyin = info;
             String msg = copyin.split(endstring)[0];
             distance = msg;
-
         }
         
-            System.out.println("Distancia: " + distance + " km");
-
-        
-    
+        System.out.println("Distancia: " + distance + " km");
+            
     }
     
     
