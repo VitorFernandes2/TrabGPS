@@ -13,10 +13,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import logic.E2UData;
 
 /**
@@ -25,130 +22,130 @@ import logic.E2UData;
  */
 public class cIntenerario {
     
-    private static ArrayList<String> caminhodetalhado;
-    private static double partidalat;
-    private static double partidalong;
-    private static double chegadalat;
-    private static double chegadalong;
+    private static ArrayList<String> lsCaminhoDetalhado;
+    private static double dPartidaLat;
+    private static double dPartidaLong;
+    private static double dChegadaLat;
+    private static double dChegadaLong;
     
-    public static ArrayList getdirection(String partida,String chegada){
+    public static ArrayList getdirection(String sPartida, String sChegada){
         
-        ArrayList output = null;
+        ArrayList alOutput = null;
         
         try {
             
-            URL test = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + partida + ",PT&wp.1=" + chegada + ",PT&c=pt-PT&optmz=distance&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
+            URL urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + sPartida + ",PT&wp.1=" + sChegada + ",PT&c=pt-PT&optmz=sDistance&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
             
-            URLConnection returnado = test.openConnection();
+            URLConnection urlcReturnado = urlTest.openConnection();
             
-            returnado.setRequestProperty ("User-Agent", "java-ipapi-client");
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(returnado.getInputStream())
+            urlcReturnado.setRequestProperty ("User-Agent", "java-ipapi-client");
+            BufferedReader bfReader = new BufferedReader(
+                    new InputStreamReader(urlcReturnado.getInputStream())
             );
             
-            String info = reader.readLine();
-            reader.close();
+            String sInfo = bfReader.readLine();
+            bfReader.close();
             
-            output = getsimplepost(partida,chegada,getdistrict(info));
+            alOutput = getsimplepost(sPartida, sChegada, getdistrict(sInfo));
 
-            definegpsiniciais(info);
+            definegpsiniciais(sInfo);
             
         } catch (MalformedURLException ex) {
-            System.out.println("Não foi possivel connectar a api de trajetos (MalformedURLException)");
+            System.out.println("[ERROR]Não foi possivel connectar a api de trajetos (MalformedURLException)");
         } catch (IOException ex) {
-            System.out.println("Não foi possivel ler os trajetos (IOException)");
+            System.out.println("[ERROR]Não foi possivel ler os trajetos (IOException)");
         }
         
-        return getDirectionFinal(partida, output, chegada);
+        return getDirectionFinal(sPartida, alOutput, sChegada);
     }
     
     
-    private static ArrayList<String> getDirectionFinal(String partida, ArrayList<cPosto> posto, String chegada){
+    private static ArrayList<String> getDirectionFinal(String sPartida, ArrayList<cPosto> alPosto, String sChegada){
         int iTamWaypoints = 2;
-        ArrayList<String> directionarray = new ArrayList<>();
-        List<Calendar> dWaypointDate = new ArrayList<>();
-        List<Double> dWaypointDistance = new ArrayList<>();
+        ArrayList<String> alDirectionArray = new ArrayList<>();
+        List<Calendar> lsWaypointDate = new ArrayList<>();
+        List<Double> lsWaypointDistance = new ArrayList<>();
         
         try {
             
-            URL test = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?" + wpCreator(partida, posto, chegada) + "&optmz=distance&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
+            URL urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?" + wpCreator(sPartida, alPosto, sChegada) + "&optmz=sDistance&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
 
-            URLConnection returnado = test.openConnection();
+            URLConnection urlcReturnado = urlTest.openConnection();
 
-            returnado.setRequestProperty ("User-Agent", "java-ipapi-client");
-                BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(returnado.getInputStream())
+            urlcReturnado.setRequestProperty ("User-Agent", "java-ipapi-client");
+                BufferedReader bfReader = new BufferedReader(
+                    new InputStreamReader(urlcReturnado.getInputStream())
             );
 
-            String info = reader.readLine();
+            String sInfo = bfReader.readLine();
             
-            caminhodetalhado = getintenerario(info);
+            lsCaminhoDetalhado = getintenerario(sInfo);
             
-            for(cPosto cpp : posto){
-                if(getRegiaoNome(cpp) != null){
+            for(cPosto cpostoPP : alPosto){
+                if(getRegiaoNome(cpostoPP) != null){
                     iTamWaypoints++;
                 }
             }
             
-            dWaypointDate = getTime(info, iTamWaypoints);
-            dWaypointDistance = getDisTotal(info, iTamWaypoints);
+            lsWaypointDate = getTime(sInfo, iTamWaypoints);
+            lsWaypointDistance = getDisTotal(sInfo, iTamWaypoints);
 
-            reader.close();
+            bfReader.close();
             
             for(int i = 0, j = 0; i < iTamWaypoints; i++){
                 
                 StringBuilder sbFinal = new StringBuilder();
                 
                 if(i == 0){
-                    sbFinal.append("Localização: ").append(partida).append(" Distância: ").append(dWaypointDistance.get(i))
-                            .append(" km Horas de Partida: ").append(dWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
-                            .append(":").append(dWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
-                            .append(dWaypointDate.get(i).get(Calendar.SECOND));
+                    sbFinal.append("Localização: ").append(sPartida).append(" Distância: ").append(lsWaypointDistance.get(i))
+                            .append(" km Horas de Partida: ").append(lsWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
+                            .append(":").append(lsWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
+                            .append(lsWaypointDate.get(i).get(Calendar.SECOND));
                 }
                 else if(i == iTamWaypoints - 1){
-                    sbFinal.append("Localização: ").append(chegada).append(" Distância: ").append(dWaypointDistance.get(i))
-                            .append(" km Horas de Chegada: ").append(dWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
-                            .append(":").append(dWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
-                            .append(dWaypointDate.get(i).get(Calendar.SECOND));
+                    sbFinal.append("Localização: ").append(sChegada).append(" Distância: ").append(lsWaypointDistance.get(i))
+                            .append(" km Horas de Chegada: ").append(lsWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
+                            .append(":").append(lsWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
+                            .append(lsWaypointDate.get(i).get(Calendar.SECOND));
                 }
                 else{
-                    sbFinal.append("Localização: ").append(posto.get(j)).append(" Distância: ").append(dWaypointDistance.get(i))
-                            .append(" km Horas de Chegada: ").append(dWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
-                            .append(":").append(dWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
-                            .append(dWaypointDate.get(i).get(Calendar.SECOND));
+                    sbFinal.append("Localização: ").append(alPosto.get(j)).append(" Distância: ").append(lsWaypointDistance.get(i))
+                            .append(" km Horas de Chegada: ").append(lsWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
+                            .append(":").append(lsWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
+                            .append(lsWaypointDate.get(i).get(Calendar.SECOND));
                     j++;
                 }
                 
-                directionarray.add(sbFinal.toString());
+                alDirectionArray.add(sbFinal.toString());
             }
             
 
         } catch (MalformedURLException ex) {
-            System.out.println("Não foi possivel connectar a api de trajetos (MalformedURLException)");
+            System.out.println("[ERROR]Não foi possivel connectar a api de trajetos (MalformedURLException)");
         } catch (IOException ex) {
-            System.out.println("Não foi possivel ler os trajetos (IOException)");
+            System.out.println("[ERROR]Não foi possivel ler os trajetos (IOException)");
         }
         
-        return directionarray;
+        return alDirectionArray;
     }
     
-    public static String wpCreator(String sInicial, ArrayList<cPosto> postos, String sFim){
-        
-        StringBuilder sb = new StringBuilder();
+    public static String wpCreator(String sInicial, ArrayList<cPosto> alPosto, String sFim){
+        boolean bFound;
+        StringBuilder sbLink = new StringBuilder();
         String sAtive = "áàãâéèêóòõôçíìîúùû";
         String sRegNome;
         int i = 0;
-        sb.append("wp").append(i++).append("=").append(sInicial);
-        if(postos != null){
-            for(cPosto cpp : postos){
-                String sPostoName = cpp.getLocalizacao();
-                StringBuilder sbb = new StringBuilder();
-                boolean bFound = false;
+        sbLink.append("wp").append(i++).append("=").append(sInicial);
+        if(alPosto != null){
+            for(cPosto cpostoPP : alPosto){
+                String sPostoName = cpostoPP.getLocalizacao();
+                StringBuilder sbB = new StringBuilder();
+                bFound = false;
 
                 for(int iPop = 0; iPop < sPostoName.length(); iPop++){
                     for(int iYup = 0; iYup < sAtive.length(); iYup++){
                         if(Character.compare(sAtive.charAt(iYup),sPostoName.charAt(iPop)) == 0){
-                            sbb.append("%20");
+                            sbB.append("%20");
                             bFound = true;
                             break;
                         }
@@ -157,306 +154,306 @@ public class cIntenerario {
                         bFound = false;
                         continue;
                     }
-                    sbb.append(sPostoName.charAt(iPop));
+                    sbB.append(sPostoName.charAt(iPop));
                 }
                 
-                if((sRegNome = getRegiaoNome(cpp)) != null){
-                    sb.append(",PT&wp.").append(i++).append("=").append(sbb.toString()).append(",").append(sRegNome);
+                if((sRegNome = getRegiaoNome(cpostoPP)) != null){
+                    sbLink.append(",PT&wp.").append(i++).append("=").append(sbB.toString()).append(",").append(sRegNome);
                 }
             }
         }
         
-        sb.append(",PT&wp.").append(i++).append("=").append(sFim).append(",PT");
+        sbLink.append(",PT&wp.").append(i++).append("=").append(sFim).append(",PT");
         
-        return sb.toString();
+        return sbLink.toString();
     }
     
-    private static String getRegiaoNome(cPosto posto){
-        E2UData information = null;
+    private static String getRegiaoNome(cPosto cpostoPP){
+        E2UData  e2udInformation = null;
         try{
-            information = new E2UData();
+             e2udInformation = new E2UData();
         }catch (IOException ex){return null;}
         
-        for(cRegiao reg : information.getListaRegioes()){
-            if(reg.getIdRegiao() == posto.getIdRegiao()){
-                return reg.getNomeRegiao();
+        for(cRegiao cregiaoRR :  e2udInformation.getListaRegioes()){
+            if(cregiaoRR.getIdRegiao() == cpostoPP.getIdRegiao()){
+                return cregiaoRR.getNomeRegiao();
             }
         }
         
         return null;
     }
     
-    public static List<Calendar> getTime(String info, int iTamWaypoints) {
-        String pesquisa = "," + "\"" + "travelDuration" + "\"" + ":";
-        String endstring = ",";
-        String endstring2 = "]";
-        String endstring3 = "}";
-        boolean save = false;
+    public static List<Calendar> getTime(String sInfo, int iTamWaypoints) {
+        String sPesquisa = "," + "\"" + "travelDuration" + "\"" + ":";
+        String sEndString = ",";
+        String sEndString2 = "]";
+        String sEndString3 = "}";
+        boolean bSave = false;
         
-        ArrayList<String> timearray = new ArrayList<>();
+        ArrayList<String> alTimeArray = new ArrayList<>();
         
-        while(info.contains(pesquisa)){
+        while(sInfo.contains(sPesquisa)){
             
-            info = info.substring(info.indexOf(pesquisa)+pesquisa.length());
+            sInfo = sInfo.substring(sInfo.indexOf(sPesquisa)+sPesquisa.length());
             
-            String copyin = info;
-            String msg = copyin.split(endstring)[0];
-            if(msg.contains(endstring2) || msg.contains(endstring3)){
-                msg = msg.replace("]", "");
-                msg = msg.replace("}", "");
+            String sCopyin = sInfo;
+            String sMsg = sCopyin.split(sEndString)[0];
+            if(sMsg.contains(sEndString2) || sMsg.contains(sEndString3)){
+                sMsg = sMsg.replace("]", "");
+                sMsg = sMsg.replace("}", "");
             }
-            if(save){
-                timearray.add(msg);
-                save = false;
+            if(bSave){
+                alTimeArray.add(sMsg);
+                bSave = false;
             }
-            if(Integer.parseInt(msg) == 0){
-                save = true;
+            if(Integer.parseInt(sMsg) == 0){
+                bSave = true;
             }
         }
         
-        Calendar initial = Calendar.getInstance();
+        Calendar cldInitial = Calendar.getInstance();
         
-        List<Calendar> waypointTime = new ArrayList<>();
+        List<Calendar> lsWayPointTime = new ArrayList<>();
         
-        waypointTime.add(initial);
+        lsWayPointTime.add(cldInitial);
         
         for(int i = 0; i < iTamWaypoints - 1; i++){
-            initial.setTimeInMillis(initial.getTimeInMillis() + Integer.parseInt(timearray.get(i))*1000);
-            waypointTime.add(initial);
+            cldInitial.setTimeInMillis(cldInitial.getTimeInMillis() + Integer.parseInt(alTimeArray.get(i))*1000);
+            lsWayPointTime.add(cldInitial);
         }
         
-        return waypointTime;
+        return lsWayPointTime;
     }
     
-    private static List<Double> getDisTotal(String info, int iTamWaypoints) {
-        String pesquisa = "," + "\"" + "travelDistance" + "\"" + ":";
-        String endstring = ",";
+    private static List<Double> getDisTotal(String sInfo, int iTamWaypoints) {
+        String sPesquisa = "," + "\"" + "travelDistance" + "\"" + ":";
+        String sEndString = ",";
         double dDistanceTotal = 0.0;
-        boolean save = false;
-        List<Double> waypointDistance = new ArrayList<>();
+        boolean bSave = false;
+        List<Double> lsWayPointDistance = new ArrayList<>();
         
-        ArrayList<String> distancearray = new ArrayList<>();
+        ArrayList<String> sDistanceArray = new ArrayList<>();
         
-        while(info.contains(pesquisa)){
+        while(sInfo.contains(sPesquisa)){
             
-            info = info.substring(info.indexOf(pesquisa)+pesquisa.length());
+            sInfo = sInfo.substring(sInfo.indexOf(sPesquisa)+sPesquisa.length());
             
-            String copyin = info;
-            String msg = copyin.split(endstring)[0];
-            if(save){
-                distancearray.add(msg);
-                save = false;
+            String sCopyin = sInfo;
+            String sMsg = sCopyin.split(sEndString)[0];
+            if(bSave){
+                sDistanceArray.add(sMsg);
+                bSave = false;
             }
-            if(Double.parseDouble(msg) == 0.0){
-                save = true;
+            if(Double.parseDouble(sMsg) == 0.0){
+                bSave = true;
             }
         }
         
-        waypointDistance.add(0.0);
+        lsWayPointDistance.add(0.0);
         
         for(int i = 0; i < iTamWaypoints - 1; i++){
-            dDistanceTotal += Double.parseDouble(distancearray.get(i));
-            waypointDistance.add(dDistanceTotal);
+            dDistanceTotal += Double.parseDouble(sDistanceArray.get(i));
+            lsWayPointDistance.add(dDistanceTotal);
         }
         
-        return waypointDistance;
+        return lsWayPointDistance;
     }
     
-    private static ArrayList getsimplepost(String partida,String chegada,ArrayList<String> arraylist ){
+    private static ArrayList getsimplepost(String sPartida,String sChegada,ArrayList<String> alArrayList){
         
         // inicia a classe
-        E2UData information = null;
+        E2UData  e2udInformation = null;
         try{
-            information = new E2UData();
+             e2udInformation = new E2UData();
         }catch (IOException ex){return null;}
         
         // Inicia o array de retorno
-        ArrayList retronaoarray = new ArrayList<>();
+        ArrayList alRetronaArray = new ArrayList<>();
         
         
         // ve o posto mais proximo no distrito atual
-        double closer = -1;
-        int poscloser = -1;
-        for (int i=0; i< information.getListaPostos().size();i++){
+        double dCloser = -1;
+        int iPosCloser = -1;
+        for (int i=0; i<  e2udInformation.getListaPostos().size();i++){
             
-            if (postotodistrict(information.getListaPostos().get(i).getIdPosto()).equals(partida)){
+            if (postotodistrict( e2udInformation.getListaPostos().get(i).getIdPosto()).equals(sPartida)){
 
-                if(closer == -1){
-                    closer = twopointdistance(partidalat,partidalong,information.getListaPostos().get(i).getLatitude(),information.getListaPostos().get(i).getLongitude());
-                    poscloser = i;
-                }else if (twopointdistance(partidalat,partidalong,information.getListaPostos().get(i).getLatitude(),information.getListaPostos().get(i).getLongitude()) < closer){
-                    closer = twopointdistance(partidalat,partidalong,information.getListaPostos().get(i).getLatitude(),information.getListaPostos().get(i).getLongitude());
-                    poscloser = i;
+                if(dCloser == -1){
+                    dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udInformation.getListaPostos().get(i).getLatitude(), e2udInformation.getListaPostos().get(i).getLongitude());
+                    iPosCloser = i;
+                }else if (twopointsDistance(dPartidaLat,dPartidaLong, e2udInformation.getListaPostos().get(i).getLatitude(), e2udInformation.getListaPostos().get(i).getLongitude()) < dCloser){
+                    dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udInformation.getListaPostos().get(i).getLatitude(), e2udInformation.getListaPostos().get(i).getLongitude());
+                    iPosCloser = i;
                 }
-                //retronaoarray.add(information.getPosto(i));
+                //alRetronaArray.add( e2udInformation.getPosto(i));
                 //break;
             }   
         }
-        if(poscloser!=-1){
-            retronaoarray.add(information.getPosto(poscloser));
+        if(iPosCloser!=-1){
+            alRetronaArray.add( e2udInformation.getPosto(iPosCloser));
         }
         
         
         // ve o posto mais proximo nos restantes distritos
-        for (int i=0; i< arraylist.size();i++){
-            closer = -1;
-            poscloser = -1;
-            for(int j = 0; j < information.getListaPostos().size();j++){
+        for (int i=0; i< alArrayList.size();i++){
+            dCloser = -1;
+            iPosCloser = -1;
+            for(int j = 0; j <  e2udInformation.getListaPostos().size();j++){
 
-                if (arraylist.get(i).equals(postotodistrict(information.getListaPostos().get(j).getIdPosto()))){
+                if (alArrayList.get(i).equals(postotodistrict( e2udInformation.getListaPostos().get(j).getIdPosto()))){
                     
-                    if(closer == -1){
-                        closer = twopointdistance(partidalat,partidalong,information.getListaPostos().get(j).getLatitude(),information.getListaPostos().get(j).getLongitude());
-                        poscloser = j;
-                    }else if (twopointdistance(partidalat,partidalong,information.getListaPostos().get(j).getLatitude(),information.getListaPostos().get(j).getLongitude()) < closer){
-                        closer = twopointdistance(partidalat,partidalong,information.getListaPostos().get(j).getLatitude(),information.getListaPostos().get(j).getLongitude());
-                        poscloser = j;
+                    if(dCloser == -1){
+                        dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udInformation.getListaPostos().get(j).getLatitude(), e2udInformation.getListaPostos().get(j).getLongitude());
+                        iPosCloser = j;
+                    }else if (twopointsDistance(dPartidaLat,dPartidaLong, e2udInformation.getListaPostos().get(j).getLatitude(), e2udInformation.getListaPostos().get(j).getLongitude()) < dCloser){
+                        dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udInformation.getListaPostos().get(j).getLatitude(), e2udInformation.getListaPostos().get(j).getLongitude());
+                        iPosCloser = j;
                     }
                 }
             }
-            if(poscloser!=-1){
-            retronaoarray.add(information.getPosto(poscloser));
+            if(iPosCloser!=-1){
+            alRetronaArray.add( e2udInformation.getPosto(iPosCloser));
             }
         }
         
         // ve o posto mais proximo no distrito atual
-        closer = -1;
-        poscloser = -1;
-        for (int i=0; i< information.getListaPostos().size();i++){
+        dCloser = -1;
+        iPosCloser = -1;
+        for (int i=0; i<  e2udInformation.getListaPostos().size();i++){
             
-            if (postotodistrict(information.getListaPostos().get(i).getIdPosto()).equals(chegada)){
+            if (postotodistrict( e2udInformation.getListaPostos().get(i).getIdPosto()).equals(sChegada)){
                 
-                if(closer == -1){
-                    closer = twopointdistance(partidalat,partidalong,information.getListaPostos().get(i).getLatitude(),information.getListaPostos().get(i).getLongitude());
-                    poscloser = i;
-                }else if (twopointdistance(partidalat,partidalong,information.getListaPostos().get(i).getLatitude(),information.getListaPostos().get(i).getLongitude()) < closer){
-                    closer = twopointdistance(partidalat,partidalong,information.getListaPostos().get(i).getLatitude(),information.getListaPostos().get(i).getLongitude());
-                    poscloser = i;
+                if(dCloser == -1){
+                    dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udInformation.getListaPostos().get(i).getLatitude(), e2udInformation.getListaPostos().get(i).getLongitude());
+                    iPosCloser = i;
+                }else if (twopointsDistance(dPartidaLat,dPartidaLong, e2udInformation.getListaPostos().get(i).getLatitude(), e2udInformation.getListaPostos().get(i).getLongitude()) < dCloser){
+                    dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udInformation.getListaPostos().get(i).getLatitude(), e2udInformation.getListaPostos().get(i).getLongitude());
+                    iPosCloser = i;
                 }
             }
                 
         }
-        if(poscloser!=-1){
-            retronaoarray.add(information.getPosto(poscloser));
+        if(iPosCloser!=-1){
+            alRetronaArray.add( e2udInformation.getPosto(iPosCloser));
         }
         
-        return retronaoarray;
+        return alRetronaArray;
     }
     
-    private static String postotodistrict (int idregião){
+    private static String postotodistrict (int iIdRegiao){
         
-        E2UData information = null;
+        E2UData  e2udInformation = null;
         try{
-            information = new E2UData();
+             e2udInformation = new E2UData();
         }catch (IOException ex){return "-1";}
         
-        return information.getListaRegioes().get(idregião).getNomeRegiao();
+        return  e2udInformation.getListaRegioes().get(iIdRegiao).getNomeRegiao();
         
     }
     
-    public static ArrayList<String> getintenerario (String info){
+    public static ArrayList<String> getintenerario (String sInfo){
         
-        ArrayList directionarray = new ArrayList<String>();
-        String pesquisa = "\"" + "text" + "\"" + ":";
-        String endstring = "\"" + "}";
+        ArrayList alDirectionArray = new ArrayList<String>();
+        String sPesquisa = "\"" + "text" + "\"" + ":";
+        String sEndString = "\"" + "}";
         
         
-        while(info.contains(pesquisa)){
+        while(sInfo.contains(sPesquisa)){
             
-            info = info.substring(info.indexOf(pesquisa)+8);
+            sInfo = sInfo.substring(sInfo.indexOf(sPesquisa)+8);
             
-            String copyin = info;
-            String msg = copyin.split(endstring)[0];
+            String sCopyin = sInfo;
+            String sMsg = sCopyin.split(sEndString)[0];
             
-            if(msg.contains("warningType") && msg.contains("AdminDivisionChange")){
-                msg = msg.split("\""+",")[0];
-                directionarray.add(msg);
+            if(sMsg.contains("warningType") && sMsg.contains("AdminDivisionChange")){
+                sMsg = sMsg.split("\""+",")[0];
+                alDirectionArray.add(sMsg);
             }
-            else if(!msg.contains("warningType")){
-                directionarray.add(msg);
+            else if(!sMsg.contains("warningType")){
+                alDirectionArray.add(sMsg);
             }
         }
         
-        /*for(int i = 0; i < directionarray.size();i++){
-            System.out.println("Pos: " + directionarray.get(i));
+        /*for(int i = 0; i < alDirectionArray.size();i++){
+            System.out.println("Pos: " + alDirectionArray.get(i));
         }*/
-        return directionarray;
+        return alDirectionArray;
         
     }
     
-    public static ArrayList getdistrict (String info){
+    public static ArrayList getdistrict (String sInfo){
         
-        ArrayList directionarray = new ArrayList<>();
-        String pesquisa = "Entering";
-        String endstring = "\"" + ",";
+        ArrayList alDirectionArray = new ArrayList<>();
+        String sPesquisa = "Entering";
+        String sEndString = "\"" + ",";
         
         
-        while(info.contains(pesquisa)){
+        while(sInfo.contains(sPesquisa)){
             
-            info = info.substring(info.indexOf(pesquisa)+9);
+            sInfo = sInfo.substring(sInfo.indexOf(sPesquisa)+9);
             
-            String copyin = info;
-            String msg = copyin.split(endstring)[0];
-            directionarray.add(msg);
+            String sCopyin = sInfo;
+            String sMsg = sCopyin.split(sEndString)[0];
+            alDirectionArray.add(sMsg);
 
         }
         
-        for(int i = 0; i < directionarray.size();i++){
-            System.out.println("Distrito: " + directionarray.get(i));
+        for(int i = 0; i < alDirectionArray.size();i++){
+            System.out.println("Distrito: " + alDirectionArray.get(i));
         }
         
-        return directionarray;
+        return alDirectionArray;
         
     }
 
-    private static void getDistance(String info) {
+    private static void getDistance(String sInfo) {
 
-        String distance = null;
-        String pesquisa = "travelDistance" + "\"" + ":";
-        String endstring = ",";
+        String sDistance = null;
+        String sPesquisa = "travelDistance" + "\"" + ":";
+        String sEndString = ",";
         
         
-        while(info.contains(pesquisa)){
-            info = info.substring(info.indexOf(pesquisa)+16);
+        while(sInfo.contains(sPesquisa)){
+            sInfo = sInfo.substring(sInfo.indexOf(sPesquisa)+16);
             
-            String copyin = info;
-            String msg = copyin.split(endstring)[0];
-            distance = msg;
+            String sCopyin = sInfo;
+            String sMsg = sCopyin.split(sEndString)[0];
+            sDistance = sMsg;
         }
         
-        System.out.println("Distancia: " + distance + " km");
+        System.out.println("Distancia: " + sDistance + " km");
             
     }
 
     public static ArrayList<String> getCaminhodetalhado() {
-        return caminhodetalhado;
+        return lsCaminhoDetalhado;
     }
 
-    private static void definegpsiniciais(String info) {
+    private static void definegpsiniciais(String sInfo) {
         
-        String distance = null;
-        String pesquisa = "bbox" + "\"" + ":" + "[";
-        String endstring = "]";
+        String sDistance = null;
+        String sPesquisa = "bbox" + "\"" + ":" + "[";
+        String sEndString = "]";
         
-        while(info.contains(pesquisa)){
-            info = info.substring(info.indexOf(pesquisa)+7);
+        while(sInfo.contains(sPesquisa)){
+            sInfo = sInfo.substring(sInfo.indexOf(sPesquisa)+7);
             
-            String copyin = info;
-            String msg = copyin.split(endstring)[0];
-            distance = msg;
+            String sCopyin = sInfo;
+            String sMsg = sCopyin.split(sEndString)[0];
+            sDistance = sMsg;
         }
         
-        System.out.println("Distancia: " + distance + " km");
+        System.out.println("Distancia: " + sDistance + " km");
         
-        partidalong = Double.parseDouble(distance.split(",")[0]);
-        partidalat = Double.parseDouble(distance.split(",")[1]);
-        chegadalong = Double.parseDouble(distance.split(",")[2]);
-        chegadalat = Double.parseDouble(distance.split(",")[3]);
+        dPartidaLong = Double.parseDouble(sDistance.split(",")[0]);
+        dPartidaLat = Double.parseDouble(sDistance.split(",")[1]);
+        dChegadaLong = Double.parseDouble(sDistance.split(",")[2]);
+        dChegadaLat = Double.parseDouble(sDistance.split(",")[3]);
     }
 
-    private static double twopointdistance(double partidalat, double partidalong, double latitude, double longitude) {
+    private static double twopointsDistance(double dPartidaLat, double dPartidaLong, double dLatitude, double dLongitude) {
 
-        return Math.sqrt(Math.pow(latitude - partidalat, 2) + Math.pow(longitude - partidalong, 2));
+        return Math.sqrt(Math.pow(dLatitude - dPartidaLat, 2) + Math.pow(dLongitude - dPartidaLong, 2));
     
     }
 
