@@ -36,4 +36,42 @@ public class StateAdapter implements IStates {
         return null;
     }
 
+    @Override
+    public IStates efetuaReserva(String dados) {
+        return null;
+    }
+
+    @Override
+    public IStates consultaHistorico() {
+        return null;
+    }
+
+    @Override
+    public IStates consultaPendentes() {
+        return null;
+    }
+    
+    @Override
+    public IStates efetuaItinerario(String partida, String destino) {
+        return null;
+    }
+    
+    @Override
+    public IStates goToPendentes() {
+        return null;
+    }
+    
+    @Override
+    public IStates goToHistorico() {
+        return null;
+    }@Override
+    public IStates goToItinerario() {
+        return null;
+    }
+
+    @Override
+    public IStates goToPesquisa() {
+        return new EsperaPesquisa(data);
+    }
+
 }

@@ -95,7 +95,7 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+                setVisible(this.logic.inItinerario());
     }
 
 }

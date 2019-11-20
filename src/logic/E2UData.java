@@ -20,7 +20,7 @@ public class E2UData {
     private ArrayList<cPosto> listaPostos = new ArrayList<>(); 
     private ArrayList<cDisponibilidadesByTempo> listaDisponibilidades = new ArrayList<>(); 
     private String sRegiaoUtilizador;
-    private static int erro = 0;
+    private int erro = 0;
 
     private int userLogado;
     public ArrayList<cReserva> getListaReservas() {
@@ -76,6 +76,7 @@ public class E2UData {
     }
     
     public void inicializaListas(){
+        listaUtilizadores.add(new cUtilizador("User","123"));
         
         listaReservas.add(new cReserva(30*1.5,1,1,1));
         listaReservas.add(new cReserva(10*1.5,1,1,1)); 

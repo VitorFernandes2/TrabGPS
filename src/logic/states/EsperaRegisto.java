@@ -3,9 +3,9 @@ package logic.states;
 import logic.E2UData;
 import static logic.classes.cConstantes.*;
 
-public class AwaitRegister extends StateAdapter {
+public class EsperaRegisto extends StateAdapter {
 
-    public AwaitRegister(E2UData data) {
+    public EsperaRegisto(E2UData data) {
 
         this.data = data;
 
@@ -28,17 +28,17 @@ public class AwaitRegister extends StateAdapter {
             data.setErro(REGISTONORMAL);
 
             if (data.criaRegisto(sUsername,sPassword,sConPassord))
-                return new AwaitLogin(data);
+                return new EsperaLogin(data);
 
         }
 
-        return new AwaitRegister(data);
+        return new EsperaRegisto(data);
       
     }
 
     @Override
     public IStates goToLogin() {
-        return new AwaitLogin(data);
+        return new EsperaLogin(data);
     }
 
 }
