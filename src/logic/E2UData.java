@@ -449,7 +449,7 @@ public class E2UData {
         List<String> pendentes = new ArrayList<>();
         for(cReserva reserva : listaReservas){
             if(reserva.getSestado().equalsIgnoreCase("Ativa")){
-                pendentes.add("Posto: " +getPosto(reserva.getIidPosto())+" Data: " + reserva.getDiaReserva() + " " 
+                pendentes.add("Posto:" +getPosto(reserva.getIidPosto())+"; Data: " + reserva.getDiaReserva() + " "
                 + getHorario(reserva.getIidIntervaloTempo())+" Preço: " + reserva.getDcustoPrevisto());
             
                 conta++;                
@@ -485,7 +485,7 @@ public class E2UData {
                 idPosto = posto.getIdPosto();
         }
         for(cIntervaloTempo intervalo : listaTempos){
-            if((intervalo.getHoraInicio()+"-"+intervalo.getHoraFim()).equals(a.get("Intervalo")))
+            if((intervalo.getHoraInicio()+"-"+intervalo.getHoraFim()).equals(a.get("Data")))
                 idIntervalo = intervalo.getIdIntervalo();
         }
         if(idPosto == null || idIntervalo == null)return false;
