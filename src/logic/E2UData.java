@@ -92,16 +92,16 @@ public class E2UData {
         listaRegioes.add(new cRegiao("Pombal"));// id 9
         listaRegioes.add(new cRegiao("Faro"));// id 10
         
-        listaTempos.add(new cIntervaloTempo("9h00m","9h:30m"));// id 1
-        listaTempos.add(new cIntervaloTempo("9h30m","10h:00m"));// id 2
-        listaTempos.add(new cIntervaloTempo("10h00m","10h:30m"));// id 3
-        listaTempos.add(new cIntervaloTempo("10h30m","11h:00m"));// id 4
-        listaTempos.add(new cIntervaloTempo("11h00m","11h:30m"));// id 5
-        listaTempos.add(new cIntervaloTempo("11h30m","12h:00m"));// id 6
-        listaTempos.add(new cIntervaloTempo("12h00m","12h:30m"));// id 7
-        listaTempos.add(new cIntervaloTempo("12h30m","13h:00m"));// id 8
-        listaTempos.add(new cIntervaloTempo("13h00m","13h:30m"));// id 9
-        listaTempos.add(new cIntervaloTempo("13h30m","14h:00m"));// id 10
+        listaTempos.add(new cIntervaloTempo("9h","9h30m"));// id 1
+        listaTempos.add(new cIntervaloTempo("9h30m","10h"));// id 2
+        listaTempos.add(new cIntervaloTempo("10h","10h30m"));// id 3
+        listaTempos.add(new cIntervaloTempo("10h30m","11h"));// id 4
+        listaTempos.add(new cIntervaloTempo("11h","11h30m"));// id 5
+        listaTempos.add(new cIntervaloTempo("11h30m","12h"));// id 6
+        listaTempos.add(new cIntervaloTempo("12h","12h30m"));// id 7
+        listaTempos.add(new cIntervaloTempo("12h30m","13h"));// id 8
+        listaTempos.add(new cIntervaloTempo("13h","13h30m"));// id 9
+        listaTempos.add(new cIntervaloTempo("13h30m","14h"));// id 10
         
         listaPostos.add(new cPosto(1,"Rua S. Pedro",0.99, -8.595116, 40.349884,"Coimbra"));                   // id 1
         listaPostos.add(new cPosto(1,"Rua S. Miguel",0.79, -8.409035324984872, 40.19541569649263,"Coimbra")); // id 2
@@ -148,10 +148,10 @@ public class E2UData {
         cPosto posto  = listaPostos.get(id);
         for(cDisponibilidadesByTempo c : listaDisponibilidades){
             if(c.getIdPosto() == posto.getIdPosto()){
-                sb.append("Posto: " + posto.getLocalizacao() + " ; ");
-                sb.append("Preço: " + posto.getPrecoCarregamento() + " ; ");
+                sb.append("Posto:" + posto.getLocalizacao() + "; ");
+                sb.append("Preço:" + posto.getPrecoCarregamento() + "; ");
                 cIntervaloTempo intervalo = listaTempos.get(pesquisaIntervaloById(c.getIdIntervaloTempo()));
-                sb.append("Intervalo: "+intervalo.getHoraInicio() + "-" + intervalo.getHoraFim()+ " ; Estado: ");
+                sb.append("Intervalo:"+intervalo.getHoraInicio() + " às " + intervalo.getHoraFim()+ "; Estado: ");
                 if(c.isDisponibilidade())
                     sb.append("Disponivel");
                 else
@@ -298,10 +298,10 @@ public class E2UData {
         for(cPosto posto : listaPostos){
             for(cDisponibilidadesByTempo c : listaDisponibilidades){
                 if(c.getIdPosto() == posto.getIdPosto()){
-                    sb.append("Posto: " + posto.getLocalizacao() + " ; ");
-                    sb.append("Preço: " + posto.getPrecoCarregamento() + " ; ");
+                    sb.append("Posto:" + posto.getLocalizacao() + "; ");
+                    sb.append("Preço:" + posto.getPrecoCarregamento() + "; ");
                     cIntervaloTempo intervalo = listaTempos.get(pesquisaIntervaloById(c.getIdIntervaloTempo()));
-                    sb.append("Intervalo: "+intervalo.getHoraInicio() + "-" + intervalo.getHoraFim()+ " ; Estado: ");
+                    sb.append("Intervalo:"+intervalo.getHoraInicio() + " às " + intervalo.getHoraFim()+ "; Estado: ");
                     if(c.isDisponibilidade())
                         sb.append("Disponivel");
                     else
@@ -345,10 +345,10 @@ public class E2UData {
                     for(cDisponibilidadesByTempo c : listaDisponibilidades){
                         if(c.getIdPosto() == posto.getIdPosto() && c.getIdIntervaloTempo()==idIntervalo(tempo)){
                             conta++;
-                            sb.append("Posto: " + posto.getLocalizacao() + " ; ");
-                            sb.append("Preço: " + posto.getPrecoCarregamento() + " ; ");
+                            sb.append("Posto:" + posto.getLocalizacao() + "; ");
+                            sb.append("Preço:" + posto.getPrecoCarregamento() + "; ");
                             cIntervaloTempo intervalo = listaTempos.get(pesquisaIntervaloById(c.getIdIntervaloTempo()));
-                            sb.append("Intervalo: "+intervalo.getHoraInicio() + "-" + intervalo.getHoraFim()+ " ; Estado: ");
+                            sb.append("Intervalo:"+intervalo.getHoraInicio() + " às " + intervalo.getHoraFim()+ "; Estado: ");
                             if(c.isDisponibilidade())
                                 sb.append("Disponivel");
                             else
@@ -366,10 +366,10 @@ public class E2UData {
                 for(cDisponibilidadesByTempo c : listaDisponibilidades){
                     if(c.getIdPosto() == posto.getIdPosto() && c.getIdIntervaloTempo()==idIntervalo(tempo)){
                         conta++;
-                        sb.append("Posto: " + posto.getLocalizacao() + " ; ");
-                        sb.append("Preço: " + posto.getPrecoCarregamento() + " ; ");
+                        sb.append("Posto:" + posto.getLocalizacao() + "; ");
+                        sb.append("Preço:" + posto.getPrecoCarregamento() + "; ");
                         cIntervaloTempo intervalo = listaTempos.get(pesquisaIntervaloById(c.getIdIntervaloTempo()));
-                        sb.append("Intervalo: "+intervalo.getHoraInicio() + "-" + intervalo.getHoraFim()+ " ; Estado: ");
+                        sb.append("Intervalo:"+intervalo.getHoraInicio() + " às " + intervalo.getHoraFim()+ "; Estado: ");
                         if(c.isDisponibilidade())
                             sb.append("Disponivel");
                         else
@@ -390,10 +390,10 @@ public class E2UData {
                     for(cDisponibilidadesByTempo c : listaDisponibilidades){
                         if(c.getIdPosto() == posto.getIdPosto()){
                             conta++;
-                            sb.append("Posto: " + posto.getLocalizacao() + " ; ");
-                            sb.append("Preço: " + posto.getPrecoCarregamento() + " ; ");
+                            sb.append("Posto:" + posto.getLocalizacao() + "; ");
+                            sb.append("Preço: " + posto.getPrecoCarregamento() + "; ");
                             cIntervaloTempo intervalo = listaTempos.get(pesquisaIntervaloById(c.getIdIntervaloTempo()));
-                            sb.append("Intervalo: "+intervalo.getHoraInicio() + "-" + intervalo.getHoraFim()+ " ; Estado: ");
+                            sb.append("Intervalo:"+intervalo.getHoraInicio() + " às " + intervalo.getHoraFim()+ "; Estado: ");
                             if(c.isDisponibilidade())
                                 sb.append("Disponivel");
                             else
@@ -450,7 +450,7 @@ public class E2UData {
         for(cReserva reserva : listaReservas){
             if(reserva.getSestado().equalsIgnoreCase("Ativa")){
                 pendentes.add("Posto:" +getPosto(reserva.getIidPosto())+"; Data: " + reserva.getDiaReserva() + " "
-                + getHorario(reserva.getIidIntervaloTempo())+" Preço: " + reserva.getDcustoPrevisto());
+                + getHorario(reserva.getIidIntervaloTempo())+"; Preço: " + reserva.getDcustoPrevisto());
             
                 conta++;                
             }
@@ -463,20 +463,22 @@ public class E2UData {
     
           
     public boolean efetuarReserva(String sdados){
-        HashMap<String,String> a =ResolveMessages(sdados);
+        HashMap<String,String> a =ResolveMessages(sdados);   
         Integer idPosto = null,idIntervalo = null;
         for(cPosto posto : listaPostos){
             if(posto.getLocalizacao().equals(a.get("Posto")))
                 idPosto = posto.getIdPosto();
         }
+        
         for(cIntervaloTempo intervalo : listaTempos){
-            if((intervalo.getHoraInicio()+"-"+intervalo.getHoraFim()).equals(a.get("Intervalo")))
+            if((intervalo.getHoraInicio()+" às "+intervalo.getHoraFim()).equals(a.get(" Intervalo")))
                 idIntervalo = intervalo.getIdIntervalo();
         }
         if(idPosto == null || idIntervalo == null)return false;
-        listaReservas.add(new cReserva(Double.parseDouble(a.get("Preço")) * 30,idPosto,userLogado,idIntervalo));
+        listaReservas.add(new cReserva(Double.parseDouble(a.get(" Preço")) * 30,idPosto,userLogado,idIntervalo));
         return true;
     }
+    
     public boolean cancelarReserva(String sdados){
         HashMap<String,String> a =ResolveMessages(sdados);
         Integer idPosto = null,idIntervalo = null;
@@ -485,7 +487,7 @@ public class E2UData {
                 idPosto = posto.getIdPosto();
         }
         for(cIntervaloTempo intervalo : listaTempos){
-            if((intervalo.getHoraInicio()+"-"+intervalo.getHoraFim()).equals(a.get("Data")))
+            if((intervalo.getHoraInicio()+" às "+intervalo.getHoraFim()).equals(a.get(" Data").substring(16)))
                 idIntervalo = intervalo.getIdIntervalo();
         }
         if(idPosto == null || idIntervalo == null)return false;
