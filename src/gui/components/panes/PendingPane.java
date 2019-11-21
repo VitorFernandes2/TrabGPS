@@ -30,6 +30,8 @@ public class PendingPane extends StackPane implements PropertyChangeListener {
 
     public PendingPane(E2ULogic logic) {
         this.logic = logic;
+        this.logic.addPropertyChangeListener(this);
+        
         createComponents();
         propertyChange(null);
     }

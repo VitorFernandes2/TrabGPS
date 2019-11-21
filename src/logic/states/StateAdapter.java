@@ -55,18 +55,20 @@ public class StateAdapter implements IStates {
     public IStates efetuaItinerario(String partida, String destino) {
         return null;
     }
-    
+
     @Override
     public IStates goToPendentes() {
-        return null;
+        return new EsperaPendentes(data);
     }
-    
+
     @Override
     public IStates goToHistorico() {
-        return null;
-    }@Override
+        return new EsperaHistorico(data);
+    }
+
+    @Override
     public IStates goToItinerario() {
-        return null;
+        return new EsperaItinerario(data);
     }
 
     @Override

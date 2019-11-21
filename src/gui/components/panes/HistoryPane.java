@@ -32,6 +32,8 @@ public class HistoryPane extends StackPane implements PropertyChangeListener {
 
     public HistoryPane(E2ULogic logic) {
         this.logic = logic;
+        this.logic.addPropertyChangeListener(this);
+
         createComponents();
         propertyChange(null);
     }
@@ -110,7 +112,6 @@ public class HistoryPane extends StackPane implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        setVisible(this.logic.inHistorico());
+        this.setVisible(this.logic.inHistorico());
     }
-
 }

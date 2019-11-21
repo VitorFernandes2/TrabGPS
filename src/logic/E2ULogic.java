@@ -32,19 +32,19 @@ public class E2ULogic extends PropertyChangeSupport {
         return this.state instanceof EsperaPesquisa;
     }
     public boolean inLogout(){
-        return this.state instanceof AwaitLogout;
+        return this.state instanceof EsperaLogout;
     }
     public boolean inReserva(){
-        return this.state instanceof VerificaReserva;
+        return this.state instanceof EsperaReserva;
     }
     public boolean inPendentes(){
-        return this.state instanceof VerificaPendentes;
+        return this.state instanceof EsperaPendentes;
     }
     public boolean inHistorico(){
-        return this.state instanceof VerificaHistorico;
+        return this.state instanceof EsperaHistorico;
     }
     public boolean inItinerario(){
-        return this.state instanceof VerificaItinerario;
+        return this.state instanceof EsperaItinerario;
     }
     
     public int getErro(){
@@ -56,7 +56,6 @@ public class E2ULogic extends PropertyChangeSupport {
         if (inRegister()){
 
             this.state = this.state.goToLogin();
-            // informa o estado da interface
             firePropertyChange(null, false, true);
         }
     }
@@ -65,40 +64,33 @@ public class E2ULogic extends PropertyChangeSupport {
 
         if (inLogin()){
             this.state = this.state.goToRegisto();
-            // informa o estado da interface
             firePropertyChange(null, false, true);
         }
     }
+
     public void goToHistorico(){
 
-        if (inQuery()){
-            this.state = this.state.goToHistorico();
-            // informa o estado da interface
-            firePropertyChange(null, false, true);
-        }
+        this.state = this.state.goToHistorico();
+        firePropertyChange(null, false, true);
+
     }
     public void goToPendentes(){
 
-        if (inQuery()){
-            this.state = this.state.goToPendentes();
-            // informa o estado da interface
-            firePropertyChange(null, false, true);
-        }
+        this.state = this.state.goToPendentes();
+        firePropertyChange(null, false, true);
+
     }
     public void goToItinerario(){
 
-        if (inQuery()){
-            this.state = this.state.goToItinerario();
-            // informa o estado da interface
-            firePropertyChange(null, false, true);
-        }
+        this.state = this.state.goToItinerario();
+        firePropertyChange(null, false, true);
+
     }
 
      public void goToPesquisa(){
 
-            this.state = this.state.goToPesquisa();
-            // informa o estado da interface
-            firePropertyChange(null, false, true);
+        this.state = this.state.goToPesquisa();
+        firePropertyChange(null, false, true);
         
     }
     

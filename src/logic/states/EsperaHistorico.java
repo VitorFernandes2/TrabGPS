@@ -11,17 +11,15 @@ import logic.E2UData;
  *
  * @author Bruno Ferreira
  */
-public class VerificaPendentes extends StateAdapter{
+public class EsperaHistorico extends StateAdapter{
     
-     public VerificaPendentes(E2UData data) {
+     public EsperaHistorico(E2UData data) {
         this.data = data;
     }
      
-     @Override
-    public IStates consultaPendentes() {
-        
-        data.getListaPendentes();
-        
+      @Override
+    public IStates consultaHistorico() {
+        data.getListaHistorico();
         return this;
     }
     
