@@ -116,13 +116,13 @@ public class cIntenerario {
                 }
                 else if(i == iTamWaypoints - 1){
                     sbFinal.append("Localização: ").append(sChegada).append(" Distância: ").append(lsWaypointDistance.get(i))
-                            .append(" km Horas de Chegada: ").append(lsWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
+                            .append(" km Horas para Chegada: ").append(lsWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
                             .append(":").append(lsWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
                             .append(lsWaypointDate.get(i).get(Calendar.SECOND));
                 }
                 else{
                     sbFinal.append("Localização: ").append(alPosto.get(j).getLocalizacao()).append(" Distância: ").append(lsWaypointDistance.get(i))
-                            .append(" km Horas de Chegada: ").append(lsWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
+                            .append(" km Horas para Chegada: ").append(lsWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
                             .append(":").append(lsWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
                             .append(lsWaypointDate.get(i).get(Calendar.SECOND));
                     j++;
@@ -194,11 +194,14 @@ public class cIntenerario {
             alTimeArray.add(sCut[i].split(sPesquisa)[1].split(sEndString3)[0]);
         }
         
+        cdlDate.set(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, 0, 0, 0);
+        
         lsWayPointTime.add(cdlDate);
         
         for(int i = 0; i < alTimeArray.size(); i++){
             soma += Integer.valueOf(alTimeArray.get(i));
             Calendar cdlDatenew = Calendar.getInstance();
+            cdlDatenew.set(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, 0, 0, 0);
             cdlDatenew.setTimeInMillis(cdlDatenew.getTimeInMillis() + soma * 1000);
             lsWayPointTime.add(cdlDatenew);
         }
@@ -206,6 +209,7 @@ public class cIntenerario {
         soma += Integer.valueOf(sInfo.split("\"travelDurationTraffic\":")[1].split(",")[0]);
         
         Calendar cldNewCalendar = Calendar.getInstance();
+        cldNewCalendar.set(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, 0, 0, 0);
         
         cldNewCalendar.setTimeInMillis(cldNewCalendar.getTimeInMillis() + soma * 1000);
         
