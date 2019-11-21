@@ -39,7 +39,7 @@ public class cIntenerario {
             Logger.getLogger(cIntenerario.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        ArrayList<String> estee = getdirection("Faro", "Lisboa");
+        ArrayList<String> estee = getdirection("Faro", "Porto");
         
         for(String este : estee){
             System.out.println(este);
@@ -65,10 +65,6 @@ public class cIntenerario {
             bfReader.close();
             
             alOutput = getsimplepost(sPartida, sChegada, getdistrict(sInfo));
-
-            for(cPosto s : alOutput){
-                System.out.println(s.getLocalizacao());
-            }
             
             definegpsiniciais(sInfo);
             
@@ -103,8 +99,8 @@ public class cIntenerario {
             
             lsCaminhoDetalhado = getintenerario(sInfo);
             
-            lsWaypointDate = getTime(sInfo, iTamWaypoints);
-            lsWaypointDistance = getDisTotal(sInfo, iTamWaypoints);
+            lsWaypointDate = getTime(sInfo);
+            lsWaypointDistance = getDisTotal(sInfo);
 
             bfReader.close();
             
@@ -149,7 +145,7 @@ public class cIntenerario {
         StringBuilder sbLink = new StringBuilder();
         String sRegNome;
         int i = 0;
-        sbLink.append("wp").append(i++).append("=").append(sInicial.trim());
+        sbLink.append("wp.").append(i++).append("=").append(sInicial.trim());
         if(alPosto != null){
             for(cPosto cpostoPP : alPosto){
                 String sPostoName = cpostoPP.getLocalizacao();
@@ -186,74 +182,58 @@ public class cIntenerario {
         return null;
     }
     
-    public static List<Calendar> getTime(String sInfo, int iTamWaypoints) {
+    public static List<Calendar>getTime(String sInfo) {
+        int soma = 0;
+        Calendar cdlDate = Calendar.getInstance();
         String sPesquisa = "," + "\"" + "travelDuration" + "\"" + ":";
-        String sEndString = "}";
         String sEndString3 = "}],";
-        boolean bSave = false;
-        
+        ArrayList<Calendar> lsWayPointTime = new ArrayList<>();
         ArrayList<String> alTimeArray = new ArrayList<>();
         String [] sCut = sInfo.split("startWaypoint");
-        for(String sCutPart : sCut){
-            String sMsg = sCutPart.split(sPesquisa)[1];
-            System.out.println("Tempo Final do WayPoint Antes: " + sMsg);
-            String sCopyin = sMsg;
-            String sTravelTime = sCopyin.split(sEndString3)[1];
-            String sTravelTimeFinal = sTravelTime.split(",")[0];
-            System.out.println("Tempo Final do WayPoint: " + sTravelTimeFinal);
-            alTimeArray.add(sTravelTimeFinal);
+        for(int i = 1; i < sCut.length; i++){
+            alTimeArray.add(sCut[i].split(sPesquisa)[1].split(sEndString3)[0]);
         }
         
-        Calendar cldInitial = Calendar.getInstance();
+        lsWayPointTime.add(cdlDate);
         
-        List<Calendar> lsWayPointTime = new ArrayList<>();
-        
-        lsWayPointTime.add(cldInitial);
-        
-        for(int i = 0; i < iTamWaypoints - 1; i++){
-            cldInitial.setTimeInMillis(cldInitial.getTimeInMillis() + Long.valueOf(alTimeArray.get(i))*1000);
-            lsWayPointTime.add(cldInitial);
+        for(int i = 0; i < alTimeArray.size(); i++){
+            soma += Integer.valueOf(alTimeArray.get(i));
+            Calendar cdlDatenew = Calendar.getInstance();
+            cdlDatenew.setTimeInMillis(cdlDatenew.getTimeInMillis() + soma * 1000);
+            lsWayPointTime.add(cdlDatenew);
         }
+        
+        soma += Integer.valueOf(sInfo.split("\"travelDurationTraffic\":")[1].split(",")[0]);
+        
+        Calendar cldNewCalendar = Calendar.getInstance();
+        
+        cldNewCalendar.setTimeInMillis(cldNewCalendar.getTimeInMillis() + soma * 1000);
+        
+        lsWayPointTime.add(cldNewCalendar);
         
         return lsWayPointTime;
     }
     
-    private static List<Double> getDisTotal(String sInfo, int iTamWaypoints) {
-        String sPesquisa = "]}," + "\"" + "travelDistance" + "\"" + ":";
+    private static List<Double> getDisTotal(String sInfo) {
+        String sPesquisa = "}," + "\"" + "travelDistance" + "\"" + ":";
         String sEndString = ",";
-        double dDistanceTotal = 0.0;
-        boolean bSave = false;
+        Double dDistanceTotal = 0.0;
         List<Double> lsWayPointDistance = new ArrayList<>();
-        
         ArrayList<String> sDistanceArray = new ArrayList<>();
+        String [] sCut = sInfo.split("startWaypoint");
         
-        while(sInfo.contains(sPesquisa)){
-            
-            sInfo = sInfo.substring(sInfo.indexOf(sPesquisa)+sPesquisa.length());
-            
-            String sCopyin = sInfo;
-            String sMsg = sCopyin.split(sEndString)[0];
-            if(bSave){
-                sDistanceArray.add(sMsg);
-                System.out.println("dist teste: " + sMsg);
-                bSave = false;
-            }
-            if(Double.parseDouble(sMsg) == 0.0){
-                bSave = true;
-            }
+        for(int i = 1; i < sCut.length; i++){
+            sDistanceArray.add(sCut[i].split(sPesquisa)[1].split(sEndString)[0]);
         }
         
-        lsWayPointDistance.add(0.0);
+        lsWayPointDistance.add(dDistanceTotal);
         
-        for(String e : sDistanceArray){
-            System.out.println("dist:" + e);
-        }
-        
-        for(int i = 0; i < iTamWaypoints - 1; i++){
-            dDistanceTotal += Double.parseDouble(sDistanceArray.get(i));
-            System.out.println("Distancia:" + dDistanceTotal);
+        for(int i = 0; i < sDistanceArray.size(); i++){
+            dDistanceTotal += Double.valueOf(sDistanceArray.get(i));
             lsWayPointDistance.add(dDistanceTotal);
         }
+        
+        lsWayPointDistance.add(getDistance(sInfo));
         
         return lsWayPointDistance;
     }
@@ -314,10 +294,6 @@ public class cIntenerario {
     
     private static String postotodistrict (int iIdPorto){
         
-        System.out.println("Existe algo: " + e2udData.getListaPostos().size());
-        
-        System.out.println("IDD: " + e2udData.getListaPostos().get(iIdPorto));
-        
         //return  e2udData.getListaRegioes().get(iIdRegiao).getNomeRegiao();
         return e2udData.getListaPostos().get(iIdPorto).getDistrito().Distrito;
     }
@@ -369,19 +345,15 @@ public class cIntenerario {
 
         }
         
-        for(int i = 0; i < alDirectionArray.size();i++){
-            System.out.println("Distrito: " + alDirectionArray.get(i));
-        }
-        
         return alDirectionArray;
         
     }
 
-    private static void getDistance(String sInfo) {
+    private static Double getDistance(String sInfo) {
 
         String sDistance = null;
         String sPesquisa = "travelDistance" + "\"" + ":";
-        String sEndString = ",";
+        String sEndString = ",\"travelDuration\":";
         
         
         while(sInfo.contains(sPesquisa)){
@@ -392,7 +364,7 @@ public class cIntenerario {
             sDistance = sMsg;
         }
         
-        System.out.println("Distancia: " + sDistance + " km");
+        return Double.valueOf(sDistance);
             
     }
 
@@ -413,8 +385,6 @@ public class cIntenerario {
             String sMsg = sCopyin.split(sEndString)[0];
             sDistance = sMsg;
         }
-        
-        System.out.println("Distancia: " + sDistance + " km");
         
         dPartidaLong = Double.parseDouble(sDistance.split(",")[0]);
         dPartidaLat = Double.parseDouble(sDistance.split(",")[1]);
