@@ -90,7 +90,7 @@ public class cIntenerario {
         
         try {
             
-            URL urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?" + wpCreator(sPartida, alPosto, sChegada) + "&optmz=timeWithTraffic&c=pt-PT&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
+            URL urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?" + wpCreator(sPartida.trim(), alPosto, sChegada.trim()) + "&optmz=timeWithTraffic&c=pt-PT&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
 
             URLConnection urlcReturnado = urlTest.openConnection();
 
@@ -189,31 +189,19 @@ public class cIntenerario {
     public static List<Calendar> getTime(String sInfo, int iTamWaypoints) {
         String sPesquisa = "," + "\"" + "travelDuration" + "\"" + ":";
         String sEndString = "}";
-        String sEndString2 = "]";
-        String sEndString3 = "}";
+        String sEndString3 = "}],";
         boolean bSave = false;
         
         ArrayList<String> alTimeArray = new ArrayList<>();
-        
-        while(sInfo.contains(sPesquisa)){
-            
-            sInfo = sInfo.substring(sInfo.indexOf(sPesquisa)+sPesquisa.length());
-            
-            String sCopyin = sInfo;
-            System.out.println("Antes tempo: " + sCopyin);
-            String sMsg = sCopyin.split(sEndString)[0];
-            if(sMsg.contains(sEndString2) || sMsg.contains(sEndString3)){
-                sMsg = sMsg.replace("]", "");
-                sMsg = sMsg.replace("}", "");
-            }
-            if(bSave){
-                alTimeArray.add(sMsg);
-                System.out.println("Tempo teste: " + sMsg);
-                bSave = false;
-            }
-            if(Integer.parseInt(sMsg) == 0){
-                bSave = true;
-            }
+        String [] sCut = sInfo.split("startWaypoint");
+        for(String sCutPart : sCut){
+            String sMsg = sCutPart.split(sPesquisa)[1];
+            System.out.println("Tempo Final do WayPoint Antes: " + sMsg);
+            String sCopyin = sMsg;
+            String sTravelTime = sCopyin.split(sEndString3)[1];
+            String sTravelTimeFinal = sTravelTime.split(",")[0];
+            System.out.println("Tempo Final do WayPoint: " + sTravelTimeFinal);
+            alTimeArray.add(sTravelTimeFinal);
         }
         
         Calendar cldInitial = Calendar.getInstance();
