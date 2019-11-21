@@ -8,6 +8,7 @@ public class cPosto {
     private double dprecoCarregamento;
     private double longitude;
     private double latitude;
+    private cDistrito distrito;
 
     public cPosto(int idRegiao, String localizacao, double dprecoCarregamento) {
         this.iidRegiao = idRegiao;
@@ -15,13 +16,14 @@ public class cPosto {
         this.dprecoCarregamento = dprecoCarregamento;
         iidPosto=icontaPosto++;
     }
-    public cPosto(int idRegiao, String localizacao, double dprecoCarregamento,double longitude,double latitude) {
+    public cPosto(int idRegiao, String localizacao, double dprecoCarregamento,double longitude,double latitude, String distrit) {
         this.iidRegiao = idRegiao;
         this.slocalizacao = localizacao;
         this.dprecoCarregamento = dprecoCarregamento;
         iidPosto=icontaPosto++;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.distrito = new cDistrito(distrit);
     }
 
     public double getLongitude() {
@@ -70,6 +72,14 @@ public class cPosto {
 
     public void setPrecoCarregamento(double dprecoCarregamento) {
         this.dprecoCarregamento = dprecoCarregamento;
+    }
+
+    public cDistrito getDistrito() {
+        return distrito;
+    }
+
+    public void setDistrito(cDistrito distrito) {
+        this.distrito = distrito;
     }
     
     

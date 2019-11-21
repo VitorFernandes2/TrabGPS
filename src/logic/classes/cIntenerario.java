@@ -34,7 +34,7 @@ public class cIntenerario {
         
         try {
             
-            URL urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + sPartida + ",PT&wp.1=" + sChegada + ",PT&c=pt-PT&optmz=sDistance&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
+            URL urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + sPartida + ",PT&wp.1=" + sChegada + ",PT&c=pt-PT&optmz=timeWithTraffic&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
             
             URLConnection urlcReturnado = urlTest.openConnection();
             
@@ -68,7 +68,7 @@ public class cIntenerario {
         
         try {
             
-            URL urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?" + wpCreator(sPartida, alPosto, sChegada) + "&optmz=sDistance&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
+            URL urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?" + wpCreator(sPartida, alPosto, sChegada) + "&optmz=timeWithTraffic&c=pt-PT&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
 
             URLConnection urlcReturnado = urlTest.openConnection();
 
@@ -347,8 +347,8 @@ public class cIntenerario {
              e2udInformation = new E2UData();
         }catch (IOException ex){return "-1";}
         
-        return  e2udInformation.getListaRegioes().get(iIdRegiao).getNomeRegiao();
-        
+        //return  e2udInformation.getListaRegioes().get(iIdRegiao).getNomeRegiao();
+        return e2udInformation.getListaPostos().get(iIdRegiao).getDistrito().getDistrito();
     }
     
     public static ArrayList<String> getintenerario (String sInfo){
