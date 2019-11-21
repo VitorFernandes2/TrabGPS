@@ -31,7 +31,7 @@ public class PendingPane extends StackPane implements PropertyChangeListener {
     public PendingPane(E2ULogic logic) {
         this.logic = logic;
         this.logic.addPropertyChangeListener(this);
-        
+
         createComponents();
         propertyChange(null);
     }
@@ -81,8 +81,10 @@ public class PendingPane extends StackPane implements PropertyChangeListener {
 
                  QueryButton btCancelar = new QueryButton("Cancelar Reserva");
 
+                 String item = lista.get(i);
+
                 btCancelar.setOnMouseClicked(event -> {
-                    //Ação para cancelar
+                    this.logic.cancelarReservas(item);
                 });
 
                 HBox InfoDispo = new HBox(btCancelar);
@@ -109,6 +111,8 @@ public class PendingPane extends StackPane implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         setVisible(this.logic.inPendentes());
+        listaDados.getItems().clear();
+        acrescentaDados(this.logic.getListaPendentes());
     }
 
 }

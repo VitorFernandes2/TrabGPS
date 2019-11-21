@@ -16,6 +16,7 @@ public interface IStates {
     public IStates goToHistorico();
     public IStates goToItinerario();
     public IStates goToPesquisa();
+    public IStates cancelarReserva(String dados);
 
     
 }

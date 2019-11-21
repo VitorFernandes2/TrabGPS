@@ -15,4 +15,11 @@ public class EsperaPesquisa extends StateAdapter {
         return super.Pesquisa(sLocalidade, shoraInicio, sHoraFim);
     }
 
+    @Override
+    public IStates efetuaReserva(String dados) {
+        if(data.efetuarReserva(dados))
+            return new EsperaPendentes(data);
+
+        return new EsperaPesquisa(data);
+    }
 }

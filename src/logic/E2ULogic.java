@@ -34,9 +34,6 @@ public class E2ULogic extends PropertyChangeSupport {
     public boolean inLogout(){
         return this.state instanceof EsperaLogout;
     }
-    public boolean inReserva(){
-        return this.state instanceof EsperaReserva;
-    }
     public boolean inPendentes(){
         return this.state instanceof EsperaPendentes;
     }
@@ -127,17 +124,15 @@ public class E2ULogic extends PropertyChangeSupport {
         }
     }
     
-    public void historico(){
+    public HashMap<Integer,HashMap<String, String>> historico(){
 
-        if (inHistorico()){
-            this.state = this.state.consultaHistorico();
-            firePropertyChange(null, false, true);
-        }
+        return this.data.getListaHistorico();
+
     }
     
      public void reserva(String dados){
 
-        if (inReserva()){
+        if (inQuery()){
             this.state = this.state.efetuaReserva(dados);
             firePropertyChange(null, false, true);
         }
@@ -181,12 +176,19 @@ public class E2ULogic extends PropertyChangeSupport {
         return data.infoPostosByPesquisa(regiao,tempo);
     }
     
-     public List<String> getListaPendentes(){
+    public List<String> getListaPendentes(){
         return data.getListaPendentes();
     }
      
     public HashMap<Integer,HashMap<String,String>> getListaHistorico(){
         return data.getListaHistorico();
+    }
+
+    public void cancelarReservas(String dados){
+        if (inPendentes()){
+            this.state = this.state.cancelarReserva(dados);
+            firePropertyChange(null, false, true);
+        }
     }
 
 }

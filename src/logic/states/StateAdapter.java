@@ -76,4 +76,9 @@ public class StateAdapter implements IStates {
         return new EsperaPesquisa(data);
     }
 
+    @Override
+    public IStates cancelarReserva(String dados) {
+        return null;
+    }
+
 }

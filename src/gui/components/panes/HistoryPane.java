@@ -56,8 +56,8 @@ public class HistoryPane extends StackPane implements PropertyChangeListener {
 
         listaDados = new LsView();
         mainMenuBar = new MainMenuBar(logic);
-        //acrescentaDados(this.logic.historico());
-       // acrescentaDados(this.logic.inHistorico());
+
+        acrescentaDados(this.logic.historico());
 
         dataPanel.getChildren().addAll(listaDados);
         mainPanel.getChildren().addAll(titleLabel, dataPanel);
@@ -113,5 +113,7 @@ public class HistoryPane extends StackPane implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         this.setVisible(this.logic.inHistorico());
+        listaDados.getItems().clear();
+        acrescentaDados(this.logic.historico());
     }
 }

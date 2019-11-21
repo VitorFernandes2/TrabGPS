@@ -24,5 +24,13 @@ public class EsperaPendentes extends StateAdapter{
         
         return this;
     }
-    
+
+    @Override
+    public IStates cancelarReserva(String dados) {
+
+        data.cancelarReserva(dados);
+        return new EsperaPendentes(data);
+
+    }
+
 }
