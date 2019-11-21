@@ -114,6 +114,11 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
 
             Label TextPost = new Label(item);
             QueryButton testButton = new QueryButton("Reservar");
+            testButton.setOnMouseClicked(evt -> {
+
+                this.logic.reserva(item);
+
+            });
 
             HBox box2 = new HBox(TextPost);
             box2.setAlignment(Pos.CENTER_LEFT);
@@ -154,6 +159,11 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
 
                 Label TextPost = new Label(item);
                 QueryButton testButton = new QueryButton("Reservar");
+                testButton.setOnMouseClicked(evt -> {
+
+                    this.logic.reserva(item);
+
+                });
 
                 HBox box2 = new HBox(TextPost);
                 box2.setAlignment(Pos.CENTER_LEFT);

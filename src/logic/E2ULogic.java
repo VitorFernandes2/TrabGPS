@@ -32,19 +32,16 @@ public class E2ULogic extends PropertyChangeSupport {
         return this.state instanceof EsperaPesquisa;
     }
     public boolean inLogout(){
-        return this.state instanceof AwaitLogout;
-    }
-    public boolean inReserva(){
-        return this.state instanceof VerificaReserva;
+        return this.state instanceof EsperaLogout;
     }
     public boolean inPendentes(){
-        return this.state instanceof VerificaPendentes;
+        return this.state instanceof EsperaPendentes;
     }
     public boolean inHistorico(){
-        return this.state instanceof VerificaHistorico;
+        return this.state instanceof EsperaHistorico;
     }
     public boolean inItinerario(){
-        return this.state instanceof VerificaItinerario;
+        return this.state instanceof EsperaItinerario;
     }
     
     public int getErro(){
@@ -56,7 +53,6 @@ public class E2ULogic extends PropertyChangeSupport {
         if (inRegister()){
 
             this.state = this.state.goToLogin();
-            // informa o estado da interface
             firePropertyChange(null, false, true);
         }
     }
@@ -65,40 +61,33 @@ public class E2ULogic extends PropertyChangeSupport {
 
         if (inLogin()){
             this.state = this.state.goToRegisto();
-            // informa o estado da interface
             firePropertyChange(null, false, true);
         }
     }
+
     public void goToHistorico(){
 
-        if (inQuery()){
-            this.state = this.state.goToHistorico();
-            // informa o estado da interface
-            firePropertyChange(null, false, true);
-        }
+        this.state = this.state.goToHistorico();
+        firePropertyChange(null, false, true);
+
     }
     public void goToPendentes(){
 
-        if (inQuery()){
-            this.state = this.state.goToPendentes();
-            // informa o estado da interface
-            firePropertyChange(null, false, true);
-        }
+        this.state = this.state.goToPendentes();
+        firePropertyChange(null, false, true);
+
     }
     public void goToItinerario(){
 
-        if (inQuery()){
-            this.state = this.state.goToItinerario();
-            // informa o estado da interface
-            firePropertyChange(null, false, true);
-        }
+        this.state = this.state.goToItinerario();
+        firePropertyChange(null, false, true);
+
     }
 
      public void goToPesquisa(){
 
-            this.state = this.state.goToPesquisa();
-            // informa o estado da interface
-            firePropertyChange(null, false, true);
+        this.state = this.state.goToPesquisa();
+        firePropertyChange(null, false, true);
         
     }
     
@@ -135,17 +124,15 @@ public class E2ULogic extends PropertyChangeSupport {
         }
     }
     
-    public void historico(){
+    public HashMap<Integer,HashMap<String, String>> historico(){
 
-        if (inHistorico()){
-            this.state = this.state.consultaHistorico();
-            firePropertyChange(null, false, true);
-        }
+        return this.data.getListaHistorico();
+
     }
     
      public void reserva(String dados){
 
-        if (inReserva()){
+        if (inQuery()){
             this.state = this.state.efetuaReserva(dados);
             firePropertyChange(null, false, true);
         }
@@ -189,12 +176,19 @@ public class E2ULogic extends PropertyChangeSupport {
         return data.infoPostosByPesquisa(regiao,tempo);
     }
     
-     public List<String> getListaPendentes(){
+    public List<String> getListaPendentes(){
         return data.getListaPendentes();
     }
      
     public HashMap<Integer,HashMap<String,String>> getListaHistorico(){
         return data.getListaHistorico();
+    }
+
+    public void cancelarReservas(String dados){
+        if (inPendentes()){
+            this.state = this.state.cancelarReserva(dados);
+            firePropertyChange(null, false, true);
+        }
     }
 
 }

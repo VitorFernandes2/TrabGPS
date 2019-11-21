@@ -2,9 +2,9 @@ package logic.states;
 
 import logic.E2UData;
 
-public class AwaitLogout extends StateAdapter {
+public class EsperaLogout extends StateAdapter {
 
-    public AwaitLogout(E2UData data) {
+    public EsperaLogout(E2UData data) {
         this.data = data;
     }
 
