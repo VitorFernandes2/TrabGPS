@@ -65,10 +65,6 @@ public class cIntenerario {
             bfReader.close();
             
             alOutput = getsimplepost(sPartida, sChegada, getdistrict(sInfo));
-
-            for(cPosto s : alOutput){
-                System.out.println(s.getLocalizacao());
-            }
             
             definegpsiniciais(sInfo);
             
@@ -235,7 +231,6 @@ public class cIntenerario {
         for(int i = 0; i < sDistanceArray.size(); i++){
             dDistanceTotal += Double.valueOf(sDistanceArray.get(i));
             lsWayPointDistance.add(dDistanceTotal);
-            System.out.println("Distancia dentro: " + dDistanceTotal);
         }
         
         lsWayPointDistance.add(getDistance(sInfo));
@@ -299,10 +294,6 @@ public class cIntenerario {
     
     private static String postotodistrict (int iIdPorto){
         
-        System.out.println("Existe algo: " + e2udData.getListaPostos().size());
-        
-        System.out.println("IDD: " + e2udData.getListaPostos().get(iIdPorto));
-        
         //return  e2udData.getListaRegioes().get(iIdRegiao).getNomeRegiao();
         return e2udData.getListaPostos().get(iIdPorto).getDistrito().Distrito;
     }
@@ -354,10 +345,6 @@ public class cIntenerario {
 
         }
         
-        for(int i = 0; i < alDirectionArray.size();i++){
-            System.out.println("Distrito: " + alDirectionArray.get(i));
-        }
-        
         return alDirectionArray;
         
     }
@@ -398,8 +385,6 @@ public class cIntenerario {
             String sMsg = sCopyin.split(sEndString)[0];
             sDistance = sMsg;
         }
-        
-        System.out.println("Distancia: " + sDistance + " km");
         
         dPartidaLong = Double.parseDouble(sDistance.split(",")[0]);
         dPartidaLat = Double.parseDouble(sDistance.split(",")[1]);
