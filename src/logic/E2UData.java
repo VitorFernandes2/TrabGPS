@@ -28,16 +28,8 @@ public class E2UData {
         return listaReservas;
     }
 
-    public void setListaReservas(ArrayList<cReserva> listaReservas) {
-        this.listaReservas = listaReservas;
-    }
-
     public ArrayList<cUtilizador> getListaUtilizadores() {
         return listaUtilizadores;
-    }
-
-    public void setListaUtilizadores(ArrayList<cUtilizador> listaUtilizadores) {
-        this.listaUtilizadores = listaUtilizadores;
     }
 
     public ArrayList<cRegiao> getListaRegioes() {
@@ -79,9 +71,9 @@ public class E2UData {
     public void inicializaListas(){
         listaUtilizadores.add(new cUtilizador("User","123"));
         
-        listaReservas.add(new cReserva(30*1.5,1,1,1));
-        listaReservas.add(new cReserva(10*1.5,1,1,1)); 
-        listaReservas.get(1).setSestado("Efetuada");
+        //listaReservas.add(new cReserva(30*1.5,1,1,1));
+        //listaReservas.add(new cReserva(10*1.5,1,1,1)); 
+        //listaReservas.get(1).setSestado("Efetuada");
         listaRegioes.add(new cRegiao("Cantanhede"));// id 1
         listaRegioes.add(new cRegiao("Coimbra"));// id 2
         listaRegioes.add(new cRegiao("Penela"));// id 3
@@ -141,6 +133,7 @@ public class E2UData {
         listaDisponibilidades.add(new cDisponibilidadesByTempo(5,6,true));//1
         
     }
+    
     public List<String> infoPosto(int id){
     
         List<String> lista = new ArrayList<>();
