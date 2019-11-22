@@ -27,6 +27,7 @@ public class GraphicInterface implements Constants {
         scene.getStylesheets().clear();
         scene.getStylesheets().add(getClass().getResource(sMainCss).toExternalForm());
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream(sLogo)));
+        primaryStage.setMaximized(true);
         primaryStage.show();
 
     }
