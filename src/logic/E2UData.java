@@ -1,14 +1,15 @@
 package logic;
 
-import java.io.IOException;
 import logic.classes.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import static logic.classes.cConstantes.*;
 
 public class E2UData {
@@ -419,10 +420,33 @@ public class E2UData {
         return lista;
     }
     
-    public String getPosto(int id){return listaPostos.get(id).getLocalizacao();}
-    public String getHorario(int id){
-        return "das " + listaTempos.get(id).getHoraInicio() + " às " + listaTempos.get(id).getHoraFim();
+    public String getPosto(int id){
+        for (cPosto item: listaPostos) {
+            if (item.getIdPosto() == id)
+                return item.getLocalizacao();
+        }
+        return null;
     }
+
+    public cIntervaloTempo getIntervaloTempoById(int id){
+
+        for (cIntervaloTempo item : listaTempos)
+            if (item.getIdIntervalo() == id)
+                return item;
+        return null;
+
+    }
+
+    public String getHorario(int id){
+
+        cIntervaloTempo intervaloTempo = getIntervaloTempoById(id);
+
+        if (intervaloTempo != null)
+            return "das " + intervaloTempo.getHoraInicio() + " às " + intervaloTempo.getHoraFim();
+        return "das n às n";
+
+    }
+
     public HashMap<Integer,HashMap<String,String>> getListaHistorico(){
     
         HashMap<Integer,HashMap<String,String>> lista = new HashMap<Integer,HashMap<String,String>>();

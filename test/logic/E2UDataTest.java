@@ -1,15 +1,13 @@
 
 package logic;
 
+import org.junit.*;
+
 import java.io.IOException;
-import java.util.*;
-import logic.classes.*;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class E2UDataTest {
     
