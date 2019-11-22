@@ -1,5 +1,7 @@
 package logic;
 
+import logic.classes.cIntervaloTempo;
+import logic.classes.cRegiao;
 import logic.states.*;
 
 import java.beans.PropertyChangeSupport;
@@ -7,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import logic.classes.*;
 
 public class E2ULogic extends PropertyChangeSupport {
 
@@ -189,6 +190,10 @@ public class E2ULogic extends PropertyChangeSupport {
             this.state = this.state.cancelarReserva(dados);
             firePropertyChange(null, false, true);
         }
+    }
+
+    public ArrayList<String> getdirection(String sPartida, String sChegada){
+        return this.data.getdirection(sPartida, sChegada);
     }
 
 }

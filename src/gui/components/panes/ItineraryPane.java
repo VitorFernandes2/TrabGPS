@@ -1,6 +1,7 @@
 package gui.components.panes;
 
 import gui.components.buttons.GreyButton;
+import gui.components.buttons.QueryButton;
 import gui.components.labels.LabelTitle;
 import gui.components.listviews.LsView;
 import gui.components.menubars.MainMenuBar;
@@ -13,11 +14,12 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import logic.E2ULogic;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItineraryPane extends StackPane implements PropertyChangeListener {
 
@@ -29,7 +31,7 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
     private ChoiceBox cbLocalidadeDestino;
     private VBox centerbox;
     private Button btPesquisa;
-    private LsView lista;
+    private LsView listaDados;
     private CheckBox cb;
 
     public ItineraryPane(E2ULogic logic) {
@@ -53,7 +55,7 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
         borderPane = new BorderPane();
         leftbox = new VBox();
         centerbox = new VBox();
-        lista = new LsView();
+        listaDados = new LsView();
 
         mainMenuBar = new MainMenuBar(logic);
 
@@ -78,7 +80,7 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
 
         leftbox.getChildren().addAll(box, btPesquisa);
         leftbox.setPadding(new Insets(50,0,0,50));
-        centerbox.getChildren().addAll(lista);
+        centerbox.getChildren().addAll(listaDados);
         centerbox.setPadding(new Insets(30,30,0,30));
 
         borderPane.setTop(mainMenuBar);
@@ -90,6 +92,70 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
     }
 
     private void registerListeners(){
+
+        btPesquisa.setOnMouseClicked(e -> {
+
+            String Destino = (String) cbLocalidadeDestino.getValue();
+            String Partida = (String) cbLocalidade.getValue();
+
+            if (Destino != null && Partida != null){
+
+                listaDados.getItems().clear();
+
+                ArrayList<String> directions = this.logic.getdirection(Partida, Destino);
+
+                for (String item : directions){
+
+                    acrescentaDados(directions);
+
+                }
+
+            }
+
+        });
+
+    }
+
+    /**
+     * Esta função acrescenta todos os dados ao histórico, isto permite que o código seja mais limpo
+     */
+    private void acrescentaDados(List<String> lista){
+
+        if (lista.size() > 0){
+            for (int i = 0; i < lista.size(); i++) {
+
+                HBox mainBox = new HBox();
+                HBox linha = new HBox();
+
+                HBox InfoPosto = new HBox(new Label(lista.get(i)));
+                InfoPosto.setAlignment(Pos.CENTER_LEFT);
+
+                QueryButton btCancelar = new QueryButton("Cancelar Reserva");
+
+                String item = lista.get(i);
+
+                btCancelar.setOnMouseClicked(event -> {
+                    this.logic.cancelarReservas(item);
+                });
+
+                HBox InfoDispo = new HBox(btCancelar);
+                InfoDispo.setAlignment(Pos.CENTER_RIGHT);
+
+                linha.getChildren().addAll(InfoPosto, InfoDispo);
+                linha.setHgrow(InfoPosto, Priority.ALWAYS);
+                linha.setHgrow(InfoDispo,Priority.ALWAYS);
+
+                mainBox.getChildren().addAll(linha);
+                mainBox.setHgrow(linha, Priority.ALWAYS);
+                mainBox.setSpacing(30);
+
+                listaDados.getItems().add(mainBox);
+
+            }
+        }
+        else{
+            listaDados.getItems().add(new Label("Não existe nenhuma reserva feita até ao momento."));
+        }
 
     }
 

@@ -9,5 +9,4 @@ public class EsperaItinerario extends StateAdapter{
         this.data = data;
     }
 
-    
 }

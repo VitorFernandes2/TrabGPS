@@ -5,6 +5,8 @@
  */
 package logic.classes;
 
+import logic.E2UData;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,9 +16,6 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import logic.E2UData;
 
 /**
  *
@@ -31,23 +30,9 @@ public class cIntenerario {
     private static double dChegadaLong;
     private static E2UData e2udData;
     
-    public static void main(String [] args){
-        
-        try {
-            e2udData = new E2UData();
-        } catch (IOException ex) {
-            Logger.getLogger(cIntenerario.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        ArrayList<String> estee = getdirection("Faro", "Porto");
-        
-        for(String este : estee){
-            System.out.println(este);
-        }
-    }
-    
-    public static ArrayList<String> getdirection(String sPartida, String sChegada){
-        
+    public static ArrayList<String> getdirection(E2UData data, String sPartida, String sChegada){
+
+        e2udData = data;
         ArrayList<cPosto> alOutput = null;
         
         try {
