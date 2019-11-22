@@ -10,12 +10,6 @@ public class cPosto {
     private double latitude;
     private cDistrito distrito;
 
-    public cPosto(int idRegiao, String localizacao, double dprecoCarregamento) {
-        this.iidRegiao = idRegiao;
-        this.slocalizacao = localizacao;
-        this.dprecoCarregamento = dprecoCarregamento;
-        iidPosto=icontaPosto++;
-    }
     public cPosto(int idRegiao, String localizacao, double dprecoCarregamento,double longitude,double latitude, String distrit) {
         this.iidRegiao = idRegiao;
         this.slocalizacao = localizacao;

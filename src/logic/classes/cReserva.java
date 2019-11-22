@@ -20,7 +20,7 @@ public class cReserva {
         this.dcustoPrevisto = dcustoPrevisto;
         this.iidPosto = idPosto;
         this.iidIntervaloTempo = idIntervaloTempo;
-        this.sestado = "Ativa";
+        this.sestado = "Ativo";
         this.iidUtilizador = idUtilizador;
         iidReserva = icontaReserva++;
         sdiaReserva = getData();

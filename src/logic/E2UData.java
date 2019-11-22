@@ -428,13 +428,13 @@ public class E2UData {
         HashMap<Integer,HashMap<String,String>> lista = new HashMap<Integer,HashMap<String,String>>();
         HashMap<String,String> aux = new HashMap<String,String>();
         int conta = 0;
-        
+        int i = 1;
         for(cReserva reserva : listaReservas){
             if(!reserva.getSestado().equalsIgnoreCase("Ativo")){
                 aux.put("info","Posto: " +getPosto(reserva.getIidPosto())+" Data: " + reserva.getDiaReserva() + " " 
                 + getHorario(reserva.getIidIntervaloTempo())+" Preço: " + reserva.getDcustoPrevisto() );
                 aux.put("estado", reserva.getSestado());
-                lista.put(reserva.getIidReserva(),aux);
+                lista.put(i++,aux);
                 conta++;
             }
        }
@@ -448,7 +448,7 @@ public class E2UData {
         int conta = 0;
         List<String> pendentes = new ArrayList<>();
         for(cReserva reserva : listaReservas){
-            if(reserva.getSestado().equalsIgnoreCase("Ativa")){
+            if(reserva.getSestado().equalsIgnoreCase("Ativo")){
                 pendentes.add("Posto:" +getPosto(reserva.getIidPosto())+"; Data: " + reserva.getDiaReserva() + " "
                 + getHorario(reserva.getIidIntervaloTempo())+"; Preço: " + reserva.getDcustoPrevisto());
             
