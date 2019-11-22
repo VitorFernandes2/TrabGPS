@@ -2,7 +2,6 @@ package gui.components.panes;
 
 import javafx.collections.ObservableList;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import logic.E2ULogic;
 
 import java.beans.PropertyChangeEvent;

@@ -3,21 +3,19 @@ package gui.components.panes;
 import gui.components.labels.LabelTitle;
 import gui.components.listviews.LsView;
 import gui.components.menubars.MainMenuBar;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import logic.E2ULogic;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class HistoryPane extends StackPane implements PropertyChangeListener {
 
@@ -29,6 +27,7 @@ public class HistoryPane extends StackPane implements PropertyChangeListener {
     private Label titlePostosLabel;
     private LsView listaDados;
     private MainMenuBar mainMenuBar;
+    private HBox topBox;
 
     public HistoryPane(E2ULogic logic) {
         this.logic = logic;
@@ -62,7 +61,19 @@ public class HistoryPane extends StackPane implements PropertyChangeListener {
         dataPanel.getChildren().addAll(listaDados);
         mainPanel.getChildren().addAll(titleLabel, dataPanel);
         borderPane.setCenter(mainPanel);
-        borderPane.setTop(mainMenuBar);
+        MenuBar rightBar = new MenuBar();
+        rightBar.getMenus().addAll(new Menu("Logout"));
+
+        Region spacer = new Region();
+        spacer.setBackground(
+                new Background(
+                        new BackgroundFill(Color.web("#383838"), CornerRadii.EMPTY, Insets.EMPTY)
+                )
+        );
+
+        HBox.setHgrow(spacer, Priority.SOMETIMES);
+        topBox = new HBox(mainMenuBar, spacer, rightBar);
+        borderPane.setTop(topBox);
 
         return borderPane;
 

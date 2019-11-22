@@ -499,6 +499,12 @@ public class E2UData {
                 idIntervalo = intervalo.getIdIntervalo();
         }
         if(idPosto == null || idIntervalo == null)return false;
+
+        for(cDisponibilidadesByTempo dips : listaDisponibilidades){
+            if(dips.getIdPosto() == idPosto && dips.getIdIntervaloTempo() == idIntervalo )
+                dips.setDisponibilidade(false);
+        }
+
         listaReservas.add(new cReserva(Double.parseDouble(a.get(" Preço")) * 30,idPosto,userLogado,idIntervalo));
         return true;
     }
@@ -517,7 +523,12 @@ public class E2UData {
         if(idPosto == null || idIntervalo == null)return false;
         for(cReserva reserva : listaReservas){
             if(reserva.getIidUtilizador() == userLogado && reserva.getIidPosto() == idPosto && reserva.getIidIntervaloTempo() == idIntervalo)
-            {  
+            {
+                for(cDisponibilidadesByTempo dips : listaDisponibilidades){
+                    if(dips.getIdPosto() == idPosto && dips.getIdIntervaloTempo() == idIntervalo )
+                        dips.setDisponibilidade(true);
+                }
+                
                 reserva.setSestado("Cancelada");    
                 return true;
             }

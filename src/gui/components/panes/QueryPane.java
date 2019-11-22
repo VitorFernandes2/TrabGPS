@@ -9,9 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -26,7 +24,7 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
     private BorderPane borderPane;
     private MainMenuBar mainMenuBar;
     private VBox leftbox;
-    private VBox vBox;
+    private HBox topBox;
     private LabelTitle lblPesquisa;
     private ChoiceBox cbHorario;
     private HBox hbHorario;
@@ -74,8 +72,19 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
         borderPane = new BorderPane();
         mainMenuBar = new MainMenuBar(logic);
 
-        vBox = new VBox(mainMenuBar);
-        borderPane.setTop(vBox);
+        MenuBar rightBar = new MenuBar();
+        rightBar.getMenus().addAll(new Menu("Logout"));
+
+        Region spacer = new Region();
+        spacer.setBackground(
+                new Background(
+                        new BackgroundFill(Color.web("#383838"), CornerRadii.EMPTY, Insets.EMPTY)
+                )
+        );
+
+        HBox.setHgrow(spacer, Priority.SOMETIMES);
+        topBox = new HBox(mainMenuBar, spacer, rightBar);
+        borderPane.setTop(topBox);
 
         leftbox = new VBox();
         leftbox.setPadding(new Insets(100,0,0,100));

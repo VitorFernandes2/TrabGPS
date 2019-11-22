@@ -9,11 +9,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import logic.E2ULogic;
 
 import java.beans.PropertyChangeEvent;
@@ -33,6 +31,7 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
     private Button btPesquisa;
     private LsView listaDados;
     private CheckBox cb;
+    private HBox topBox;
 
     public ItineraryPane(E2ULogic logic) {
         this.logic = logic;
@@ -83,7 +82,19 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
         centerbox.getChildren().addAll(listaDados);
         centerbox.setPadding(new Insets(30,30,0,30));
 
-        borderPane.setTop(mainMenuBar);
+        MenuBar rightBar = new MenuBar();
+        rightBar.getMenus().addAll(new Menu("Logout"));
+
+        Region spacer = new Region();
+        spacer.setBackground(
+                new Background(
+                        new BackgroundFill(Color.web("#383838"), CornerRadii.EMPTY, Insets.EMPTY)
+                )
+        );
+
+        HBox.setHgrow(spacer, Priority.SOMETIMES);
+        topBox = new HBox(mainMenuBar, spacer, rightBar);
+        borderPane.setTop(topBox);
         borderPane.setCenter(centerbox);
         borderPane.setLeft(leftbox);
 

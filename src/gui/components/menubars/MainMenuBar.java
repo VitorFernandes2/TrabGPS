@@ -1,11 +1,8 @@
 package gui.components.menubars;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import logic.E2ULogic;
 
 public class MainMenuBar extends MenuBar {
@@ -15,10 +12,12 @@ public class MainMenuBar extends MenuBar {
     private Menu menu2;
     private Menu menu3;
     private Menu menu4;
+    private Menu menu5;
     private Label label1;
     private Label label2;
     private Label label3;
     private Label label4;
+    private Label label5;
 
     public MainMenuBar(E2ULogic logic) {
         this.logic = logic;
@@ -39,6 +38,10 @@ public class MainMenuBar extends MenuBar {
         label4.setOnMouseClicked(e -> {
             this.logic.goToPendentes();
         });
+        label5 = new Label("Logout");
+        label5.setOnMouseClicked(e -> {
+            System.exit(0);
+        });
 
         menu1 = new Menu();
         menu1.setGraphic(label1);
@@ -51,6 +54,9 @@ public class MainMenuBar extends MenuBar {
 
         menu4 = new Menu();
         menu4.setGraphic(label4);
+
+        menu5 = new Menu();
+        menu5.setGraphic(label5);
 
         this.getMenus().addAll(menu1, menu2, menu3, menu4);
         this.getStyleClass().add("MainMenuBar");
