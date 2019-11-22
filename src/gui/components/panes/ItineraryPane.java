@@ -124,11 +124,10 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
 
                 ArrayList<String> directions = this.logic.getdirection(Partida, Destino);
 
-                for (String item : directions){
 
-                    acrescentaDados(directions);
+                acrescentaDados(directions);
 
-                }
+                
 
             }
 
@@ -159,9 +158,14 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
                 });
 
                 HBox InfoDispo = new HBox(btCancelar);
+ 
                 InfoDispo.setAlignment(Pos.CENTER_RIGHT);
 
-                linha.getChildren().addAll(InfoPosto, InfoDispo);
+                if(i == 0 || i == lista.size()-1){
+                    linha.getChildren().addAll(InfoPosto);}
+                else {
+                    linha.getChildren().addAll(InfoPosto, InfoDispo);
+                }
                 linha.setHgrow(InfoPosto, Priority.ALWAYS);
                 linha.setHgrow(InfoDispo,Priority.ALWAYS);
 
