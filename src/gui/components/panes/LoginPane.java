@@ -6,13 +6,13 @@ import gui.components.imageviews.ViewImage;
 import gui.components.textfield.PassField;
 import gui.components.textfield.StringTextfield;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import logic.E2ULogic;
 
@@ -67,13 +67,18 @@ public class LoginPane extends StackPane implements Constants, PropertyChangeLis
             pfPalavraPasse.setNormal();
             tfUsername.setNormal();
             label.setVisible(false);
+            label.setText("Nome de Utilizador ou Palavra-passe estão incorretos");
 
             switch (this.logic.getErro()){
                 case 1:
                     tfUsername.setError();
+                    label.setText("Utilizador errado!");
+                    label.setVisible(true);
                     break;
                 case 2:
                     pfPalavraPasse.setError();
+                    label.setText("Palavra-passe errada!");
+                    label.setVisible(true);
                     break;
                 case 3:
                 case 4:
