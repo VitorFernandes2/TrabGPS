@@ -506,7 +506,7 @@ public class E2UData {
             if(dips.getIdPosto() == idPosto && dips.getIdIntervaloTempo() == idIntervalo )
                 dips.setDisponibilidade(false);
         }
-        
+
         return true;
     }
     

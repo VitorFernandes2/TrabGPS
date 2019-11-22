@@ -83,7 +83,16 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
         centerbox.setPadding(new Insets(30,30,0,30));
 
         MenuBar rightBar = new MenuBar();
-        rightBar.getMenus().addAll(new Menu("Logout"));
+        Menu menuLogout = new Menu();
+        Label labelLogout = new Label("Logout");
+
+        //Logout
+        labelLogout.setOnMouseClicked(e -> {
+            this.logic.goToLogin();
+        });
+
+        menuLogout.setGraphic(labelLogout);
+        rightBar.getMenus().addAll(menuLogout);
 
         Region spacer = new Region();
         spacer.setBackground(
@@ -141,12 +150,12 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
                 HBox InfoPosto = new HBox(new Label(lista.get(i)));
                 InfoPosto.setAlignment(Pos.CENTER_LEFT);
 
-                QueryButton btCancelar = new QueryButton("Cancelar Reserva");
+                QueryButton btCancelar = new QueryButton("Reservar Posto");
 
                 String item = lista.get(i);
 
                 btCancelar.setOnMouseClicked(event -> {
-                    this.logic.cancelarReservas(item);
+                    this.logic.reserva(item);
                 });
 
                 HBox InfoDispo = new HBox(btCancelar);

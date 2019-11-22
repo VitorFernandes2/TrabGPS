@@ -51,11 +51,9 @@ public class E2ULogic extends PropertyChangeSupport {
 
     public void goToLogin(){
 
-        if (inRegister()){
-
             this.state = this.state.goToLogin();
             firePropertyChange(null, false, true);
-        }
+
     }
 
     public void goToRegister(){
