@@ -62,7 +62,16 @@ public class HistoryPane extends StackPane implements PropertyChangeListener {
         mainPanel.getChildren().addAll(titleLabel, dataPanel);
         borderPane.setCenter(mainPanel);
         MenuBar rightBar = new MenuBar();
-        rightBar.getMenus().addAll(new Menu("Logout"));
+        Menu menuLogout = new Menu();
+        Label labelLogout = new Label("Logout");
+
+        //Logout
+        labelLogout.setOnMouseClicked(e -> {
+            this.logic.goToLogin();
+        });
+
+        menuLogout.setGraphic(labelLogout);
+        rightBar.getMenus().addAll(menuLogout);
 
         Region spacer = new Region();
         spacer.setBackground(

@@ -73,7 +73,16 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
         mainMenuBar = new MainMenuBar(logic);
 
         MenuBar rightBar = new MenuBar();
-        rightBar.getMenus().addAll(new Menu("Logout"));
+        Menu menuLogout = new Menu();
+        Label labelLogout = new Label("Logout");
+
+        //Logout
+        labelLogout.setOnMouseClicked(e -> {
+            this.logic.goToLogin();
+        });
+
+        menuLogout.setGraphic(labelLogout);
+        rightBar.getMenus().addAll(menuLogout);
 
         Region spacer = new Region();
         spacer.setBackground(

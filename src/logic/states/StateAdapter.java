@@ -13,7 +13,7 @@ public class StateAdapter implements IStates {
 
     @Override
     public IStates goToLogin() {
-        return null;
+        return new EsperaLogin(data);
     }
 
     @Override

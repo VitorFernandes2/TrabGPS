@@ -6,14 +6,15 @@ import gui.components.imageviews.ViewImage;
 import gui.components.textfield.PassField;
 import gui.components.textfield.StringTextfield;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import logic.E2ULogic;
 
@@ -75,21 +76,30 @@ public class RegisterPane extends StackPane implements Constants, PropertyChange
             pfConfirmaPalavraPasse.setNormal();
             pfPalavraPasse.setNormal();
             lErro.setVisible(false);
+            lErro.setText("Utilizador já existe na base de dados");
 
             switch (this.logic.getErro()){
 
                 case 1:
                     tfUsername.setError();
+                    lErro.setText("Insira o nome de utilizador!");
+                    lErro.setVisible(true);
                     break;
                 case 2:
                     pfPalavraPasse.setError();
+                    lErro.setText("Insira a palavra-passe!");
+                    lErro.setVisible(true);
                     break;
                 case 8:
                     pfConfirmaPalavraPasse.setError();
+                    lErro.setText("Insira a confirmação da palavra-passe!");
+                    lErro.setVisible(true);
                     break;
                 case 6:
                     pfPalavraPasse.setError();
                     pfConfirmaPalavraPasse.setError();
+                    lErro.setText("Palavra-passe e confirmação estão diferentes!");
+                    lErro.setVisible(true);
                     break;
                 case 5:
                     //Login mal efetuado
