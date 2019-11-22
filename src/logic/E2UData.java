@@ -115,7 +115,7 @@ public class E2UData {
         listaPostos.add(new cPosto(10,"Rua de Belomonte",2.22, -8.650833, 41.1775625,"Faro"));             // id 9
         listaPostos.add(new cPosto(10,"Rua dos Bacalhoeiros",2.00, -8.6303421, 41.1650502,"Faro"));        // id 10
         
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(1,1,true));//1
+        listaDisponibilidades.add(new cDisponibilidadesByTempo(1,1,false));//1
         listaDisponibilidades.add(new cDisponibilidadesByTempo(1,2,true));//1
         listaDisponibilidades.add(new cDisponibilidadesByTempo(1,3,true));//1
         listaDisponibilidades.add(new cDisponibilidadesByTempo(1,4,true));//1
@@ -450,11 +450,11 @@ public class E2UData {
     public HashMap<Integer,HashMap<String,String>> getListaHistorico(){
     
         HashMap<Integer,HashMap<String,String>> lista = new HashMap<Integer,HashMap<String,String>>();
-        HashMap<String,String> aux = new HashMap<String,String>();
         int conta = 0;
         int i = 1;
         for(cReserva reserva : listaReservas){
             if(!reserva.getSestado().equalsIgnoreCase("Ativo")){
+                HashMap<String,String> aux = new HashMap<String,String>();
                 aux.put("info","Posto: " +getPosto(reserva.getIidPosto())+" Data: " + reserva.getDiaReserva() + " " 
                 + getHorario(reserva.getIidIntervaloTempo())+" Preço: " + reserva.getDcustoPrevisto() );
                 aux.put("estado", reserva.getSestado());
@@ -523,8 +523,11 @@ public class E2UData {
         }
         if(idPosto == null || idIntervalo == null)return false;
         for(cReserva reserva : listaReservas){
-            if(reserva.getIidUtilizador() == userLogado && reserva.getIidPosto() == idPosto && reserva.getIidIntervaloTempo() == idIntervalo)
+            if(reserva.getSestado().equalsIgnoreCase("Ativo") &&
+                reserva.getIidUtilizador() == userLogado && reserva.getIidPosto() == idPosto &&
+                reserva.getIidIntervaloTempo() == idIntervalo)
             {
+
                 for(cDisponibilidadesByTempo dips : listaDisponibilidades){
                     if(dips.getIdPosto() == idPosto && dips.getIdIntervaloTempo() == idIntervalo )
                         dips.setDisponibilidade(true);
