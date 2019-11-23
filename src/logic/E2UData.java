@@ -4,6 +4,7 @@ import logic.classes.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -66,6 +67,22 @@ public class E2UData {
         inicializaListas();
         //getUtilizadorArea();
         userLogado=0;
+        verificaReservas();
+    }
+    
+    public void verificaReservas(){
+    
+        Date dataAtual = new Date();
+
+
+        for(cReserva reserva : listaReservas){
+        Date dataReserva = new Date(reserva.getData());
+        if(dataReserva.compareTo(dataAtual) <= 1)//dataAtual maior
+            reserva.setSestado("Efetuada");
+        }
+
+        
+        
     }
     
     public void inicializaListas(){
