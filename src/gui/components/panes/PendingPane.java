@@ -132,9 +132,14 @@ public class PendingPane extends StackPane implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
         setVisible(this.logic.inPendentes());
-        listaDados.getItems().clear();
-        acrescentaDados(this.logic.getListaPendentes());
+
+        if (!this.logic.inRegister() && !this.logic.inLogin()) {
+            listaDados.getItems().clear();
+            acrescentaDados(this.logic.getListaPendentes());
+        }
+
     }
 
 }

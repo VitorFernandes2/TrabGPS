@@ -132,8 +132,13 @@ public class HistoryPane extends StackPane implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
         this.setVisible(this.logic.inHistorico());
-        listaDados.getItems().clear();
-        acrescentaDados(this.logic.historico());
+
+        if (!this.logic.inRegister() && !this.logic.inLogin()){
+            listaDados.getItems().clear();
+            acrescentaDados(this.logic.historico());
+        }
+
     }
 }

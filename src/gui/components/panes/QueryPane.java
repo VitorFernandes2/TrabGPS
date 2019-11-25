@@ -224,37 +224,45 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
         list.getItems().clear();
-        for (String item : this.logic.getPostos()) {
 
-            Label TextPost = new Label(item);
-            QueryButton testButton = new QueryButton("Reservar");
+        if (!this.logic.inRegister() && !this.logic.inLogin())
+            for (String item : this.logic.getPostos()) {
 
-            testButton.setOnMouseClicked(e -> {
+                Label TextPost = new Label(item);
+                QueryButton testButton = new QueryButton("Reservar");
 
-                this.logic.reserva(item);
+                if (item.contains("Indisponivel"))
+                    testButton.setDisable(true);
 
-            });
+                testButton.setOnMouseClicked(e -> {
 
-            HBox box2 = new HBox(TextPost);
-            box2.setAlignment(Pos.CENTER_LEFT);
-            box2.setHgrow(TextPost, Priority.ALWAYS);
+                    this.logic.reserva(item);
 
-            HBox box4 = new HBox(testButton);
-            box4.setAlignment(Pos.CENTER_RIGHT);
+                });
 
-            HBox mainBox = new HBox(box2);
-            mainBox.setSpacing(20);
-            mainBox.setAlignment(Pos.CENTER_LEFT);
+                HBox box2 = new HBox(TextPost);
+                box2.setAlignment(Pos.CENTER_LEFT);
+                box2.setHgrow(TextPost, Priority.ALWAYS);
 
-            HBox box = new HBox(mainBox, box4);
-            box.setHgrow(mainBox, Priority.ALWAYS);
-            box.setSpacing(30);
+                HBox box4 = new HBox(testButton);
+                box4.setAlignment(Pos.CENTER_RIGHT);
 
-            list.getItems().add(box);
+                HBox mainBox = new HBox(box2);
+                mainBox.setSpacing(20);
+                mainBox.setAlignment(Pos.CENTER_LEFT);
 
-        }
+                HBox box = new HBox(mainBox, box4);
+                box.setHgrow(mainBox, Priority.ALWAYS);
+                box.setSpacing(30);
+
+                list.getItems().add(box);
+
+            }
+
         setVisible(this.logic.inQuery());
+
     }
 
 }

@@ -90,6 +90,8 @@ public class LoginPane extends StackPane implements Constants, PropertyChangeLis
 
             }
 
+            pfPalavraPasse.clear();
+
         });
         hlRegisto.setOnMouseClicked(e -> {
             pfPalavraPasse.setNormal();

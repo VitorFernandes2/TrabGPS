@@ -22,7 +22,7 @@ public class E2UData {
     private ArrayList<cPosto> listaPostos = new ArrayList<>(); 
     private ArrayList<cDisponibilidadesByTempo> listaDisponibilidades = new ArrayList<>(); 
     private String sRegiaoUtilizador;
-    private int erro = 0;
+    private static int erro = 0;
 
     private int userLogado;
     public ArrayList<cReserva> getListaReservas() {
@@ -124,7 +124,7 @@ public class E2UData {
         listaPostos.add(new cPosto(10,"Rua de Belomonte",2.22, -8.650833, 41.1775625,"Faro"));             // id 9
         listaPostos.add(new cPosto(10,"Rua dos Bacalhoeiros",2.00, -8.6303421, 41.1650502,"Faro"));        // id 10
         
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(1,1,false));//1
+        listaDisponibilidades.add(new cDisponibilidadesByTempo(1,1,true));//1
         listaDisponibilidades.add(new cDisponibilidadesByTempo(1,2,true));//1
         listaDisponibilidades.add(new cDisponibilidadesByTempo(1,3,true));//1
         listaDisponibilidades.add(new cDisponibilidadesByTempo(1,4,true));//1
