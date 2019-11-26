@@ -13,23 +13,23 @@ Visto também estes automóveis terem pouca autonomia, exige ao proprietário um
 - [X] Login
 - [X] Registo
 - [X] Consultar Postos
-- [ ] Fazer Reserva
-- [ ] Cancelar Reserva
-- [ ] Consultar Histórico
-- [ ] Definir Itinerário
+- [X] Fazer Reserva
+- [X] Cancelar Reserva
+- [X] Consultar Histórico
+- [X] Definir Itinerário
 > Interface gráfica
 - [X] Login
 - [X] Registo
 - [X] Consultar Postos
-- [ ] Fazer Reserva
-- [ ] Cancelar Reserva
-- [ ] Consultar Histórico
-- [ ] Definir Itinerário
+- [X] Fazer Reserva
+- [X] Cancelar Reserva
+- [X] Consultar Histórico
+- [X] Definir Itinerário
 > Testes
 - [X] Login
 - [X] Registo
 - [X] Consultar Postos
-- [ ] Fazer Reserva
-- [ ] Cancelar Reserva
-- [ ] Consultar Histórico
+- [X] Fazer Reserva
+- [X] Cancelar Reserva
+- [X] Consultar Histórico
 - [ ] Definir Itinerário
