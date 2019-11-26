@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class E2ULogic extends PropertyChangeSupport {
+public class cE2ULogic extends PropertyChangeSupport {
 
     private IStates state;
-    private E2UData data;
+    private cE2UData data;
 
-    public E2ULogic(E2UData data,IStates state) throws IOException {
+    public cE2ULogic(cE2UData data,IStates state) throws IOException {
         super(state);
         this.state = state;
         this.data = data;
@@ -36,13 +36,13 @@ public class E2ULogic extends PropertyChangeSupport {
         return this.state instanceof EsperaLogout;
     }
     public boolean inPendentes(){
-        return this.state instanceof EsperaPendentes;
+        return this.state instanceof VerificaPendentes;
     }
     public boolean inHistorico(){
-        return this.state instanceof EsperaHistorico;
+        return this.state instanceof VerificaHistorico;
     }
     public boolean inItinerario(){
-        return this.state instanceof EsperaItinerario;
+        return this.state instanceof VerificaItinerario;
     }
     
     public int getErro(){

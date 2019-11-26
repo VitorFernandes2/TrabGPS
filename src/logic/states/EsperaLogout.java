@@ -1,10 +1,10 @@
 package logic.states;
 
-import logic.E2UData;
+import logic.cE2UData;
 
 public class EsperaLogout extends StateAdapter {
 
-    public EsperaLogout(E2UData data) {
+    public EsperaLogout(cE2UData data) {
         this.data = data;
     }
 

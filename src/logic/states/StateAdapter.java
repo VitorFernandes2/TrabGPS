@@ -1,10 +1,10 @@
 package logic.states;
 
-import logic.E2UData;
+import logic.cE2UData;
 
 public class StateAdapter implements IStates {
 
-    protected E2UData data;
+    protected cE2UData data;
 
     @Override
     public IStates Login(String sUsername, String sPassword) {
@@ -58,17 +58,17 @@ public class StateAdapter implements IStates {
 
     @Override
     public IStates goToPendentes() {
-        return new EsperaPendentes(data);
+        return new VerificaPendentes(data);
     }
 
     @Override
     public IStates goToHistorico() {
-        return new EsperaHistorico(data);
+        return new VerificaHistorico(data);
     }
 
     @Override
     public IStates goToItinerario() {
-        return new EsperaItinerario(data);
+        return new VerificaItinerario(data);
     }
 
     @Override

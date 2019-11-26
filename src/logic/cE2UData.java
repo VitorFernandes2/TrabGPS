@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 import static logic.classes.cConstantes.*;
 
-public class E2UData {
+public class cE2UData {
 
     private ArrayList<cReserva> listaReservas;
     private ArrayList<cUtilizador> listaUtilizadores;
@@ -22,9 +22,9 @@ public class E2UData {
     private ArrayList<cPosto> listaPostos = new ArrayList<>(); 
     private ArrayList<cDisponibilidadesByTempo> listaDisponibilidades = new ArrayList<>(); 
     private String sRegiaoUtilizador;
-    private static int erro = 0;
-
-    private int userLogado;
+    private static int ierro = 0;
+    private int iuserLogado;
+    
     public ArrayList<cReserva> getListaReservas() {
         return listaReservas;
     }
@@ -54,19 +54,19 @@ public class E2UData {
     }
    
     public int getErro() {
-        return erro;
+        return ierro;
     }
 
-    public void setErro(int erro) {
-        this.erro = erro;
+    public void setErro(int ierro) {
+        this.ierro = ierro;
     }
     
-    public E2UData() throws IOException {
+    public cE2UData() throws IOException {
         this.listaReservas = new ArrayList<>();
         listaUtilizadores = new ArrayList<>();
         inicializaListas();
         //getUtilizadorArea();
-        userLogado=0;
+        iuserLogado=0;
         verificaReservas();
     }
     
@@ -179,10 +179,9 @@ public class E2UData {
         if(listaUtilizadores.isEmpty())
             return false;
         
-        for(int i=0; i < listaUtilizadores.size();i++){
-            
+        for(int i=0; i < listaUtilizadores.size(); i++){
             if(sUsername.equals(listaUtilizadores.get(i).getUsername()) && sPassword.equals(listaUtilizadores.get(i).getPassword())){
-                userLogado = listaUtilizadores.get(i).getIdUtilizador();
+                iuserLogado = listaUtilizadores.get(i).getIdUtilizador();
                 return true;
             }
         }
@@ -306,18 +305,20 @@ public class E2UData {
         ArrayList<String> lista = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
 
-        for(cPosto posto : listaPostos){
-            for(cDisponibilidadesByTempo c : listaDisponibilidades){
-                if(c.getIdPosto() == posto.getIdPosto()){
+        for(cPosto posto : listaPostos) {
+            for(cDisponibilidadesByTempo c : listaDisponibilidades) {
+                if(c.getIdPosto() == posto.getIdPosto()) {
                     sb.append("Posto:" + posto.getLocalizacao() + "; ");
                     sb.append("Preço:" + posto.getPrecoCarregamento() + "; ");
                     cIntervaloTempo intervalo = listaTempos.get(pesquisaIntervaloById(c.getIdIntervaloTempo()));
                     sb.append("Intervalo:"+intervalo.getHoraInicio() + " às " + intervalo.getHoraFim()+ "; Estado: ");
-                    if(c.isDisponibilidade())
+                    
+                    if(c.isDisponibilidade()) {
                         sb.append("Disponivel");
-                    else
+                    } else {
                         sb.append("Indisponivel");
-
+                    }
+                    
                     lista.add(sb.toString());
                     sb.delete(0, sb.length());
                 }
@@ -479,17 +480,17 @@ public class E2UData {
     
     public List<String> getListaPendentes(){
     
-        int conta = 0;
+        int iconta = 0;
         List<String> pendentes = new ArrayList<>();
         for(cReserva reserva : listaReservas){
-            if(reserva.getSestado().equalsIgnoreCase("Ativo")){
+            if(reserva.getSestado().equalsIgnoreCase("Ativo") && reserva.getIidUtilizador() == iuserLogado){
                 pendentes.add("Posto:" +getPosto(reserva.getIidPosto())+"; Data: " + reserva.getDiaReserva() + " "
                 + getHorario(reserva.getIidIntervaloTempo())+"; Preço: " + reserva.getDcustoPrevisto());
             
-                conta++;                
+                iconta++;                
             }
         }
-        if(conta==0)
+        if(iconta==0)
              setErro(FALTARESERVASPENDENTES);
         
         return pendentes;
@@ -497,69 +498,86 @@ public class E2UData {
     
           
     public boolean efetuarReserva(String sdados){
-        HashMap<String,String> a =ResolveMessages(sdados);   
-        Integer idPosto = null,idIntervalo = null;
-        for(cPosto posto : listaPostos){
-            if(posto.getLocalizacao().equals(a.get("Posto")))
-                idPosto = posto.getIdPosto();
+        
+        HashMap<String,String> a = resolveMessages(sdados);   
+        Integer iidPosto = null, iidIntervalo = null;
+        
+        for(cPosto posto : listaPostos) {
+            if(posto.getLocalizacao().equals(a.get("Posto"))) {
+                iidPosto = posto.getIdPosto();
+            }
         }
         
-        for(cIntervaloTempo intervalo : listaTempos){
-            if((intervalo.getHoraInicio()+" às "+intervalo.getHoraFim()).equals(a.get(" Intervalo")))
-                idIntervalo = intervalo.getIdIntervalo();
+        for(cIntervaloTempo intervalo : listaTempos) {
+            if((intervalo.getHoraInicio()+" às "+intervalo.getHoraFim()).equals(a.get(" Intervalo"))) {
+                iidIntervalo = intervalo.getIdIntervalo();
+            }
         }
-        if(idPosto == null || idIntervalo == null)return false;
+        
+        if(iidPosto == null || iidIntervalo == null) {
+            return false;
+        }
 
-        listaReservas.add(new cReserva(Double.parseDouble(a.get(" Preço")) * 30,idPosto,userLogado,idIntervalo));
+        listaReservas.add(new cReserva(Double.parseDouble(a.get(" Preço")) * 30,iidPosto,iuserLogado,iidIntervalo));
 
-        for(cDisponibilidadesByTempo dips : listaDisponibilidades){
-            if(dips.getIdPosto() == idPosto && dips.getIdIntervaloTempo() == idIntervalo )
+        for(cDisponibilidadesByTempo dips : listaDisponibilidades) {
+            if(dips.getIdPosto() == iidPosto && dips.getIdIntervaloTempo() == iidIntervalo) {
                 dips.setDisponibilidade(false);
+            }
         }
 
         return true;
     }
     
-    public boolean cancelarReserva(String sdados){
-        HashMap<String,String> a =ResolveMessages(sdados);
-        Integer idPosto = null,idIntervalo = null;
-        for(cPosto posto : listaPostos){
+    public boolean cancelarReserva(String sdados) {
+        HashMap<String,String> a = resolveMessages(sdados);
+        
+        Integer iidPosto = null, iidIntervalo = null;
+        
+        for(cPosto posto : listaPostos) {
             if(posto.getLocalizacao().equals(a.get("Posto")))
-                idPosto = posto.getIdPosto();
+                iidPosto = posto.getIdPosto();
         }
-        for(cIntervaloTempo intervalo : listaTempos){
+        for(cIntervaloTempo intervalo : listaTempos) {
             if((intervalo.getHoraInicio()+" às "+intervalo.getHoraFim()).equals(a.get(" Data").substring(16)))
-                idIntervalo = intervalo.getIdIntervalo();
+                iidIntervalo = intervalo.getIdIntervalo();
         }
-        if(idPosto == null || idIntervalo == null)return false;
-        for(cReserva reserva : listaReservas){
+        
+        if(iidPosto == null || iidIntervalo == null)  {
+            return false;
+        }
+        
+        for(cReserva reserva : listaReservas) {
             if(reserva.getSestado().equalsIgnoreCase("Ativo") &&
-                reserva.getIidUtilizador() == userLogado && reserva.getIidPosto() == idPosto &&
-                reserva.getIidIntervaloTempo() == idIntervalo)
-            {
+                reserva.getIidUtilizador() == iuserLogado && reserva.getIidPosto() == iidPosto &&
+                reserva.getIidIntervaloTempo() == iidIntervalo) {
 
-                for(cDisponibilidadesByTempo dips : listaDisponibilidades){
-                    if(dips.getIdPosto() == idPosto && dips.getIdIntervaloTempo() == idIntervalo )
-                        dips.setDisponibilidade(true);
-                }
+                    for(cDisponibilidadesByTempo dips : listaDisponibilidades) {
+                        if(dips.getIdPosto() == iidPosto && dips.getIdIntervaloTempo() == iidIntervalo ) {
+                            dips.setDisponibilidade(true);
+                        }
+                    }   
 
                 reserva.setSestado("Cancelada");    
                 return true;
             }
         }
+        
         return false;
     }
     
-    public static HashMap<String,String> ResolveMessages(String message){
+    public static HashMap<String,String> resolveMessages(String message){
         StringTokenizer t,tokens = new StringTokenizer(message,";");
         String key,val;
         HashMap<String,String> messages = new HashMap<>();
+        
         while (tokens.hasMoreElements()) {
             t = new StringTokenizer(tokens.nextElement().toString(),":");  
             key = t.nextElement().toString();
             val = t.nextElement().toString();
             messages.put(key, val);
         }
+        
         return messages;
     }
 

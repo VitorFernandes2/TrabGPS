@@ -16,14 +16,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import logic.E2ULogic;
+import logic.cE2ULogic;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class RegisterPane extends StackPane implements Constants, PropertyChangeListener {
 
-    private E2ULogic logic;
+    private cE2ULogic logic;
     private Button bRegisto;
     private StringTextfield tfUsername;
     private Hyperlink hlLogin;
@@ -31,7 +31,7 @@ public class RegisterPane extends StackPane implements Constants, PropertyChange
     private PassField pfPalavraPasse,pfConfirmaPalavraPasse;
     private Label lErro;
 
-    public RegisterPane(E2ULogic logic) {
+    public RegisterPane(cE2ULogic logic) {
         this.logic = logic;
         this.logic.addPropertyChangeListener(this);
 

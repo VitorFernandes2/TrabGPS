@@ -14,14 +14,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import logic.E2ULogic;
+import logic.cE2ULogic;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class LoginPane extends StackPane implements Constants, PropertyChangeListener {
 
-    private E2ULogic logic;
+    private cE2ULogic logic;
     private DefaultButton bLogin;
     private StringTextfield tfUsername;
     private PassField pfPalavraPasse;
@@ -29,7 +29,7 @@ public class LoginPane extends StackPane implements Constants, PropertyChangeLis
     private ViewImage ivLogo;
     private Label label;
 
-    public LoginPane(E2ULogic logic) {
+    public LoginPane(cE2ULogic logic) {
         this.logic = logic;
         this.logic.addPropertyChangeListener(this);
 

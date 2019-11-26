@@ -1,13 +1,12 @@
 package logic.states;
 
-import logic.E2UData;
+import logic.cE2UData;
 
 public class EsperaPesquisa extends StateAdapter {
 
-    public EsperaPesquisa(E2UData data) {
+    public EsperaPesquisa(cE2UData data) {
 
         this.data = data;
-
     }
 
     @Override
@@ -18,7 +17,7 @@ public class EsperaPesquisa extends StateAdapter {
     @Override
     public IStates efetuaReserva(String dados) {
         if(data.efetuarReserva(dados))
-            return new EsperaPendentes(data);
+            return new VerificaPendentes(data);
 
         return new EsperaPesquisa(data);
     }

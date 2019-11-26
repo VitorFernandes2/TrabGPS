@@ -1,9 +1,13 @@
-
 package logic.classes;
 
 import java.util.GregorianCalendar;
 
-public class cReserva {
+/*Comentário:
+    Esta classe corresponde a uma reserva. Guarda os dados relativos.
+*/
+
+public class cReserva 
+{
     private static  int icontaReserva = 1;
     private static  int icontaServicos = 200;
     private int iidReserva;
@@ -41,14 +45,6 @@ public class cReserva {
 
     public void setIidIntervaloTempo(int iidIntervaloTempo) {
         this.iidIntervaloTempo = iidIntervaloTempo;
-    }
-    
-    public String getData(){
-        GregorianCalendar calendar = new GregorianCalendar();
-        int dia = calendar.get(GregorianCalendar.DAY_OF_MONTH);
-        int mes = calendar.get(GregorianCalendar.MONTH);
-        int ano = calendar.get(GregorianCalendar.YEAR);
-        return dia+"/"+mes+"/"+ano;
     }
     
     public static int getIcontaReserva() {
@@ -92,6 +88,12 @@ public class cReserva {
     public void setSestado(String sestado) {
         this.sestado = sestado;
     }
-
     
+     public String getData(){
+        GregorianCalendar calendar = new GregorianCalendar();
+        int dia = calendar.get(GregorianCalendar.DAY_OF_MONTH);
+        int mes = calendar.get(GregorianCalendar.MONTH);
+        int ano = calendar.get(GregorianCalendar.YEAR);
+        return dia+"/"+mes+"/"+ano;
+    }
 }

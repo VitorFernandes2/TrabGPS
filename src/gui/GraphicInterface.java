@@ -3,14 +3,14 @@ package gui;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import logic.E2ULogic;
+import logic.cE2ULogic;
 
 public class GraphicInterface implements Constants {
 
     private Stage primaryStage;
-    private E2ULogic logic;
+    private cE2ULogic logic;
 
-    public GraphicInterface(E2ULogic logic,Stage primaryStage) {
+    public GraphicInterface(cE2ULogic logic,Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.logic = logic;
     }

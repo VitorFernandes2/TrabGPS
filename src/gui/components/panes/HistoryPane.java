@@ -11,7 +11,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import logic.E2ULogic;
+import logic.cE2ULogic;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 public class HistoryPane extends StackPane implements PropertyChangeListener {
 
-    private E2ULogic logic;
+    private cE2ULogic logic;
     private BorderPane borderPane;
     private VBox mainPanel;
     private Label titleLabel;
@@ -29,7 +29,7 @@ public class HistoryPane extends StackPane implements PropertyChangeListener {
     private MainMenuBar mainMenuBar;
     private HBox topBox;
 
-    public HistoryPane(E2ULogic logic) {
+    public HistoryPane(cE2ULogic logic) {
         this.logic = logic;
         this.logic.addPropertyChangeListener(this);
 

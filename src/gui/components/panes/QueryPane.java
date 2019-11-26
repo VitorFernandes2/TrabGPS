@@ -13,14 +13,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import logic.E2ULogic;
+import logic.cE2ULogic;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class QueryPane extends StackPane implements PropertyChangeListener {
 
-    private E2ULogic logic;
+    private cE2ULogic logic;
     private BorderPane borderPane;
     private MainMenuBar mainMenuBar;
     private VBox leftbox;
@@ -31,14 +31,14 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
     private ChoiceBox cbLocalidade;
     private VBox rightbox;
     private LabelTitle lblPostos;
-    private LsView list;
+    private LsView lvlist;
     private HBox hbLocalidade;
     private Button btPesquisa;
-    private Label label;
-    private Label label2;
-    private Label label3;
+    private Label llabel;
+    private Label llabel2;
+    private Label llabel3;
 
-    public QueryPane(E2ULogic logic) {
+    public QueryPane(cE2ULogic logic) {
         this.logic = logic;
         this.logic.addPropertyChangeListener(this);
 
@@ -56,17 +56,17 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
 
     private BorderPane interfaceA(){
 
-        label = new Label("Não existem postos nesta região");
-        label.setTextFill(Color.RED);
-        label.setVisible(false);
+        llabel = new Label("Não existem postos nesta região");
+        llabel.setTextFill(Color.RED);
+        llabel.setVisible(false);
 
-        label2 = new Label("Não existem horários para este intervalo");
-        label2.setTextFill(Color.RED);
-        label2.setVisible(false);
+        llabel2 = new Label("Não existem horários para este intervalo");
+        llabel2.setTextFill(Color.RED);
+        llabel2.setVisible(false);
 
-        label3 = new Label("Não existem postos para esta pesquisa");
-        label3.setTextFill(Color.RED);
-        label3.setVisible(false);
+        llabel3 = new Label("Não existem postos para esta pesquisa");
+        llabel3.setTextFill(Color.RED);
+        llabel3.setVisible(false);
 
         btPesquisa = new GreyButton("Pesquisar");
         borderPane = new BorderPane();
@@ -74,14 +74,14 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
 
         MenuBar rightBar = new MenuBar();
         Menu menuLogout = new Menu();
-        Label labelLogout = new Label("Logout");
+        Label llabelLogout = new Label("Logout");
 
         //Logout
-        labelLogout.setOnMouseClicked(e -> {
+        llabelLogout.setOnMouseClicked(e -> {
             this.logic.goToLogin();
         });
 
-        menuLogout.setGraphic(labelLogout);
+        menuLogout.setGraphic(llabelLogout);
         rightBar.getMenus().addAll(menuLogout);
 
         Region spacer = new Region();
@@ -120,13 +120,13 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
         hbLocalidade.setAlignment(Pos.CENTER_LEFT);
 
 
-        leftbox.getChildren().addAll(lblPesquisa, hbHorario, hbLocalidade, btPesquisa, label, label2, label3);
+        leftbox.getChildren().addAll(lblPesquisa, hbHorario, hbLocalidade, btPesquisa, llabel, llabel2, llabel3);
 
         rightbox = new VBox();
         rightbox.setPadding(new Insets(100,100,100,100));
         lblPostos = new LabelTitle("Postos:");
 
-        list = new LsView();
+        lvlist = new LsView();
 
         for (String item : this.logic.getPostos()) {
 
@@ -153,11 +153,11 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
             box.setHgrow(mainBox, Priority.ALWAYS);
             box.setSpacing(30);
 
-            list.getItems().add(box);
+            lvlist.getItems().add(box);
 
         }
 
-        rightbox.getChildren().addAll(lblPostos, list);
+        rightbox.getChildren().addAll(lblPostos, lvlist);
 
         borderPane.setCenter(rightbox);
         borderPane.setLeft(leftbox);
@@ -168,10 +168,10 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
 
     private void registerListeners(){
         btPesquisa.setOnMouseClicked(e ->{
-            label.setVisible(false);
-            label2.setVisible(false);
-            label3.setVisible(false);
-            list.getItems().clear();
+            llabel.setVisible(false);
+            llabel2.setVisible(false);
+            llabel3.setVisible(false);
+            lvlist.getItems().clear();
 
             for (String item : this.logic.infoPostosByPesquisa((String) cbLocalidade.getValue(), (String) cbHorario.getValue())) {
 
@@ -198,20 +198,20 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
                 box.setHgrow(mainBox, Priority.ALWAYS);
                 box.setSpacing(30);
 
-                list.getItems().add(box);
+                lvlist.getItems().add(box);
 
             }
 
             switch (this.logic.getErro()){
 
                 case 20:
-                    label3.setVisible(true);
+                    llabel3.setVisible(true);
                     break;
                 case 21:
-                    label.setVisible(true);
+                    llabel.setVisible(true);
                     break;
                 case 22:
-                    label2.setVisible(true);
+                    llabel2.setVisible(true);
                     break;
             }
 
@@ -225,9 +225,9 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
-        list.getItems().clear();
+        lvlist.getItems().clear();
 
-        if (!this.logic.inRegister() && !this.logic.inLogin())
+        if (!this.logic.inRegister() && !this.logic.inLogin()) {
             for (String item : this.logic.getPostos()) {
 
                 Label TextPost = new Label(item);
@@ -257,10 +257,10 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
                 box.setHgrow(mainBox, Priority.ALWAYS);
                 box.setSpacing(30);
 
-                list.getItems().add(box);
+                lvlist.getItems().add(box);
 
             }
-
+        }
         setVisible(this.logic.inQuery());
 
     }

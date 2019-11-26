@@ -12,7 +12,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import logic.E2ULogic;
+import logic.cE2ULogic;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class PendingPane extends StackPane implements PropertyChangeListener {
 
-    private E2ULogic logic;
+    private cE2ULogic logic;
     private BorderPane borderPane;
     private VBox mainPanel;
     private Label titleLabel;
@@ -29,7 +29,7 @@ public class PendingPane extends StackPane implements PropertyChangeListener {
     private MainMenuBar mainMenuBar;
     private HBox topBox;
 
-    public PendingPane(E2ULogic logic) {
+    public PendingPane(cE2ULogic logic) {
         this.logic = logic;
         this.logic.addPropertyChangeListener(this);
 

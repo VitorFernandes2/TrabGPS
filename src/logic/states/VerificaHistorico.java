@@ -5,15 +5,15 @@
  */
 package logic.states;
 
-import logic.E2UData;
+import logic.cE2UData;
 
 /**
  *
  * @author Bruno Ferreira
  */
-public class EsperaHistorico extends StateAdapter{
+public class VerificaHistorico extends StateAdapter{
     
-     public EsperaHistorico(E2UData data) {
+     public VerificaHistorico(cE2UData data) {
         this.data = data;
     }
      

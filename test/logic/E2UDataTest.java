@@ -12,11 +12,11 @@ import static org.junit.Assert.*;
 
 public class E2UDataTest {
     
-    private E2UData instance;
+    private cE2UData instance;
     private  static List<String> logs;
     
     public E2UDataTest() throws IOException {
-        instance = new E2UData();
+        instance = new cE2UData();
         logs = new ArrayList<String>();
     }
     

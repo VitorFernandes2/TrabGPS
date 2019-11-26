@@ -2,16 +2,16 @@ package gui.components.panes;
 
 import javafx.collections.ObservableList;
 import javafx.scene.layout.StackPane;
-import logic.E2ULogic;
+import logic.cE2ULogic;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class MainPane extends StackPane implements PropertyChangeListener {
 
-    private E2ULogic logic;
+    private cE2ULogic logic;
 
-    public MainPane(E2ULogic logic) {
+    public MainPane(cE2ULogic logic) {
         this.logic = logic;
         this.logic.addPropertyChangeListener(this);
 

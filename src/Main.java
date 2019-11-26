@@ -1,8 +1,8 @@
 import gui.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import logic.E2UData;
-import logic.E2ULogic;
+import logic.cE2UData;
+import logic.cE2ULogic;
 import logic.states.EsperaLogin;
 
 import java.io.FileNotFoundException;
@@ -12,8 +12,8 @@ public class Main extends Application implements Constants {
 
     @Override
     public void start(Stage stage) throws FileNotFoundException, IOException {
-        E2UData data = new E2UData();
-        E2ULogic logic = new E2ULogic(data, new EsperaLogin(data));
+        cE2UData data = new cE2UData();
+        cE2ULogic logic = new cE2ULogic(data, new EsperaLogin(data));
 
         GraphicInterface graphicInterface = new GraphicInterface(logic, stage);
         graphicInterface.run();

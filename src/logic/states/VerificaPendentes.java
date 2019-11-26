@@ -5,15 +5,15 @@
  */
 package logic.states;
 
-import logic.E2UData;
+import logic.cE2UData;
 
 /**
  *
  * @author Bruno Ferreira
  */
-public class EsperaPendentes extends StateAdapter{
+public class VerificaPendentes extends StateAdapter{
     
-     public EsperaPendentes(E2UData data) {
+     public VerificaPendentes(cE2UData data) {
         this.data = data;
     }
      
@@ -29,7 +29,7 @@ public class EsperaPendentes extends StateAdapter{
     public IStates cancelarReserva(String dados) {
 
         data.cancelarReserva(dados);
-        return new EsperaPendentes(data);
+        return new VerificaPendentes(data);
 
     }
 

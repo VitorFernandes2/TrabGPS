@@ -12,7 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import logic.E2ULogic;
+import logic.cE2ULogic;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ItineraryPane extends StackPane implements PropertyChangeListener {
 
-    private E2ULogic logic;
+    private cE2ULogic logic;
     private BorderPane borderPane;
     private MainMenuBar mainMenuBar;
     private VBox leftbox;
@@ -33,7 +33,7 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
     private CheckBox cb;
     private HBox topBox;
 
-    public ItineraryPane(E2ULogic logic) {
+    public ItineraryPane(cE2ULogic logic) {
         this.logic = logic;
         this.logic.addPropertyChangeListener(this);
 

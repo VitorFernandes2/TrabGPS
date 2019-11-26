@@ -1,11 +1,11 @@
 package logic.states;
 
-import logic.E2UData;
+import logic.cE2UData;
 import static logic.classes.cConstantes.*;
 
 public class EsperaLogin extends StateAdapter {
 
-    public EsperaLogin(E2UData data) {
+    public EsperaLogin(cE2UData data) {
         this.data = data;
     }
 

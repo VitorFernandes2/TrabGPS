@@ -3,7 +3,7 @@ package gui.components.panes;
 import gui.Constants;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import logic.E2ULogic;
+import logic.cE2ULogic;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -15,9 +15,9 @@ import java.beans.PropertyChangeListener;
 public class PaneRoot extends VBox implements Constants, PropertyChangeListener {
 
     private Pane mainPane;
-    private E2ULogic logic;
+    private cE2ULogic logic;
 
-    public PaneRoot(E2ULogic logic) {
+    public PaneRoot(cE2ULogic logic) {
         this.logic = logic;
         this.logic.addPropertyChangeListener(this);
 

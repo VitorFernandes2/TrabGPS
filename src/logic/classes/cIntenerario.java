@@ -5,7 +5,7 @@
  */
 package logic.classes;
 
-import logic.E2UData;
+import logic.cE2UData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,9 +28,9 @@ public class cIntenerario {
     private static double dPartidaLong;
     private static double dChegadaLat;
     private static double dChegadaLong;
-    private static E2UData e2udData;
+    private static cE2UData e2udData;
     
-    public static ArrayList<String> getdirection(E2UData data, String sPartida, String sChegada){
+    public static ArrayList<String> getdirection(cE2UData data, String sPartida, String sChegada){
 
         e2udData = data;
         ArrayList<cPosto> alOutput = null;

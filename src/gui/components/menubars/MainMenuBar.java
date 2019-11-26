@@ -3,11 +3,11 @@ package gui.components.menubars;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import logic.E2ULogic;
+import logic.cE2ULogic;
 
 public class MainMenuBar extends MenuBar {
 
-    private E2ULogic logic;
+    private cE2ULogic logic;
     private Menu menu1;
     private Menu menu2;
     private Menu menu3;
@@ -19,7 +19,7 @@ public class MainMenuBar extends MenuBar {
     private Label label4;
     private Label label5;
 
-    public MainMenuBar(E2ULogic logic) {
+    public MainMenuBar(cE2ULogic logic) {
         this.logic = logic;
 
         label1 = new Label("Inicio");
