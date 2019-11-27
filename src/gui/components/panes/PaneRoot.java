@@ -14,15 +14,15 @@ import java.beans.PropertyChangeListener;
  * consegue controlar toda a vista*/
 public class PaneRoot extends VBox implements Constants, PropertyChangeListener {
 
-    private Pane mainPane;
+    private Pane pnMainPane;
     private cE2ULogic logic;
 
     public PaneRoot(cE2ULogic logic) {
         this.logic = logic;
         this.logic.addPropertyChangeListener(this);
 
-        this.mainPane = new MainPane(this.logic);
-        this.getChildren().addAll(mainPane);
+        this.pnMainPane = new MainPane(this.logic);
+        this.getChildren().addAll(pnMainPane);
     }
 
     @Override

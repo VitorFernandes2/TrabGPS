@@ -22,21 +22,21 @@ public class MainPane extends StackPane implements PropertyChangeListener {
 
     private void setupComponents(){
 
-        LoginPane loginPane = new LoginPane(logic);
-        loginPane.setVisible(true);
-        RegisterPane registerPane = new RegisterPane(logic);
-        registerPane.setVisible(false);
-        QueryPane queryPane = new QueryPane(logic);
-        queryPane.setVisible(false);
-        HistoryPane historyPane = new HistoryPane(logic);
-        historyPane.setVisible(false);
-        PendingPane pendingPane = new PendingPane(logic);
-        pendingPane.setVisible(false);
-        ItineraryPane itineraryPane = new ItineraryPane(logic);
-        itineraryPane.setVisible(false);
+        LoginPane pnLoginPane = new LoginPane(logic);
+        pnLoginPane.setVisible(true);
+        RegisterPane pnRegisterPane = new RegisterPane(logic);
+        pnRegisterPane.setVisible(false);
+        QueryPane pnQueryPane = new QueryPane(logic);
+        pnQueryPane.setVisible(false);
+        HistoryPane pnHistoryPane = new HistoryPane(logic);
+        pnHistoryPane.setVisible(false);
+        PendingPane pnPendingPane = new PendingPane(logic);
+        pnPendingPane.setVisible(false);
+        ItineraryPane pnItineraryPane = new ItineraryPane(logic);
+        pnItineraryPane.setVisible(false);
 
-        ObservableList children = this.getChildren();
-        children.addAll(loginPane, registerPane, queryPane, historyPane, pendingPane, itineraryPane);
+        ObservableList oblChildren = this.getChildren();
+        oblChildren.addAll(pnLoginPane, pnRegisterPane, pnQueryPane, pnHistoryPane, pnPendingPane, pnItineraryPane);
 
     }
 

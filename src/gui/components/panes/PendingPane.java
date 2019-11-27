@@ -21,13 +21,13 @@ import java.util.List;
 public class PendingPane extends StackPane implements PropertyChangeListener {
 
     private cE2ULogic logic;
-    private BorderPane borderPane;
-    private VBox mainPanel;
-    private Label titleLabel;
-    private VBox dataPanel;
-    private LsView listaDados;
-    private MainMenuBar mainMenuBar;
-    private HBox topBox;
+    private BorderPane pnBorderPane;
+    private VBox pnMainPanel;
+    private Label lblTitleLabel;
+    private VBox vbDataPanel;
+    private LsView lsListaDados;
+    private MainMenuBar mmbMenuBar;
+    private HBox hbTopBox;
 
     public PendingPane(cE2ULogic logic) {
         this.logic = logic;
@@ -38,108 +38,98 @@ public class PendingPane extends StackPane implements PropertyChangeListener {
     }
 
     private void createComponents() {
-        
-        ObservableList children = this.getChildren();
-        children.add(interfaceA());
-
+        ObservableList oblChildren = this.getChildren();
+        oblChildren.add(interfaceA());
     }
 
     private BorderPane interfaceA(){
-
-        borderPane = new BorderPane();
-        mainPanel = new VBox();
-        titleLabel = new LabelTitle("Reservas Pendentes");
-        titleLabel.setPadding(new Insets(30,0,0,10));
-        listaDados = new LsView();
-        mainMenuBar = new MainMenuBar(logic);
-        dataPanel = new VBox();
-        dataPanel.setPadding(new Insets(10,10,10,10));
+        pnBorderPane = new BorderPane();
+        pnMainPanel = new VBox();
+        lblTitleLabel = new LabelTitle("Reservas Pendentes");
+        lblTitleLabel.setPadding(new Insets(30,0,0,10));
+        lsListaDados = new LsView();
+        mmbMenuBar = new MainMenuBar(logic);
+        vbDataPanel = new VBox();
+        vbDataPanel.setPadding(new Insets(10,10,10,10));
 
         acrescentaDados(this.logic.getListaPendentes());
 
-        dataPanel.getChildren().addAll(listaDados);
-        mainPanel.getChildren().addAll(titleLabel, dataPanel);
-        borderPane.setCenter(mainPanel);
-        MenuBar rightBar = new MenuBar();
-        Menu menuLogout = new Menu();
-        Label labelLogout = new Label("Logout");
+        vbDataPanel.getChildren().addAll(lsListaDados);
+        pnMainPanel.getChildren().addAll(lblTitleLabel, vbDataPanel);
+        pnBorderPane.setCenter(pnMainPanel);
+        MenuBar mbRightBar = new MenuBar();
+        Menu mLogout = new Menu();
+        Label lblLogout = new Label("Logout");
 
         //Logout
-        labelLogout.setOnMouseClicked(e -> {
+        lblLogout.setOnMouseClicked(e -> {
             this.logic.goToLogin();
         });
 
-        menuLogout.setGraphic(labelLogout);
-        rightBar.getMenus().addAll(menuLogout);
+        mLogout.setGraphic(lblLogout);
+        mbRightBar.getMenus().addAll(mLogout);
 
-        Region spacer = new Region();
-        spacer.setBackground(
+        Region rSpacer = new Region();
+        rSpacer.setBackground(
                 new Background(
                         new BackgroundFill(Color.web("#383838"), CornerRadii.EMPTY, Insets.EMPTY)
                 )
         );
 
-        HBox.setHgrow(spacer, Priority.SOMETIMES);
-        topBox = new HBox(mainMenuBar, spacer, rightBar);
-        borderPane.setTop(topBox);
+        HBox.setHgrow(rSpacer, Priority.SOMETIMES);
+        hbTopBox = new HBox(mmbMenuBar, rSpacer, mbRightBar);
+        pnBorderPane.setTop(hbTopBox);
 
-        return borderPane;
-
+        return pnBorderPane;
     }
 
     /**
      * Esta função acrescenta todos os dados ao histórico, isto permite que o código seja mais limpo
      */
     private void acrescentaDados(List<String> lista){
-
         if (lista.size() > 0){
             for (int i = 0; i < lista.size(); i++) {
+                HBox hbMainBox = new HBox();
+                HBox hbLinha = new HBox();
 
-                HBox mainBox = new HBox();
-                HBox linha = new HBox();
-
-                HBox InfoPosto = new HBox(new Label(lista.get(i)));
-                InfoPosto.setAlignment(Pos.CENTER_LEFT);
+                HBox hbInfoPosto = new HBox(new Label(lista.get(i)));
+                hbInfoPosto.setAlignment(Pos.CENTER_LEFT);
 
                  QueryButton btCancelar = new QueryButton("Cancelar Reserva");
 
-                 String item = lista.get(i);
+                 String sItem = lista.get(i);
 
                 btCancelar.setOnMouseClicked(event -> {
-                    this.logic.cancelarReservas(item);
+                    this.logic.cancelarReservas(sItem);
                 });
 
-                HBox InfoDispo = new HBox(btCancelar);
-                InfoDispo.setAlignment(Pos.CENTER_RIGHT);
+                HBox hbInfoDispo = new HBox(btCancelar);
+                hbInfoDispo.setAlignment(Pos.CENTER_RIGHT);
 
-                linha.getChildren().addAll(InfoPosto, InfoDispo);
-                linha.setHgrow(InfoPosto, Priority.ALWAYS);
-                linha.setHgrow(InfoDispo,Priority.ALWAYS);
+                hbLinha.getChildren().addAll(hbInfoPosto, hbInfoDispo);
+                hbLinha.setHgrow(hbInfoPosto, Priority.ALWAYS);
+                hbLinha.setHgrow(hbInfoDispo,Priority.ALWAYS);
 
-                mainBox.getChildren().addAll(linha);
-                mainBox.setHgrow(linha, Priority.ALWAYS);
-                mainBox.setSpacing(30);
+                hbMainBox.getChildren().addAll(hbLinha);
+                hbMainBox.setHgrow(hbLinha, Priority.ALWAYS);
+                hbMainBox.setSpacing(30);
 
-                listaDados.getItems().add(mainBox);
-
+                lsListaDados.getItems().add(hbMainBox);
             }
         }
         else{
-            listaDados.getItems().add(new Label("Não existe nenhuma reserva feita até ao momento."));
+            lsListaDados.getItems().add(new Label("Não existe nenhuma reserva feita até ao momento."));
         }
-
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
         setVisible(this.logic.inPendentes());
 
         if (!this.logic.inRegister() && !this.logic.inLogin()) {
-            listaDados.getItems().clear();
+            lsListaDados.getItems().clear();
             acrescentaDados(this.logic.getListaPendentes());
         }
-
     }
 
 }
