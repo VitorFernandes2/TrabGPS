@@ -2,38 +2,38 @@ package logic.classes;
 
 public class cDisponibilidadesByTempo {
     
-    private int iidPosto;
-    private int iidIntervaloTempo;
-    private boolean bdisponibilidade;
+    private int iIdPosto;
+    private int iIdIntervaloTempo;
+    private boolean bDisponibilidade;
 
     public cDisponibilidadesByTempo(int idPosto, int idIntervaliTempo, boolean disponibilidade) {
-        this.iidPosto = idPosto;
-        this.iidIntervaloTempo = idIntervaliTempo;
-        this.bdisponibilidade = disponibilidade;
+        this.iIdPosto = idPosto;
+        this.iIdIntervaloTempo = idIntervaliTempo;
+        this.bDisponibilidade = disponibilidade;
     }
 
     public int getIdPosto() {
-        return iidPosto;
+        return iIdPosto;
     }
 
     public void setIdPosto(int idPosto) {
-        this.iidPosto = idPosto;
+        this.iIdPosto = idPosto;
     }
 
     public int getIdIntervaloTempo() {
-        return iidIntervaloTempo;
+        return iIdIntervaloTempo;
     }
 
     public void setIdIntervaloTempo(int idIntervaloTempo) {
-        this.iidIntervaloTempo = idIntervaloTempo;
+        this.iIdIntervaloTempo = idIntervaloTempo;
     }
 
     public boolean isDisponibilidade() {
-        return bdisponibilidade;
+        return bDisponibilidade;
     }
 
     public void setDisponibilidade(boolean disponibilidade) {
-        this.bdisponibilidade = disponibilidade;
+        this.bDisponibilidade = disponibilidade;
     }
     
     

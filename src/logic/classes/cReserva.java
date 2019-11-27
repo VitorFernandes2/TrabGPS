@@ -8,85 +8,85 @@ import java.util.GregorianCalendar;
 
 public class cReserva 
 {
-    private static  int icontaReserva = 1;
-    private static  int icontaServicos = 200;
-    private int iidReserva;
-    private int icodServico;
-    private double dcustoPrevisto;
-    private int iidPosto;
-    private String sestado;
-    private int iidUtilizador;
-    private String sdiaReserva;
-    private int iidIntervaloTempo;
+    private static  int iContaReserva = 1;
+    private static  int iContaServicos = 200;
+    private int iIdReserva;
+    private int iCodServico;
+    private double dCustoPrevisto;
+    private int iIdPosto;
+    private String sEstado;
+    private int iIdUtilizador;
+    private String sDiaReserva;
+    private int iIdIntervaloTempo;
 
     public cReserva( double dcustoPrevisto, int idPosto, int idUtilizador, int idIntervaloTempo) {
-        this.icodServico = icontaServicos+10;
-        this.dcustoPrevisto = dcustoPrevisto;
-        this.iidPosto = idPosto;
-        this.iidIntervaloTempo = idIntervaloTempo;
-        this.sestado = "Ativo";
-        this.iidUtilizador = idUtilizador;
-        iidReserva = icontaReserva++;
-        sdiaReserva = getData();
+        this.iCodServico = iContaServicos +10;
+        this.dCustoPrevisto = dcustoPrevisto;
+        this.iIdPosto = idPosto;
+        this.iIdIntervaloTempo = idIntervaloTempo;
+        this.sEstado = "Ativo";
+        this.iIdUtilizador = idUtilizador;
+        iIdReserva = iContaReserva++;
+        sDiaReserva = getData();
      
     }
 
     public String getSdiaReserva() {
-        return sdiaReserva;
+        return sDiaReserva;
     }
 
     public void setSdiaReserva(String sdiaReserva) {
-        this.sdiaReserva = sdiaReserva;
+        this.sDiaReserva = sdiaReserva;
     }
 
     public int getIidIntervaloTempo() {
-        return iidIntervaloTempo;
+        return iIdIntervaloTempo;
     }
 
     public void setIidIntervaloTempo(int iidIntervaloTempo) {
-        this.iidIntervaloTempo = iidIntervaloTempo;
+        this.iIdIntervaloTempo = iidIntervaloTempo;
     }
     
     public static int getIcontaReserva() {
-        return icontaReserva;
+        return iContaReserva;
     }
 
     public int getIidReserva() {
-        return iidReserva;
+        return iIdReserva;
     }
 
     public int getIcodServico() {
-        return icodServico;
+        return iCodServico;
     }
 
     public double getDcustoPrevisto() {
-        return dcustoPrevisto;
+        return dCustoPrevisto;
     }
 
     public int getIidPosto() {
-        return iidPosto;
+        return iIdPosto;
     }
     
 
     public String getSestado() {
-        return sestado;
+        return sEstado;
     }
 
     public int getIidUtilizador() {
-        return iidUtilizador;
+        return iIdUtilizador;
     }
 
     public String getDiaReserva() {
-        return sdiaReserva;
+        return sDiaReserva;
     }
     
 
     public void setDcustoPrevisto(double dcustoPrevisto) {
-        this.dcustoPrevisto = dcustoPrevisto;
+        this.dCustoPrevisto = dcustoPrevisto;
     }
 
     public void setSestado(String sestado) {
-        this.sestado = sestado;
+        this.sEstado = sestado;
     }
     
      public String getData(){

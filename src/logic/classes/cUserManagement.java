@@ -15,26 +15,24 @@ import java.util.regex.Pattern;
 
 
 public class cUserManagement implements cConstantes{
-    
-    
-    
-    ArrayList<cUtilizador> users;
+
+    ArrayList<cUtilizador> lsUsers;
 
     public cUserManagement(ArrayList<cUtilizador> users) {
-        this.users = users;
+        this.lsUsers = users;
     }
 
     public cUserManagement() {
-        this.users = new ArrayList<cUtilizador>();
+        this.lsUsers = new ArrayList<cUtilizador>();
         //valor adicionado apenas para testes padrão:
-        this.users.add(new cUtilizador("Vitor", "Fernandes"));
+        this.lsUsers.add(new cUtilizador("Vitor", "Fernandes"));
     }
     
     public boolean checkexistance(String sUsername,String sPassword){
         
-        for(int i=0; i < users.size();i++){
+        for(int i = 0; i < lsUsers.size(); i++){
             
-            if(sUsername.equals(users.get(i).getUsername()) && sPassword.equals(users.get(i).getPassword())){
+            if(sUsername.equals(lsUsers.get(i).getUsername()) && sPassword.equals(lsUsers.get(i).getPassword())){
                 return true;
             }
         }
@@ -44,9 +42,9 @@ public class cUserManagement implements cConstantes{
     
     public boolean checkUsername(String sUsername){
         
-        for(int i=0; i < users.size();i++){
+        for(int i = 0; i < lsUsers.size(); i++){
             
-            if(sUsername.equals(users.get(i).getUsername())){
+            if(sUsername.equals(lsUsers.get(i).getUsername())){
                 return true;
             }
         }
@@ -62,7 +60,7 @@ public class cUserManagement implements cConstantes{
         }else{
             if(checkInputedUsername(sUsername) && checkInputedPassword(sPassword) && (sPassword.equals(sPassVerif))){
                 
-                users.add(new cUtilizador(sUsername,sPassword));
+                lsUsers.add(new cUtilizador(sUsername,sPassword));
                 return true;
                 
             }

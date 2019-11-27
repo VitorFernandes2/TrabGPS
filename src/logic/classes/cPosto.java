@@ -1,71 +1,71 @@
 package logic.classes;
 
 public class cPosto {
-    private static  int  icontaPosto = 1;
-    private int iidPosto;
-    private int iidRegiao;
-    private String slocalizacao;
-    private double dprecoCarregamento;
-    private double longitude;
-    private double latitude;
+    private static  int iContaPosto = 1;
+    private int iIdPosto;
+    private int iIdRegiao;
+    private String sLocalizacao;
+    private double dPrecoCarregamento;
+    private double dLongitude;
+    private double dLatitude;
     private cDistrito distrito;
 
     public cPosto(int idRegiao, String localizacao, double dprecoCarregamento,double longitude,double latitude, String distrit) {
-        this.iidRegiao = idRegiao;
-        this.slocalizacao = localizacao;
-        this.dprecoCarregamento = dprecoCarregamento;
-        iidPosto=icontaPosto++;
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.iIdRegiao = idRegiao;
+        this.sLocalizacao = localizacao;
+        this.dPrecoCarregamento = dprecoCarregamento;
+        iIdPosto = iContaPosto++;
+        this.dLongitude = longitude;
+        this.dLatitude = latitude;
         this.distrito = new cDistrito(distrit);
     }
 
     public double getLongitude() {
-        return longitude;
+        return dLongitude;
     }
 
     public void setLongitude(double longitude) {
-        this.longitude = longitude;
+        this.dLongitude = longitude;
     }
 
     public double getLatitude() {
-        return latitude;
+        return dLatitude;
     }
 
     public void setLatitude(double latitude) {
-        this.latitude = latitude;
+        this.dLatitude = latitude;
     }
 
     public int getIdPosto() {
-        return iidPosto;
+        return iIdPosto;
     }
 
     public void setIdPosto(int idPosto) {
-        this.iidPosto = idPosto;
+        this.iIdPosto = idPosto;
     }
 
     public int getIdRegiao() {
-        return iidRegiao;
+        return iIdRegiao;
     }
 
     public void setIdRegiao(int idRegiao) {
-        this.iidRegiao = idRegiao;
+        this.iIdRegiao = idRegiao;
     }
 
     public String getLocalizacao() {
-        return slocalizacao;
+        return sLocalizacao;
     }
 
     public void setLocalizacao(String localizacao) {
-        this.slocalizacao = localizacao;
+        this.sLocalizacao = localizacao;
     }
 
     public double getPrecoCarregamento() {
-        return dprecoCarregamento;
+        return dPrecoCarregamento;
     }
 
     public void setPrecoCarregamento(double dprecoCarregamento) {
-        this.dprecoCarregamento = dprecoCarregamento;
+        this.dPrecoCarregamento = dprecoCarregamento;
     }
 
     public cDistrito getDistrito() {

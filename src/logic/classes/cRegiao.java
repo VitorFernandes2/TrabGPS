@@ -2,31 +2,31 @@
 package logic.classes;
 
 public class cRegiao {
-    private static  int icontaRegiao = 1;
+    private static  int iContaRegiao = 1;
     
-    private int iidRegiao;
-    private String snomeRegiao;
+    private int iIdRegiao;
+    private String sNomeRegiao;
    
 
     public cRegiao(String nomeRegiao) {
-        this.snomeRegiao = nomeRegiao;       
-        iidRegiao=icontaRegiao++;
+        this.sNomeRegiao = nomeRegiao;
+        iIdRegiao = iContaRegiao++;
     }
 
     public int getIdRegiao() {
-        return iidRegiao;
+        return iIdRegiao;
     }
 
     public void setIdRegiao(int idRegiao) {
-        this.iidRegiao = idRegiao;
+        this.iIdRegiao = idRegiao;
     }
 
     public String getNomeRegiao() {
-        return snomeRegiao;
+        return sNomeRegiao;
     }
 
     public void setNomeRegiao(String nomeRegiao) {
-        this.snomeRegiao = nomeRegiao;
+        this.sNomeRegiao = nomeRegiao;
     }
   
     

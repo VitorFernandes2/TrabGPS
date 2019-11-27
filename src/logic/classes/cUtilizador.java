@@ -3,36 +3,36 @@ package logic.classes;
 
 public class cUtilizador {
     
-    private static  int icontaUser = 1;
-    private int iidUtilizador;
-    private String susername;
-    private String spassword;
+    private static  int iContaUser = 1;
+    private int iIdUtilizador;
+    private String sUsername;
+    private String sPassword;
 
     public cUtilizador(String username, String password) {
-        this.susername = username;
-        this.spassword = password;
-        iidUtilizador=icontaUser++;
+        this.sUsername = username;
+        this.sPassword = password;
+        iIdUtilizador = iContaUser++;
     }
 
     public int getIdUtilizador() {
-        return iidUtilizador;
+        return iIdUtilizador;
     }
 
 
     public String getUsername() {
-        return susername;
+        return sUsername;
     }
 
     public void setUsername(String username) {
-        this.susername = username;
+        this.sUsername = username;
     }
 
     public String getPassword() {
-        return spassword;
+        return sPassword;
     }
 
     public void setPassword(String password) {
-        this.spassword = password;
+        this.sPassword = password;
     }
     
     

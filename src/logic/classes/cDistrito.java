@@ -11,18 +11,18 @@ package logic.classes;
  */
 public class cDistrito {
     
-    public String Distrito;
+    public String sDistrito;
 
     public cDistrito(String Distrito) {
-        this.Distrito = Distrito;
+        this.sDistrito = Distrito;
     }
 
     public String getDistrito() {
-        return Distrito;
+        return sDistrito;
     }
 
     public void setDistrito(String Distrito) {
-        this.Distrito = Distrito;
+        this.sDistrito = Distrito;
     }
     
     
