@@ -15,6 +15,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,16 +25,19 @@ import java.util.List;
 public class cIntenerario {
     
     private static ArrayList<String> lsCaminhoDetalhado;
+    private static ArrayList<String> lsCaminhoaltDetalhado;
     private static double dPartidaLat;
     private static double dPartidaLong;
     private static double dChegadaLat;
     private static double dChegadaLong;
     private static cE2UData e2udData;
     
-    public static ArrayList<String> getdirection(cE2UData data, String sPartida, String sChegada){
+    public static HashMap<String, ArrayList<String>> getdirection(cE2UData data, String sPartida, String sChegada){
 
         e2udData = data;
         ArrayList<cPosto> alOutput = null;
+        ArrayList<cPosto> alOutput2 = null;
+        HashMap<String, ArrayList<String>> hasmapoutput = new HashMap<String, ArrayList<String>>();
         
         try {
             
@@ -50,6 +54,7 @@ public class cIntenerario {
             bfReader.close();
             
             alOutput = getsimplepost(sPartida, sChegada, getdistrict(sInfo));
+            alOutput2 = getpostoalternativo(sPartida, sChegada, getdistrict(sInfo)); // new
             
             definegpsiniciais(sInfo);
             
@@ -59,11 +64,15 @@ public class cIntenerario {
             System.out.println("[ERROR]Não foi possivel ler os trajetos (IOException)");
         }
         
-        return getDirectionFinal(sPartida, alOutput, sChegada);
+        hasmapoutput.put("Itenerário Recomendado", getDirectionFinal(sPartida, alOutput, sChegada,1));
+        hasmapoutput.put("Itenerário Alternativo", getDirectionFinal(sPartida, alOutput2, sChegada,2));
+        
+        return hasmapoutput;
+        //return getDirectionFinal(sPartida, alOutput, sChegada);
     }
     
     
-    private static ArrayList<String> getDirectionFinal(String sPartida, ArrayList<cPosto> alPosto, String sChegada){
+    private static ArrayList<String> getDirectionFinal(String sPartida, ArrayList<cPosto> alPosto, String sChegada,int icaminho){
         int iTamWaypoints = 2 + alPosto.size();
         ArrayList<String> alDirectionArray = new ArrayList<>();
         List<Calendar> lsWaypointDate = new ArrayList<>();
@@ -82,7 +91,10 @@ public class cIntenerario {
 
             String sInfo = bfReader.readLine();
             
-            lsCaminhoDetalhado = getintenerario(sInfo);
+            if(icaminho == 2)
+                lsCaminhoaltDetalhado = getintenerario(sInfo);
+            else
+                lsCaminhoDetalhado = getintenerario(sInfo);
             
             lsWaypointDate = getTime(sInfo);
             lsWaypointDistance = getDisTotal(sInfo);
@@ -281,6 +293,97 @@ public class cIntenerario {
         return alRetronaArray;
     }
     
+    private static ArrayList<cPosto> getpostoalternativo(String sPartida,String sChegada,ArrayList<String> alArrayList){
+        
+        // Inicia o array de retorno
+        ArrayList<cPosto> alRetronaArray = new ArrayList<>();
+        boolean bentrei = false;
+        
+        // ve o posto mais proximo no distrito atual
+        double dCloser = -1;
+        int iPosCloser = -1;
+        for (int i=0; i<  e2udData.getListaPostos().size();i++){
+            
+            if (e2udData.getListaPostos().get(i).getDistrito().getDistrito().equals(sPartida)){
+
+                if(dCloser == -1){
+                    dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(i).getLatitude(), e2udData.getListaPostos().get(i).getLongitude());
+                    iPosCloser = i;
+                }else if (twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(i).getLatitude(), e2udData.getListaPostos().get(i).getLongitude()) < dCloser){
+                    dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(i).getLatitude(), e2udData.getListaPostos().get(i).getLongitude());
+                    iPosCloser = i;
+                }
+                //alRetronaArray.add( e2udData.getPosto(i));
+                //break;
+            }   
+        }
+        if(iPosCloser!=-1){
+            int imelhor = ( e2udData.getListaPostos().get(iPosCloser).getIdPosto());
+            
+            
+            for (int i=0; i<  e2udData.getListaPostos().size();i++){
+                
+                if (e2udData.getListaPostos().get(i).getDistrito().getDistrito().equals(sPartida) && bentrei == false){
+                    
+                    if(e2udData.getListaPostos().get(i).getIdPosto() != imelhor){
+                        alRetronaArray.add( e2udData.getListaPostos().get(iPosCloser));
+                        bentrei = true;
+                        break; 
+                    }
+                }
+
+            }
+        
+            if(bentrei = false){
+                alRetronaArray.add(e2udData.getListaPostos().get(iPosCloser));
+            }
+        }
+        
+        
+        // ve o posto mais proximo nos restantes distritos
+        for (int i=0; i< alArrayList.size();i++){
+            dCloser = -1;
+            iPosCloser = -1;
+            for(int j = 0; j <  e2udData.getListaPostos().size();j++){
+
+                if (alArrayList.get(i).equals(e2udData.getListaPostos().get(j).getDistrito().getDistrito())){
+                    
+                    if(dCloser == -1){
+                        dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(j).getLatitude(), e2udData.getListaPostos().get(j).getLongitude());
+                        iPosCloser = j;
+                    }else if (twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(j).getLatitude(), e2udData.getListaPostos().get(j).getLongitude()) < dCloser){
+                        dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(j).getLatitude(), e2udData.getListaPostos().get(j).getLongitude());
+                        iPosCloser = j;
+                    }
+                }
+            }
+            if(iPosCloser!=-1){
+                if(bentrei)
+                    alRetronaArray.add( e2udData.getListaPostos().get(iPosCloser));
+                else{
+                    int imelhor = e2udData.getListaPostos().get(iPosCloser).getIdPosto();
+                    for (int h=0; h<  e2udData.getListaPostos().size();h++){
+
+                        if (e2udData.getListaPostos().get(h).getDistrito().getDistrito().equals(sPartida) && bentrei == false){
+
+                            if(e2udData.getListaPostos().get(h).getIdPosto() != imelhor){
+                                alRetronaArray.add( e2udData.getListaPostos().get(iPosCloser));
+                                bentrei = true;
+                                break; 
+                            }
+                        }
+
+                    }
+                    if(bentrei == false)
+                        alRetronaArray.add( e2udData.getListaPostos().get(iPosCloser));
+                }
+            
+            }
+        }
+        
+        return alRetronaArray;
+    }
+    
     private static String postotodistrict (int iIdPorto){
         
         //return  e2udData.getListaRegioes().get(iIdRegiao).getNomeRegiao();
@@ -357,8 +460,11 @@ public class cIntenerario {
             
     }
 
-    public static ArrayList<String> getCaminhodetalhado() {
-        return lsCaminhoDetalhado;
+    public static ArrayList<String> getCaminhodetalhado(int iopc) {
+        if(iopc == 2)
+            return lsCaminhoaltDetalhado;
+        else
+            return lsCaminhoDetalhado;
     }
 
     private static void definegpsiniciais(String sInfo) {

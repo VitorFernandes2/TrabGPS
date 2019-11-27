@@ -581,7 +581,7 @@ public class cE2UData {
         return messages;
     }
 
-    public ArrayList<String> getdirection(String sPartida, String sChegada){
+    public HashMap<String, ArrayList<String>> getdirection(String sPartida, String sChegada){
         return cIntenerario.getdirection(this, sPartida, sChegada);
     }
 

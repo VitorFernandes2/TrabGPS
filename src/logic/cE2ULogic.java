@@ -190,7 +190,7 @@ public class cE2ULogic extends PropertyChangeSupport {
         }
     }
 
-    public ArrayList<String> getdirection(String sPartida, String sChegada){
+    public HashMap<String, ArrayList<String>> getdirection(String sPartida, String sChegada){
         return this.data.getdirection(sPartida, sChegada);
     }
 
