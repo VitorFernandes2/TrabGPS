@@ -27,9 +27,9 @@ public class RegisterPane extends StackPane implements Constants, PropertyChange
     private Button bRegisto;
     private StringTextfield tfUsername;
     private Hyperlink hlLogin;
-    private ViewImage ivLogo;
+    private ViewImage viLogo;
     private PassField pfPalavraPasse,pfConfirmaPalavraPasse;
-    private Label lErro;
+    private Label lbErro;
 
     public RegisterPane(cE2ULogic logic) {
         this.logic = logic;
@@ -46,22 +46,22 @@ public class RegisterPane extends StackPane implements Constants, PropertyChange
         pfPalavraPasse = new PassField("Password");
         pfConfirmaPalavraPasse = new PassField("Confirmar Password");
         hlLogin = new Hyperlink("Voltar ao Login");
-        lErro = new Label("Utilizador já existe na base de dados");
-        lErro.setTextFill(Color.RED);
-        lErro.setVisible(false);
+        lbErro = new Label("Utilizador já existe na base de dados");
+        lbErro.setTextFill(Color.RED);
+        lbErro.setVisible(false);
 
-        ivLogo = new ViewImage("../../" + sLogo);
+        viLogo = new ViewImage("../../" + sLogo);
 
-        HBox hBox = new HBox(ivLogo);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setPadding(new Insets(20,0,60,0));
+        HBox hbBox = new HBox(viLogo);
+        hbBox.setAlignment(Pos.CENTER);
+        hbBox.setPadding(new Insets(20,0,60,0));
 
-        VBox box = new VBox(hBox,tfUsername,pfPalavraPasse,pfConfirmaPalavraPasse,lErro,bRegisto, hlLogin);
-        box.setAlignment(Pos.CENTER);
-        box.setSpacing(15);
+        VBox vbBox = new VBox(hbBox,tfUsername,pfPalavraPasse,pfConfirmaPalavraPasse, lbErro,bRegisto, hlLogin);
+        vbBox.setAlignment(Pos.CENTER);
+        vbBox.setSpacing(15);
 
         ObservableList children = this.getChildren();
-        children.addAll(box);
+        children.addAll(vbBox);
     }
 
     private void registerListeners(){
@@ -75,36 +75,36 @@ public class RegisterPane extends StackPane implements Constants, PropertyChange
             tfUsername.setNormal();
             pfConfirmaPalavraPasse.setNormal();
             pfPalavraPasse.setNormal();
-            lErro.setVisible(false);
-            lErro.setText("Utilizador já existe na base de dados");
+            lbErro.setVisible(false);
+            lbErro.setText("Utilizador já existe na base de dados");
 
             switch (this.logic.getErro()){
 
                 case 1:
                     tfUsername.setError();
-                    lErro.setText("Insira o nome de utilizador!");
-                    lErro.setVisible(true);
+                    lbErro.setText("Insira o nome de utilizador!");
+                    lbErro.setVisible(true);
                     break;
                 case 2:
                     pfPalavraPasse.setError();
-                    lErro.setText("Insira a palavra-passe!");
-                    lErro.setVisible(true);
+                    lbErro.setText("Insira a palavra-passe!");
+                    lbErro.setVisible(true);
                     break;
                 case 8:
                     pfConfirmaPalavraPasse.setError();
-                    lErro.setText("Insira a confirmação da palavra-passe!");
-                    lErro.setVisible(true);
+                    lbErro.setText("Insira a confirmação da palavra-passe!");
+                    lbErro.setVisible(true);
                     break;
                 case 6:
                     pfPalavraPasse.setError();
                     pfConfirmaPalavraPasse.setError();
-                    lErro.setText("Palavra-passe e confirmação estão diferentes!");
-                    lErro.setVisible(true);
+                    lbErro.setText("Palavra-passe e confirmação estão diferentes!");
+                    lbErro.setVisible(true);
                     break;
                 case 5:
                     //Login mal efetuado
                     tfUsername.setError();
-                    lErro.setVisible(true);
+                    lbErro.setVisible(true);
                     break;
                 case 9:
                     tfUsername.clear();
@@ -113,7 +113,7 @@ public class RegisterPane extends StackPane implements Constants, PropertyChange
                     tfUsername.setNormal();
                     pfConfirmaPalavraPasse.setNormal();
                     pfPalavraPasse.setNormal();
-                    lErro.setVisible(false);
+                    lbErro.setVisible(false);
                     break;
 
             }
@@ -126,7 +126,7 @@ public class RegisterPane extends StackPane implements Constants, PropertyChange
             tfUsername.setNormal();
             pfConfirmaPalavraPasse.setNormal();
             pfPalavraPasse.setNormal();
-            lErro.setVisible(false);
+            lbErro.setVisible(false);
             this.logic.goToLogin();
         });
     }

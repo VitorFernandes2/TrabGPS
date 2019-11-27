@@ -20,14 +20,13 @@ import java.util.HashMap;
 public class HistoryPane extends StackPane implements PropertyChangeListener {
 
     private cE2ULogic logic;
-    private BorderPane borderPane;
-    private VBox mainPanel;
-    private Label titleLabel;
-    private VBox dataPanel;
-    private Label titlePostosLabel;
-    private LsView listaDados;
-    private MainMenuBar mainMenuBar;
-    private HBox topBox;
+    private BorderPane bpBorderPane;
+    private VBox vbMainPanel;
+    private Label lbTitleLabel;
+    private VBox vbDataPanel;
+    private LsView lvListaDados;
+    private MainMenuBar mmbMainMenuBar;
+    private HBox hbTopBox;
 
     public HistoryPane(cE2ULogic logic) {
         this.logic = logic;
@@ -38,107 +37,97 @@ public class HistoryPane extends StackPane implements PropertyChangeListener {
     }
 
     private void createComponents() {
-
-        ObservableList children = this.getChildren();
-        children.add(interfaceA());
-
+        ObservableList oblChildren = this.getChildren();
+        oblChildren.add(interfaceA());
     }
 
     private BorderPane interfaceA(){
+        bpBorderPane = new BorderPane();
+        vbMainPanel = new VBox();
+        lbTitleLabel = new LabelTitle("Histórico de Postos Reservados");
+        lbTitleLabel.setPadding(new Insets(30,0,0,10));
+        vbDataPanel = new VBox();
+        vbDataPanel.setPadding(new Insets(10,10,10,10));
 
-        borderPane = new BorderPane();
-        mainPanel = new VBox();
-        titleLabel = new LabelTitle("Histórico de Postos Reservados");
-        titleLabel.setPadding(new Insets(30,0,0,10));
-        dataPanel = new VBox();
-        dataPanel.setPadding(new Insets(10,10,10,10));
-
-        listaDados = new LsView();
-        mainMenuBar = new MainMenuBar(logic);
+        lvListaDados = new LsView();
+        mmbMainMenuBar = new MainMenuBar(logic);
 
         acrescentaDados(this.logic.historico());
 
-        dataPanel.getChildren().addAll(listaDados);
-        mainPanel.getChildren().addAll(titleLabel, dataPanel);
-        borderPane.setCenter(mainPanel);
-        MenuBar rightBar = new MenuBar();
-        Menu menuLogout = new Menu();
-        Label labelLogout = new Label("Logout");
+        vbDataPanel.getChildren().addAll(lvListaDados);
+        vbMainPanel.getChildren().addAll(lbTitleLabel, vbDataPanel);
+        bpBorderPane.setCenter(vbMainPanel);
+        MenuBar mnbRightBar = new MenuBar();
+        Menu mnLogout = new Menu();
+        Label lbLogout = new Label("Logout");
 
         //Logout
-        labelLogout.setOnMouseClicked(e -> {
+        lbLogout.setOnMouseClicked(e -> {
             this.logic.goToLogin();
         });
 
-        menuLogout.setGraphic(labelLogout);
-        rightBar.getMenus().addAll(menuLogout);
+        mnLogout.setGraphic(lbLogout);
+        mnbRightBar.getMenus().addAll(mnLogout);
 
-        Region spacer = new Region();
-        spacer.setBackground(
+        Region rSpacer = new Region();
+        rSpacer.setBackground(
                 new Background(
                         new BackgroundFill(Color.web("#383838"), CornerRadii.EMPTY, Insets.EMPTY)
                 )
         );
 
-        HBox.setHgrow(spacer, Priority.SOMETIMES);
-        topBox = new HBox(mainMenuBar, spacer, rightBar);
-        borderPane.setTop(topBox);
+        HBox.setHgrow(rSpacer, Priority.SOMETIMES);
+        hbTopBox = new HBox(mmbMainMenuBar, rSpacer, mnbRightBar);
+        bpBorderPane.setTop(hbTopBox);
 
-        return borderPane;
-
+        return bpBorderPane;
     }
 
     /**
      * Esta função acrescenta todos os dados ao histórico, isto permite que o código seja mais limpo
      */
-    private void acrescentaDados(HashMap<Integer,HashMap<String, String>> lista){
+    private void acrescentaDados(HashMap<Integer,HashMap<String, String>> sLista){
+        if (sLista.size() > 0){
+            for (int i = 1; i < sLista.size() + 1; i++) {
+                HBox hbMainBox = new HBox();
+                HBox hbLinha = new HBox();
 
-        if (lista.size() > 0){
-            for (int i = 1; i < lista.size() + 1; i++) {
+                HBox hbInfoPosto = new HBox(new Label(sLista.get(i).get("info")));
+                hbInfoPosto.setAlignment(Pos.CENTER_LEFT);
 
-                HBox mainBox = new HBox();
-                HBox linha = new HBox();
-
-                HBox InfoPosto = new HBox(new Label(lista.get(i).get("info")));
-                InfoPosto.setAlignment(Pos.CENTER_LEFT);
-
-                Label lblEstado = new Label(lista.get(i).get("estado"));
+                Label lblEstado = new Label(sLista.get(i).get("estado"));
 
                 if (lblEstado.getText().equals("Efetuada"))
                     lblEstado.setTextFill(Color.GREEN);
                 else
                     lblEstado.setTextFill(Color.RED);
 
-                HBox InfoDispo = new HBox(lblEstado);
-                InfoDispo.setAlignment(Pos.CENTER_RIGHT);
+                HBox hbInfoDispo = new HBox(lblEstado);
+                hbInfoDispo.setAlignment(Pos.CENTER_RIGHT);
 
-                linha.getChildren().addAll(InfoPosto, InfoDispo);
-                linha.setHgrow(InfoPosto, Priority.ALWAYS);
-                linha.setHgrow(InfoDispo,Priority.ALWAYS);
+                hbLinha.getChildren().addAll(hbInfoPosto, hbInfoDispo);
+                hbLinha.setHgrow(hbInfoPosto, Priority.ALWAYS);
+                hbLinha.setHgrow(hbInfoDispo,Priority.ALWAYS);
 
-                mainBox.getChildren().addAll(linha);
-                mainBox.setHgrow(linha, Priority.ALWAYS);
-                mainBox.setSpacing(30);
+                hbMainBox.getChildren().addAll(hbLinha);
+                hbMainBox.setHgrow(hbLinha, Priority.ALWAYS);
+                hbMainBox.setSpacing(30);
 
-                listaDados.getItems().add(mainBox);
-
+                lvListaDados.getItems().add(hbMainBox);
             }
         }
         else{
-            listaDados.getItems().add(new Label("Não existe nenhuma reserva feita até ao momento."));
+            lvListaDados.getItems().add(new Label("Não existe nenhuma reserva feita até ao momento."));
         }
-
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
         this.setVisible(this.logic.inHistorico());
 
         if (!this.logic.inRegister() && !this.logic.inLogin()){
-            listaDados.getItems().clear();
+            lvListaDados.getItems().clear();
             acrescentaDados(this.logic.historico());
         }
-
     }
 }

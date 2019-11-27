@@ -19,7 +19,7 @@ public class GraphicInterface implements Constants {
 
         primaryStage.setTitle("Energy2U");
         PaneOrganizer paneOrganizer = new PaneOrganizer(logic);
-        Scene scene = new Scene(paneOrganizer.getRoot());
+        Scene scene = new Scene(paneOrganizer.getPnRoot());
         primaryStage.setMinHeight(HEIGTH);
         primaryStage.setMinWidth(WIDTH);
         primaryStage.centerOnScreen();

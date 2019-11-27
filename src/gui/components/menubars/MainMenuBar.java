@@ -8,57 +8,57 @@ import logic.cE2ULogic;
 public class MainMenuBar extends MenuBar {
 
     private cE2ULogic logic;
-    private Menu menu1;
-    private Menu menu2;
-    private Menu menu3;
-    private Menu menu4;
-    private Menu menu5;
-    private Label label1;
-    private Label label2;
-    private Label label3;
-    private Label label4;
-    private Label label5;
+    private Menu mn1;
+    private Menu mn2;
+    private Menu mn3;
+    private Menu mn4;
+    private Menu mn5;
+    private Label lb1;
+    private Label lb2;
+    private Label lb3;
+    private Label lb4;
+    private Label lb5;
 
     public MainMenuBar(cE2ULogic logic) {
         this.logic = logic;
 
-        label1 = new Label("Inicio");
-        label1.setOnMouseClicked(e -> {
+        lb1 = new Label("Inicio");
+        lb1.setOnMouseClicked(e -> {
             this.logic.goToPesquisa();
         });
-        label2 = new Label("Itinerário");
-        label2.setOnMouseClicked(e -> {
+        lb2 = new Label("Itinerário");
+        lb2.setOnMouseClicked(e -> {
             this.logic.goToItinerario();
         });
-        label3 = new Label("Histórico");
-        label3.setOnMouseClicked(e -> {
+        lb3 = new Label("Histórico");
+        lb3.setOnMouseClicked(e -> {
             this.logic.goToHistorico();
         });
-        label4 = new Label("Pendentes");
-        label4.setOnMouseClicked(e -> {
+        lb4 = new Label("Pendentes");
+        lb4.setOnMouseClicked(e -> {
             this.logic.goToPendentes();
         });
-        label5 = new Label("Logout");
-        label5.setOnMouseClicked(e -> {
+        lb5 = new Label("Logout");
+        lb5.setOnMouseClicked(e -> {
             System.exit(0);
         });
 
-        menu1 = new Menu();
-        menu1.setGraphic(label1);
+        mn1 = new Menu();
+        mn1.setGraphic(lb1);
 
-        menu2 = new Menu();
-        menu2.setGraphic(label2);
+        mn2 = new Menu();
+        mn2.setGraphic(lb2);
 
-        menu3 = new Menu();
-        menu3.setGraphic(label3);
+        mn3 = new Menu();
+        mn3.setGraphic(lb3);
 
-        menu4 = new Menu();
-        menu4.setGraphic(label4);
+        mn4 = new Menu();
+        mn4.setGraphic(lb4);
 
-        menu5 = new Menu();
-        menu5.setGraphic(label5);
+        mn5 = new Menu();
+        mn5.setGraphic(lb5);
 
-        this.getMenus().addAll(menu1, menu2, menu3, menu4);
+        this.getMenus().addAll(mn1, mn2, mn3, mn4);
         this.getStyleClass().add("MainMenuBar");
 
     }

@@ -4,16 +4,16 @@ import javafx.scene.control.Button;
 
 public class DefaultButton extends Button {
 
-    public DefaultButton(String text) {
-        super(text);
+    public DefaultButton(String iText) {
+        super(iText);
         this.getStyleClass().add("DefaultButton");
     }
 
-    public DefaultButton(String text, int width, int height) {
-        this(text);
-        if (height > 0)
-            this.setPrefHeight(height);
-        if (width > 0)
-            this.setPrefWidth(width);
+    public DefaultButton(String iText, int iWidth, int iHeight) {
+        this(iText);
+        if (iHeight > 0)
+            this.setPrefHeight(iHeight);
+        if (iWidth > 0)
+            this.setPrefWidth(iWidth);
     }
 }

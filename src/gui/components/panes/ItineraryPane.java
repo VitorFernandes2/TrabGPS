@@ -22,16 +22,16 @@ import java.util.List;
 public class ItineraryPane extends StackPane implements PropertyChangeListener {
 
     private cE2ULogic logic;
-    private BorderPane borderPane;
-    private MainMenuBar mainMenuBar;
-    private VBox leftbox;
+    private BorderPane bpBorderPane;
+    private MainMenuBar mnbMainMenuBar;
+    private VBox vbLeftbox;
     private ChoiceBox cbLocalidade;
     private ChoiceBox cbLocalidadeDestino;
-    private VBox centerbox;
+    private VBox vbCenterbox;
     private Button btPesquisa;
-    private LsView listaDados;
+    private LsView lvListaDados;
     private CheckBox cb;
-    private HBox topBox;
+    private HBox hbTopBox;
 
     public ItineraryPane(cE2ULogic logic) {
         this.logic = logic;
@@ -43,20 +43,17 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
     }
 
     private void createComponents() {
-
         ObservableList children = this.getChildren();
         children.add(interfaceA());
-
     }
 
     private BorderPane interfaceA(){
+        bpBorderPane = new BorderPane();
+        vbLeftbox = new VBox();
+        vbCenterbox = new VBox();
+        lvListaDados = new LsView();
 
-        borderPane = new BorderPane();
-        leftbox = new VBox();
-        centerbox = new VBox();
-        listaDados = new LsView();
-
-        mainMenuBar = new MainMenuBar(logic);
+        mnbMainMenuBar = new MainMenuBar(logic);
 
         Label lbLocalidade = new LabelTitle("Partida: ");
         Label lbLocalidade2 = new LabelTitle("Destino: ");
@@ -74,87 +71,73 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
         cb = new CheckBox("Localização Atual: ");
         cb.setPadding(new Insets(0,0,15,0));
 
-        VBox box = new VBox(lbLocalidade, cb, cbLocalidade, lbLocalidade2, cbLocalidadeDestino);
-        box.setPadding(new Insets(0,0,15,0));
+        VBox vbBox = new VBox(lbLocalidade, cb, cbLocalidade, lbLocalidade2, cbLocalidadeDestino);
+        vbBox.setPadding(new Insets(0,0,15,0));
 
-        leftbox.getChildren().addAll(box, btPesquisa);
-        leftbox.setPadding(new Insets(50,0,0,50));
-        centerbox.getChildren().addAll(listaDados);
-        centerbox.setPadding(new Insets(30,30,0,30));
+        vbLeftbox.getChildren().addAll(vbBox, btPesquisa);
+        vbLeftbox.setPadding(new Insets(50,0,0,50));
+        vbCenterbox.getChildren().addAll(lvListaDados);
+        vbCenterbox.setPadding(new Insets(30,30,0,30));
 
-        MenuBar rightBar = new MenuBar();
-        Menu menuLogout = new Menu();
-        Label labelLogout = new Label("Logout");
+        MenuBar mbRightBar = new MenuBar();
+        Menu mnLogout = new Menu();
+        Label lbLogout = new Label("Logout");
 
         //Logout
-        labelLogout.setOnMouseClicked(e -> {
+        lbLogout.setOnMouseClicked(e -> {
             this.logic.goToLogin();
         });
 
-        menuLogout.setGraphic(labelLogout);
-        rightBar.getMenus().addAll(menuLogout);
+        mnLogout.setGraphic(lbLogout);
+        mbRightBar.getMenus().addAll(mnLogout);
 
-        Region spacer = new Region();
-        spacer.setBackground(
+        Region rSpacer = new Region();
+        rSpacer.setBackground(
                 new Background(
                         new BackgroundFill(Color.web("#383838"), CornerRadii.EMPTY, Insets.EMPTY)
                 )
         );
 
-        HBox.setHgrow(spacer, Priority.SOMETIMES);
-        topBox = new HBox(mainMenuBar, spacer, rightBar);
-        borderPane.setTop(topBox);
-        borderPane.setCenter(centerbox);
-        borderPane.setLeft(leftbox);
+        HBox.setHgrow(rSpacer, Priority.SOMETIMES);
+        hbTopBox = new HBox(mnbMainMenuBar, rSpacer, mbRightBar);
+        bpBorderPane.setTop(hbTopBox);
+        bpBorderPane.setCenter(vbCenterbox);
+        bpBorderPane.setLeft(vbLeftbox);
 
-        return borderPane;
-
+        return bpBorderPane;
     }
 
     private void registerListeners(){
-
         btPesquisa.setOnMouseClicked(e -> {
+            String sDestino = (String) cbLocalidadeDestino.getValue();
+            String sPartida = (String) cbLocalidade.getValue();
 
-            String Destino = (String) cbLocalidadeDestino.getValue();
-            String Partida = (String) cbLocalidade.getValue();
-
-            if (Destino != null && Partida != null){
-
-                listaDados.getItems().clear();
-
-                ArrayList<String> directions = this.logic.getdirection(Partida, Destino);
-
-
+            if (sDestino != null && sPartida != null){
+                lvListaDados.getItems().clear();
+                ArrayList<String> directions = this.logic.getdirection(sPartida, sDestino);
                 acrescentaDados(directions);
-
-                
-
             }
-
         });
-
     }
 
     /**
      * Esta função acrescenta todos os dados ao histórico, isto permite que o código seja mais limpo
      */
     private void acrescentaDados(List<String> lista){
-
         if (lista.size() > 0){
             for (int i = 0; i < lista.size(); i++) {
+                HBox hbMainBox = new HBox();
+                HBox hbLinha = new HBox();
 
-                HBox mainBox = new HBox();
-                HBox linha = new HBox();
-
-                HBox InfoPosto = new HBox(new Label(lista.get(i)));
-                InfoPosto.setAlignment(Pos.CENTER_LEFT);
+                HBox hbInfoPosto = new HBox(new Label(lista.get(i)));
+                hbInfoPosto.setAlignment(Pos.CENTER_LEFT);
 
                 QueryButton btCancelar = new QueryButton("Reservar Posto");
 
-                String item = lista.get(i);
+                String sItem = lista.get(i);
 
                 btCancelar.setOnMouseClicked(event -> {
-                    this.logic.reserva(item);
+                    this.logic.reserva(sItem);
                 });
 
                 HBox InfoDispo = new HBox(btCancelar);
@@ -162,25 +145,23 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
                 InfoDispo.setAlignment(Pos.CENTER_RIGHT);
 
                 if(i == 0 || i == lista.size()-1){
-                    linha.getChildren().addAll(InfoPosto);}
+                    hbLinha.getChildren().addAll(hbInfoPosto);}
                 else {
-                    linha.getChildren().addAll(InfoPosto, InfoDispo);
+                    hbLinha.getChildren().addAll(hbInfoPosto, InfoDispo);
                 }
-                linha.setHgrow(InfoPosto, Priority.ALWAYS);
-                linha.setHgrow(InfoDispo,Priority.ALWAYS);
+                hbLinha.setHgrow(hbInfoPosto, Priority.ALWAYS);
+                hbLinha.setHgrow(InfoDispo,Priority.ALWAYS);
 
-                mainBox.getChildren().addAll(linha);
-                mainBox.setHgrow(linha, Priority.ALWAYS);
-                mainBox.setSpacing(30);
+                hbMainBox.getChildren().addAll(hbLinha);
+                hbMainBox.setHgrow(hbLinha, Priority.ALWAYS);
+                hbMainBox.setSpacing(30);
 
-                listaDados.getItems().add(mainBox);
-
+                lvListaDados.getItems().add(hbMainBox);
             }
         }
         else{
-            listaDados.getItems().add(new Label("Não existe nenhuma reserva feita até ao momento."));
+            lvListaDados.getItems().add(new Label("Não existe nenhuma reserva feita até ao momento."));
         }
-
     }
 
     @Override

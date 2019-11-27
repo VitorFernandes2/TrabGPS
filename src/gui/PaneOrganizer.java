@@ -6,13 +6,13 @@ import logic.cE2ULogic;
 
 public class PaneOrganizer {
 
-    private final Pane root;
+    private final Pane pnRoot;
 
     public PaneOrganizer(cE2ULogic logic) {
-        this.root = new PaneRoot(logic);
+        this.pnRoot = new PaneRoot(logic);
     }
 
-    public Pane getRoot() {
-        return root;
+    public Pane getPnRoot() {
+        return pnRoot;
     }
 }

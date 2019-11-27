@@ -5,8 +5,8 @@ import javafx.scene.image.ImageView;
 
 public class ViewImage extends ImageView {
 
-    public ViewImage(String url) {
+    public ViewImage(String sUrl) {
         super();
-        this.setImage(new Image(getClass().getResourceAsStream(url)));
+        this.setImage(new Image(getClass().getResourceAsStream(sUrl)));
     }
 }

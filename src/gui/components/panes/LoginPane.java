@@ -27,7 +27,7 @@ public class LoginPane extends StackPane implements Constants, PropertyChangeLis
     private PassField pfPalavraPasse;
     private Hyperlink hlRegisto;
     private ViewImage ivLogo;
-    private Label label;
+    private Label lbLabel;
 
     public LoginPane(cE2ULogic logic) {
         this.logic = logic;
@@ -43,21 +43,21 @@ public class LoginPane extends StackPane implements Constants, PropertyChangeLis
         tfUsername = new StringTextfield("Nome do Utilizador");
         pfPalavraPasse = new PassField("Password");
         hlRegisto = new Hyperlink("Efetuar Registo");
-        label = new Label("Nome de Utilizador ou Palavra-passe estão incorretos");
-        label.setTextFill(Color.RED);
-        label.setVisible(false);
+        lbLabel = new Label("Nome de Utilizador ou Palavra-passe estão incorretos");
+        lbLabel.setTextFill(Color.RED);
+        lbLabel.setVisible(false);
 
         ivLogo = new ViewImage("../../" + sLogo);
-        HBox hBox = new HBox(ivLogo);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setPadding(new Insets(20,0,60,0));
+        HBox hbBox = new HBox(ivLogo);
+        hbBox.setAlignment(Pos.CENTER);
+        hbBox.setPadding(new Insets(20,0,60,0));
 
-        VBox box = new VBox(hBox,tfUsername,pfPalavraPasse,label,bLogin,hlRegisto);
-        box.setAlignment(Pos.CENTER);
-        box.setSpacing(15);
+        VBox vbBox = new VBox(hbBox,tfUsername,pfPalavraPasse, lbLabel,bLogin,hlRegisto);
+        vbBox.setAlignment(Pos.CENTER);
+        vbBox.setSpacing(15);
 
         ObservableList children = this.getChildren();
-        children.addAll(box);
+        children.addAll(vbBox);
 
     }
 
@@ -66,26 +66,26 @@ public class LoginPane extends StackPane implements Constants, PropertyChangeLis
             this.logic.Login(tfUsername.getText(), pfPalavraPasse.getText());
             pfPalavraPasse.setNormal();
             tfUsername.setNormal();
-            label.setVisible(false);
-            label.setText("Nome de Utilizador ou Palavra-passe estão incorretos");
+            lbLabel.setVisible(false);
+            lbLabel.setText("Nome de Utilizador ou Palavra-passe estão incorretos");
 
             switch (this.logic.getErro()){
                 case 1:
                     tfUsername.setError();
-                    label.setText("Utilizador errado!");
-                    label.setVisible(true);
+                    lbLabel.setText("Utilizador errado!");
+                    lbLabel.setVisible(true);
                     break;
                 case 2:
                     pfPalavraPasse.setError();
-                    label.setText("Palavra-passe errada!");
-                    label.setVisible(true);
+                    lbLabel.setText("Palavra-passe errada!");
+                    lbLabel.setVisible(true);
                     break;
                 case 3:
                 case 4:
                     //Login mal efetuado
                     tfUsername.setError();
                     pfPalavraPasse.setError();
-                    label.setVisible(true);
+                    lbLabel.setVisible(true);
                     break;
 
             }
@@ -98,7 +98,7 @@ public class LoginPane extends StackPane implements Constants, PropertyChangeLis
             pfPalavraPasse.clear();
             tfUsername.setNormal();
             tfUsername.clear();
-            label.setVisible(false);
+            lbLabel.setVisible(false);
             this.logic.goToRegister();
         });
     }
