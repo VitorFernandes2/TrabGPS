@@ -19,6 +19,7 @@ public class cE2ULogic extends PropertyChangeSupport {
         super(state);
         this.state = state;
         this.data = data;
+        
     }
 
     public boolean inLogin(){
