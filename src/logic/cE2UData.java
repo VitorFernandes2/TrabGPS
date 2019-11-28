@@ -5,6 +5,7 @@ import logic.classes.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -24,7 +25,7 @@ public class cE2UData {
     private String sRegiaoUtilizador;
     private static int ierro = 0;
     private int iuserLogado;
-    
+    private cLigacaoBD ligacaoBD;
     public ArrayList<cReserva> getListaReservas() {
         return listaReservas;
     }
@@ -68,12 +69,13 @@ public class cE2UData {
         //getUtilizadorArea();
         iuserLogado=0;
         verificaReservas();
+        ligacaoBD = new cLigacaoBD();
+        
     }
     
     public void verificaReservas(){
     
         Date dataAtual = new Date();
-
 
         for(cReserva reserva : listaReservas){
         Date dataReserva = new Date(reserva.getData());
@@ -86,6 +88,7 @@ public class cE2UData {
     }
     
     public void inicializaListas(){
+                
         listaUtilizadores.add(new cUtilizador("User","123"));
         
         //listaReservas.add(new cReserva(30*1.5,1,1,1));
@@ -221,7 +224,11 @@ public class cE2UData {
                 return false;
             }
             
-            listaUtilizadores.add(new cUtilizador(sUsername,sPassword));
+            String query = "INSERT INTO utilizador(username, password) VALUES ("+sUsername+","+sPassword+")";
+            System.out.println(query);
+            if(!ligacaoBD.executarInsert(query))
+                return false;
+            //listaUtilizadores.add(new cUtilizador(sUsername,sPassword));
             return true;
         }
     }
@@ -518,15 +525,34 @@ public class cE2UData {
             return false;
         }
 
+        String query = "INSERT INTO reserva(idUtilizador,custoPrevisto, idPosto, estado, diaReserva,idIntervaloTempo) VALUES ("+iuserLogado+""
+                + ","+Double.parseDouble(a.get("\'Preço\'")) * 30 + ","+iidPosto+",\'Ativo\',"+getData()+","+iidIntervalo+")";
+        ligacaoBD.executarInsert(query);
         listaReservas.add(new cReserva(Double.parseDouble(a.get(" Preço")) * 30,iidPosto,iuserLogado,iidIntervalo));
 
+        int idDispP = 0;
+        int idDispT = 0;
         for(cDisponibilidadesByTempo dips : listaDisponibilidades) {
             if(dips.getIdPosto() == iidPosto && dips.getIdIntervaloTempo() == iidIntervalo) {
-                dips.setDisponibilidade(false);
+                //dips.setDisponibilidade(false);
+                idDispP = iidPosto;
+                idDispT = iidIntervalo;
             }
+        }
+        if(idDispP!= 0 && idDispT!=0){
+            String queryUpdate = "UPDATE disponibilidadesbytempo SET disponibilidade = 1 WHERE idPosto = "+idDispP+" and idIntervaloTempo = "+idDispT;
+            ligacaoBD.executarUpdate(queryUpdate);
         }
 
         return true;
+    }
+    
+     public String getData(){
+        GregorianCalendar calendar = new GregorianCalendar();
+        int dia = calendar.get(GregorianCalendar.DAY_OF_MONTH);
+        int mes = calendar.get(GregorianCalendar.MONTH);
+        int ano = calendar.get(GregorianCalendar.YEAR);
+        return dia+"/"+mes+"/"+ano;
     }
     
     public boolean cancelarReserva(String sdados) {

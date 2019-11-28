@@ -114,8 +114,8 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
 
             if (sDestino != null && sPartida != null){
                 lvListaDados.getItems().clear();
-                ArrayList<String> directions = this.logic.getdirection(sPartida, sDestino);
-                acrescentaDados(directions);
+                //ArrayList<String> directions = this.logic.getdirection(sPartida, sDestino);
+               // acrescentaDados(directions);
             }
         });
     }
