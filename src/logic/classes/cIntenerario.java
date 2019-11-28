@@ -38,25 +38,44 @@ public class cIntenerario {
         ArrayList<cPosto> alOutput = null;
         ArrayList<cPosto> alOutput2 = null;
         HashMap<String, ArrayList<String>> hasmapoutput = new HashMap<String, ArrayList<String>>();
+        URL urlTest;
+        URLConnection urlcReturnado;
+        BufferedReader bfReader;
+        String sInfo;
         
         try {
             
-            URL urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + sPartida.trim() + ",PT&wp.1=" + sChegada.trim() + ",PT&c=pt-PT&optmz=timeWithTraffic&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
+            urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + sPartida.trim() + ",PT&wp.1=" + sChegada.trim() + ",PT&c=pt-PT&optmz=timeWithTraffic&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
             
-            URLConnection urlcReturnado = urlTest.openConnection();
+            urlcReturnado = urlTest.openConnection();
             
             urlcReturnado.setRequestProperty ("User-Agent", "java-ipapi-client");
-            BufferedReader bfReader = new BufferedReader(
+            bfReader = new BufferedReader(
                     new InputStreamReader(urlcReturnado.getInputStream())
             );
             
-            String sInfo = bfReader.readLine();
+            sInfo = bfReader.readLine();
             bfReader.close();
             
-            alOutput = getsimplepost(sPartida, sChegada, getdistrict(sInfo));
-            alOutput2 = getpostoalternativo(sPartida, sChegada, getdistrict(sInfo)); // new
-            
             definegpsiniciais(sInfo);
+            
+            alOutput = getsimplepost(sPartida, sChegada, getdistrict(sInfo, sPartida));
+//            
+//            urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + sPartida.trim() + ",PT&wp.1=" + sChegada.trim() + ",PT&c=pt-PT&optmz=Distance&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
+//            
+//            urlcReturnado = urlTest.openConnection();
+//            
+//            urlcReturnado.setRequestProperty ("User-Agent", "java-ipapi-client");
+//            bfReader = new BufferedReader(
+//                    new InputStreamReader(urlcReturnado.getInputStream())
+//            );
+//            
+//            sInfo = bfReader.readLine();
+//            bfReader.close();
+//            
+//            definegpsiniciais(sInfo);
+            
+            alOutput2 = getpostoalternativo(sPartida, sChegada, getdistrict(sInfo, sPartida)); // new
             
         } catch (MalformedURLException ex) {
             System.out.println("[ERROR]Não foi possivel connectar a api de trajetos (MalformedURLException)");
@@ -334,7 +353,7 @@ public class cIntenerario {
 
             }
         
-            if(bentrei = false){
+            if(bentrei == false){
                 alRetronaArray.add(e2udData.getListaPostos().get(iPosCloser));
             }
         }
@@ -369,7 +388,7 @@ public class cIntenerario {
                             if(e2udData.getListaPostos().get(h).getIdPosto() != imelhor){
                                 alRetronaArray.add( e2udData.getListaPostos().get(iPosCloser));
                                 bentrei = true;
-                                break; 
+                                break;
                             }
                         }
 
@@ -420,7 +439,7 @@ public class cIntenerario {
         
     }
     
-    public static ArrayList<String> getdistrict (String sInfo){
+    public static ArrayList<String> getdistrict (String sInfo, String sPartida){
         
         ArrayList<String> alDirectionArray = new ArrayList<>();
         String sPesquisa = "Entrada";
@@ -433,7 +452,10 @@ public class cIntenerario {
             
             String sCopyin = sInfo;
             String sMsg = sCopyin.split(sEndString)[0];
-            alDirectionArray.add(sMsg);
+            
+            if(sMsg.compareToIgnoreCase(sPartida) != 0){
+                alDirectionArray.add(sMsg);
+            }
 
         }
         
