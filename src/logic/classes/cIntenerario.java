@@ -329,6 +329,11 @@ public class cIntenerario {
                     dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(i).getLatitude(), e2udData.getListaPostos().get(i).getLongitude());
                     iPosCloser = i;
                 }else if (twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(i).getLatitude(), e2udData.getListaPostos().get(i).getLongitude()) < dCloser){
+                    
+                    if(bentrei == false){
+                    alRetronaArray.add(e2udData.getListaPostos().get(iPosCloser));
+                    bentrei = true;
+                    }
                     dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(i).getLatitude(), e2udData.getListaPostos().get(i).getLongitude());
                     iPosCloser = i;
                 }
@@ -336,26 +341,8 @@ public class cIntenerario {
                 //break;
             }   
         }
-        if(iPosCloser!=-1){
-            int imelhor = ( e2udData.getListaPostos().get(iPosCloser).getIdPosto());
-            
-            
-            for (int i=0; i<  e2udData.getListaPostos().size();i++){
-                
-                if (e2udData.getListaPostos().get(i).getDistrito().getDistrito().equals(sPartida) && bentrei == false){
-                    
-                    if(e2udData.getListaPostos().get(i).getIdPosto() != imelhor){
-                        alRetronaArray.add( e2udData.getListaPostos().get(iPosCloser));
-                        bentrei = true;
-                        break; 
-                    }
-                }
-
-            }
-        
-            if(bentrei == false){
-                alRetronaArray.add(e2udData.getListaPostos().get(iPosCloser));
-            }
+        if(iPosCloser!=-1 && bentrei == false){
+            alRetronaArray.add(e2udData.getListaPostos().get(iPosCloser));
         }
         
         
@@ -363,6 +350,7 @@ public class cIntenerario {
         for (int i=0; i< alArrayList.size();i++){
             dCloser = -1;
             iPosCloser = -1;
+            boolean bentreiaqui = false;
             for(int j = 0; j <  e2udData.getListaPostos().size();j++){
 
                 if (alArrayList.get(i).equals(e2udData.getListaPostos().get(j).getDistrito().getDistrito())){
@@ -371,33 +359,21 @@ public class cIntenerario {
                         dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(j).getLatitude(), e2udData.getListaPostos().get(j).getLongitude());
                         iPosCloser = j;
                     }else if (twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(j).getLatitude(), e2udData.getListaPostos().get(j).getLongitude()) < dCloser){
+                        
+                        if(bentrei == false){
+                            alRetronaArray.add(e2udData.getListaPostos().get(iPosCloser));
+                            bentreiaqui = true;
+                            bentrei = true;
+                        }
                         dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(j).getLatitude(), e2udData.getListaPostos().get(j).getLongitude());
                         iPosCloser = j;
                     }
                 }
             }
-            if(iPosCloser!=-1){
-                if(bentrei)
-                    alRetronaArray.add( e2udData.getListaPostos().get(iPosCloser));
-                else{
-                    int imelhor = e2udData.getListaPostos().get(iPosCloser).getIdPosto();
-                    for (int h=0; h<  e2udData.getListaPostos().size();h++){
-
-                        if (e2udData.getListaPostos().get(h).getDistrito().getDistrito().equals(sPartida) && bentrei == false){
-
-                            if(e2udData.getListaPostos().get(h).getIdPosto() != imelhor){
-                                alRetronaArray.add( e2udData.getListaPostos().get(iPosCloser));
-                                bentrei = true;
-                                break;
-                            }
-                        }
-
-                    }
-                    if(bentrei == false)
-                        alRetronaArray.add( e2udData.getListaPostos().get(iPosCloser));
-                }
-            
+            if(iPosCloser!=-1 && bentreiaqui == false){
+                alRetronaArray.add(e2udData.getListaPostos().get(iPosCloser));
             }
+
         }
         
         return alRetronaArray;
