@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,7 +31,6 @@ public class cLigacaoBD {
            
             Class.forName(JDBC_DRIVER);
             
-            System.out.println("Ligando à base de dados ...\n");
             conn_ligacao = DriverManager.getConnection("jdbc:mysql://localhost/"+NAME_BD+"?useTimezone=true&serverTimezone=UTC", USER_BD, PASS_USER_BD);
             
         } catch ( SQLException ex) {
@@ -57,7 +58,7 @@ public class cLigacaoBD {
         return true;
     }
     
-     public String executarSelect(String query)
+    public String executarSelect(String query)
     {
         String s_resposta = "ERRO";
         try {
@@ -77,7 +78,146 @@ public class cLigacaoBD {
         
         return s_resposta;
     }
-     
+    
+    public ArrayList<cIntervaloTempo> executarSelectTempos() 
+    {
+        try {
+            ArrayList<cIntervaloTempo> lista = new ArrayList<>();
+            String query = "Select * from intervalotempo";
+
+            stmt = conn_ligacao.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                int i = rs.getInt("idIntervaloTempo");
+                String ini = rs.getString("horaInicio");
+                String fim = rs.getString("horaFim");
+                lista.add(new cIntervaloTempo(i,ini,fim));
+            }
+            
+            return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(cLigacaoBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    public ArrayList<cRegiao> executarSelectRegiao() 
+    {
+        try {
+            ArrayList<cRegiao> lista = new ArrayList<>();
+            String query = "Select * from regiao";
+            stmt = conn_ligacao.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                int i = rs.getInt("idRegiao");
+                String n = rs.getString("nomeRegiao");
+                int id = rs.getInt("idDistrito");
+                lista.add(new cRegiao(i,n,id));
+            }
+            
+            return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(cLigacaoBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public ArrayList<cDisponibilidadesByTempo> executarSelectDisponibilidades() 
+    {
+        try {
+            ArrayList<cDisponibilidadesByTempo> lista = new ArrayList<>();
+            String query = "Select * from disponibilidadesbytempo";
+            stmt = conn_ligacao.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                int i = rs.getInt("idPosto");
+                int n = rs.getInt("idIntervaloTempo");
+                int id = rs.getInt("disponibilidade");
+                if(id==0)
+                    lista.add(new cDisponibilidadesByTempo(i,n,true));
+                else
+                    lista.add(new cDisponibilidadesByTempo(i,n,false));
+            }
+            
+            return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(cLigacaoBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    
+     public ArrayList<cReserva> executarSelectReservas() 
+    {
+        
+        try {
+            ArrayList<cReserva> lista = new ArrayList<>();
+            String query = "Select * from reserva";
+            stmt = conn_ligacao.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                int idR = rs.getInt("idReserva");
+                int idP = rs.getInt("idPosto");
+                int idT = rs.getInt("idIntervaloTempo");
+                int idU = rs.getInt("idUtilizador");
+                double custo = rs.getDouble("custoPrevisto");
+                String est = rs.getString("estado");
+                String data = rs.getString("diaReserva");
+
+                lista.add(new cReserva(idR,custo,idP,idU,idT,est,data));
+            }
+            
+            return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(cLigacaoBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public ArrayList<cDistrito> executarSelectDistrito() 
+    {
+        try {
+            ArrayList<cDistrito> lista = new ArrayList<>();
+            String query = "Select * from distrito";
+            stmt = conn_ligacao.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                int i = rs.getInt("idDistrito");
+                String n = rs.getString("nomeDitrito");
+                lista.add(new cDistrito(i,n));
+            }
+            
+            return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(cLigacaoBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public ArrayList<cPosto> executarSelectPostos() 
+    {
+        try {
+            ArrayList<cPosto> lista = new ArrayList<>();
+            String query = "Select * from posto";
+            stmt = conn_ligacao.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                int i = rs.getInt("idPosto");
+                String n = rs.getString("localizacao");
+                int reg = rs.getInt("idRegiao");
+                double preco = rs.getDouble("precoCarregamento");
+                double lat = rs.getDouble("latitude");
+                double lon = rs.getDouble("longitude");
+                lista.add(new cPosto(i,reg,n,preco,lon,lat));
+            }
+            
+            return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(cLigacaoBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+         
      public boolean executarUpdate(String query)
     {
         try {

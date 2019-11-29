@@ -383,13 +383,13 @@ public class cIntenerario {
         
         return alRetronaArray;
     }
-    
+    /*
     private static String postotodistrict (int iIdPorto){
         
         //return  e2udData.getListaRegioes().get(iIdRegiao).getNomeRegiao();
         return e2udData.getListaPostos().get(iIdPorto).getDistrito().sDistrito;
     }
-    
+    */
     public static ArrayList<String> getintenerario (String sInfo){
         
         ArrayList alDirectionArray = new ArrayList<String>();

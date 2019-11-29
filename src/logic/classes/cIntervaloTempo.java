@@ -1,15 +1,15 @@
 package logic.classes;
 
 public class cIntervaloTempo {
-    private static int iContaTempo = 1;
+   // private static int iContaTempo = 1;
     private int iIdIntervalo;
     private String sHoraInicio;
     private String sHoraFim;
 
-    public cIntervaloTempo(String horaInicio, String horaFim) {
+    public cIntervaloTempo(int id, String horaInicio, String horaFim) {
         this.sHoraInicio = horaInicio;
         this.sHoraFim = horaFim;
-        iIdIntervalo = iContaTempo++;
+        iIdIntervalo = id;
     }
 
     public int getIdIntervalo() {

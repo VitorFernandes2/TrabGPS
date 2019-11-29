@@ -11,10 +11,27 @@ package logic.classes;
  */
 public class cDistrito {
     
-    public String sDistrito;
-
-    public cDistrito(String Distrito) {
+    private String sDistrito;
+private int iIdDistrito;
+    public cDistrito(int id, String Distrito) {
         this.sDistrito = Distrito;
+        iIdDistrito = id;
+    }
+
+    public String getsDistrito() {
+        return sDistrito;
+    }
+
+    public void setsDistrito(String sDistrito) {
+        this.sDistrito = sDistrito;
+    }
+
+    public int getiIdDistrito() {
+        return iIdDistrito;
+    }
+
+    public void setiIdDistrito(int iIdDistrito) {
+        this.iIdDistrito = iIdDistrito;
     }
 
     public String getDistrito() {

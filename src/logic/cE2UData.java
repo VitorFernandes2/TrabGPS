@@ -65,11 +65,11 @@ public class cE2UData {
     public cE2UData() throws IOException {
         this.listaReservas = new ArrayList<>();
         listaUtilizadores = new ArrayList<>();
-        inicializaListas();
-        //getUtilizadorArea();
-        iuserLogado=0;
-        verificaReservas();
+               //getUtilizadorArea();
+        iuserLogado=0;        
         ligacaoBD = new cLigacaoBD();
+        
+        verificaReservas();     
         
     }
     
@@ -82,18 +82,19 @@ public class cE2UData {
         if(dataReserva.compareTo(dataAtual) <= 1)//dataAtual maior
             reserva.setSestado("Efetuada");
         }
-
+        inicializaListas();
         
         
     }
     
     public void inicializaListas(){
-                
-        listaUtilizadores.add(new cUtilizador("User","123"));
-        
-        //listaReservas.add(new cReserva(30*1.5,1,1,1));
-        //listaReservas.add(new cReserva(10*1.5,1,1,1)); 
-        //listaReservas.get(1).setSestado("Efetuada");
+           
+        listaRegioes =  ligacaoBD.executarSelectRegiao();
+        listaTempos = ligacaoBD.executarSelectTempos();
+        listaPostos =    ligacaoBD.executarSelectPostos();
+        listaDisponibilidades = ligacaoBD.executarSelectDisponibilidades();
+        //listaReservas = ligacaoBD.executarSelectReservas();
+       /*
         listaRegioes.add(new cRegiao("Cantanhede"));// id 1
         listaRegioes.add(new cRegiao("Coimbra"));// id 2
         listaRegioes.add(new cRegiao("Penela"));// id 3
@@ -151,7 +152,7 @@ public class cE2UData {
         listaDisponibilidades.add(new cDisponibilidadesByTempo(5,4,true));//1
         listaDisponibilidades.add(new cDisponibilidadesByTempo(5,5,true));//1
         listaDisponibilidades.add(new cDisponibilidadesByTempo(5,6,true));//1
-        
+        */
     }
     
     public List<String> infoPosto(int id){
@@ -179,30 +180,28 @@ public class cE2UData {
     
     
     public boolean verificaDadosLogin(String sUsername,String sPassword){
-        if(listaUtilizadores.isEmpty())
+        
+        String query = "Select * from utilizador  where username='"+sUsername+"' and password = '"+sPassword+"'";
+        
+        String resultado = ligacaoBD.executarSelect(query);
+        
+        if(resultado.equals("ERRO"))
             return false;
         
-        for(int i=0; i < listaUtilizadores.size(); i++){
-            if(sUsername.equals(listaUtilizadores.get(i).getUsername()) && sPassword.equals(listaUtilizadores.get(i).getPassword())){
-                iuserLogado = listaUtilizadores.get(i).getIdUtilizador();
-                return true;
-            }
-        }
-        
-        return false;
+        iuserLogado = Integer.parseInt(resultado);
+             
+        return true;
     }
     
     public boolean verificaUsername(String sUsername){
+                
+        String query = "Select * from utilizador  where username='"+sUsername+"'";
+        String resultado = ligacaoBD.executarSelect(query);
+        if(resultado.equals("ERRO"))
+            return false;
         
-        for(int i=0; i < listaUtilizadores.size();i++){
-            
-            if(sUsername.equals(listaUtilizadores.get(i).getUsername())){
-                return true;
-            }
-
-        }
         
-        return false;
+        return true;
     }
     
     public boolean criaRegisto (String sUsername,String sPassword,String sPassVerif){
@@ -224,8 +223,7 @@ public class cE2UData {
                 return false;
             }
             
-            String query = "INSERT INTO utilizador(username, password) VALUES ("+sUsername+","+sPassword+")";
-            System.out.println(query);
+            String query = "INSERT INTO utilizador(username, password) VALUES ('"+sUsername+"','"+sPassword+"')";
             if(!ligacaoBD.executarInsert(query))
                 return false;
             //listaUtilizadores.add(new cUtilizador(sUsername,sPassword));
@@ -506,29 +504,45 @@ public class cE2UData {
           
     public boolean efetuarReserva(String sdados){
         
+        System.out.println(sdados);
         HashMap<String,String> a = resolveMessages(sdados);   
         Integer iidPosto = null, iidIntervalo = null;
         
         for(cPosto posto : listaPostos) {
             if(posto.getLocalizacao().equals(a.get("Posto"))) {
                 iidPosto = posto.getIdPosto();
+                System.out.println("--- " + posto.getLocalizacao());
             }
         }
         
         for(cIntervaloTempo intervalo : listaTempos) {
             if((intervalo.getHoraInicio()+" às "+intervalo.getHoraFim()).equals(a.get(" Intervalo"))) {
                 iidIntervalo = intervalo.getIdIntervalo();
+                 System.out.println("1--- " + intervalo.getHoraInicio());
             }
         }
         
         if(iidPosto == null || iidIntervalo == null) {
             return false;
         }
-
+        
+        System.out.println(a.toString());
+        
+        
+        System.out.println(a.get("Posto"));
+        System.out.println(a.get("Preço"));
+        String x = a.get("Preço");
+        System.out.println("2 - "+ x);
+        double preco = Double.parseDouble(a.get("Preço"));
+        System.out.println("aqui - " + preco);    
+        
         String query = "INSERT INTO reserva(idUtilizador,custoPrevisto, idPosto, estado, diaReserva,idIntervaloTempo) VALUES ("+iuserLogado+""
-                + ","+Double.parseDouble(a.get("\'Preço\'")) * 30 + ","+iidPosto+",\'Ativo\',"+getData()+","+iidIntervalo+")";
+                + ","+ preco * 30 + ","+iidPosto+",\'Ativo\',"+getData()+","+iidIntervalo+")";
+       
+        System.out.println(query);
+        
         ligacaoBD.executarInsert(query);
-        listaReservas.add(new cReserva(Double.parseDouble(a.get(" Preço")) * 30,iidPosto,iuserLogado,iidIntervalo));
+        //listaReservas.add(new cReserva(Double.parseDouble(a.get(" Preço")) * 30,iidPosto,iuserLogado,iidIntervalo));
 
         int idDispP = 0;
         int idDispT = 0;

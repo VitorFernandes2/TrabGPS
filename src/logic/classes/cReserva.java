@@ -8,8 +8,6 @@ import java.util.GregorianCalendar;
 
 public class cReserva 
 {
-    private static  int iContaReserva = 1;
-    private static  int iContaServicos = 200;
     private int iIdReserva;
     private int iCodServico;
     private double dCustoPrevisto;
@@ -19,15 +17,14 @@ public class cReserva
     private String sDiaReserva;
     private int iIdIntervaloTempo;
 
-    public cReserva( double dcustoPrevisto, int idPosto, int idUtilizador, int idIntervaloTempo) {
-        this.iCodServico = iContaServicos +10;
+    public cReserva( int id, double dcustoPrevisto, int idPosto, int idUtilizador, int idIntervaloTempo,String est,String data) {
         this.dCustoPrevisto = dcustoPrevisto;
         this.iIdPosto = idPosto;
         this.iIdIntervaloTempo = idIntervaloTempo;
-        this.sEstado = "Ativo";
+        this.sEstado = est;
         this.iIdUtilizador = idUtilizador;
-        iIdReserva = iContaReserva++;
-        sDiaReserva = getData();
+        iIdReserva = id;
+        sDiaReserva = data;
      
     }
 
@@ -47,10 +44,7 @@ public class cReserva
         this.iIdIntervaloTempo = iidIntervaloTempo;
     }
     
-    public static int getIcontaReserva() {
-        return iContaReserva;
-    }
-
+   
     public int getIidReserva() {
         return iIdReserva;
     }
