@@ -17,6 +17,7 @@ import logic.cE2ULogic;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ItineraryPane extends StackPane implements PropertyChangeListener {
@@ -114,8 +115,13 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
 
             if (sDestino != null && sPartida != null){
                 lvListaDados.getItems().clear();
-                //ArrayList<String> directions = this.logic.getdirection(sPartida, sDestino);
-               // acrescentaDados(directions);
+//<<<<<<< HEAD
+                
+//=======
+            HashMap<String, ArrayList<String>> hmDirections = this.logic.getdirection(sPartida, sDestino);
+                acrescentaDados(hmDirections.get("Itenerário Recomendado"));
+                acrescentaDados(hmDirections.get("Itenerário Alternativo"));
+//>>>>>>> b06e5f77ad82b1d3d7313b7f2653fe3839dbb5b4
             }
         });
     }

@@ -38,25 +38,31 @@ public class cIntenerario {
         ArrayList<cPosto> alOutput = null;
         ArrayList<cPosto> alOutput2 = null;
         HashMap<String, ArrayList<String>> hasmapoutput = new HashMap<String, ArrayList<String>>();
+        URL urlTest;
+        URLConnection urlcReturnado;
+        BufferedReader bfReader;
+        String sInfo;
         
         try {
             
-            URL urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + sPartida.trim() + ",PT&wp.1=" + sChegada.trim() + ",PT&c=pt-PT&optmz=timeWithTraffic&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
+            urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + sPartida.trim() + ",PT&wp.1=" + sChegada.trim() + ",PT&c=pt-PT&optmz=timeWithTraffic&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
             
-            URLConnection urlcReturnado = urlTest.openConnection();
+            urlcReturnado = urlTest.openConnection();
             
             urlcReturnado.setRequestProperty ("User-Agent", "java-ipapi-client");
-            BufferedReader bfReader = new BufferedReader(
+            bfReader = new BufferedReader(
                     new InputStreamReader(urlcReturnado.getInputStream())
             );
             
-            String sInfo = bfReader.readLine();
+            sInfo = bfReader.readLine();
+            
             bfReader.close();
             
-            alOutput = getsimplepost(sPartida, sChegada, getdistrict(sInfo));
-            alOutput2 = getpostoalternativo(sPartida, sChegada, getdistrict(sInfo)); // new
-            
             definegpsiniciais(sInfo);
+            
+            alOutput = getsimplepost(sPartida, sChegada, getdistrict(sInfo, sPartida));
+            
+            alOutput2 = getpostoalternativo(sPartida, sChegada, getdistrict(sInfo, sPartida)); // new
             
         } catch (MalformedURLException ex) {
             System.out.println("[ERROR]Não foi possivel connectar a api de trajetos (MalformedURLException)");
@@ -65,12 +71,54 @@ public class cIntenerario {
         }
         
         hasmapoutput.put("Itenerário Recomendado", getDirectionFinal(sPartida, alOutput, sChegada,1));
+        
         hasmapoutput.put("Itenerário Alternativo", getDirectionFinal(sPartida, alOutput2, sChegada,2));
         
         return hasmapoutput;
         //return getDirectionFinal(sPartida, alOutput, sChegada);
     }
     
+    private static String getClientCorrentLocation() throws MalformedURLException, IOException{ //new function
+        StringBuilder sbLocalInfo = new StringBuilder();
+        String sLine;
+        URL urlIpapi;
+        URLConnection urlcConnect;
+        BufferedReader bfReader;
+        String sCity = null;
+        String sRegion = null;
+        String sAux;
+        
+        urlIpapi = new URL("https://ipapi.co/json/");
+
+        urlcConnect = urlIpapi.openConnection();
+
+        urlcConnect.setRequestProperty ("User-Agent", "java-ipapi-client");
+        bfReader = new BufferedReader(new InputStreamReader(urlcConnect.getInputStream()));
+
+        
+        while((sLine = bfReader.readLine()) != null){
+            if(!(sLine.contains("{") || sLine.contains("}"))){
+                sbLocalInfo.append(sLine.trim());
+            }
+        }
+
+        bfReader.close();
+        
+        String [] sSection = sbLocalInfo.toString().trim().split(",\"");
+        
+        for(String sPart : sSection){
+            sAux = sPart.trim().replace("\"", "");
+            if(sAux.split(": ")[0].equalsIgnoreCase("region")){
+                sRegion = sAux.split(": ")[1];
+            }
+            if(sAux.split(": ")[0].equalsIgnoreCase("city")){
+                sCity = sAux.split(": ")[1];
+            }
+        }
+        
+        return sCity + "," + sRegion;
+        
+    }
     
     private static ArrayList<String> getDirectionFinal(String sPartida, ArrayList<cPosto> alPosto, String sChegada,int icaminho){
         int iTamWaypoints = 2 + alPosto.size();
@@ -106,19 +154,19 @@ public class cIntenerario {
                 StringBuilder sbFinal = new StringBuilder();
                 
                 if(i == 0){
-                    sbFinal.append("Localização: ").append(sPartida).append(" Distância: ").append(lsWaypointDistance.get(i))
+                    sbFinal.append("Localização: ").append(sPartida).append(" Distância: ").append(lsWaypointDistance.get(i).floatValue())
                             .append(" km Horas de Partida: ").append(lsWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
                             .append(":").append(lsWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
                             .append(lsWaypointDate.get(i).get(Calendar.SECOND));
                 }
                 else if(i == iTamWaypoints - 1){
-                    sbFinal.append("Localização: ").append(sChegada).append(" Distância: ").append(lsWaypointDistance.get(i))
+                    sbFinal.append("Localização: ").append(sChegada).append(" Distância: ").append(lsWaypointDistance.get(i).floatValue())
                             .append(" km Horas para Chegada: ").append(lsWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
                             .append(":").append(lsWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
                             .append(lsWaypointDate.get(i).get(Calendar.SECOND));
                 }
                 else{
-                    sbFinal.append("Localização: ").append(alPosto.get(j).getLocalizacao()).append(" Distância: ").append(lsWaypointDistance.get(i))
+                    sbFinal.append("Localização: ").append(alPosto.get(j).getLocalizacao()).append(" Distância: ").append(lsWaypointDistance.get(i).floatValue())
                             .append(" km Horas para Chegada: ").append(lsWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
                             .append(":").append(lsWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
                             .append(lsWaypointDate.get(i).get(Calendar.SECOND));
@@ -310,6 +358,11 @@ public class cIntenerario {
                     dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(i).getLatitude(), e2udData.getListaPostos().get(i).getLongitude());
                     iPosCloser = i;
                 }else if (twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(i).getLatitude(), e2udData.getListaPostos().get(i).getLongitude()) < dCloser){
+                    
+                    if(bentrei == false){
+                    alRetronaArray.add(e2udData.getListaPostos().get(iPosCloser));
+                    bentrei = true;
+                    }
                     dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(i).getLatitude(), e2udData.getListaPostos().get(i).getLongitude());
                     iPosCloser = i;
                 }
@@ -317,26 +370,8 @@ public class cIntenerario {
                 //break;
             }   
         }
-        if(iPosCloser!=-1){
-            int imelhor = ( e2udData.getListaPostos().get(iPosCloser).getIdPosto());
-            
-            
-            for (int i=0; i<  e2udData.getListaPostos().size();i++){
-                
-                if (e2udData.getListaPostos().get(i).getDistrito().getDistrito().equals(sPartida) && bentrei == false){
-                    
-                    if(e2udData.getListaPostos().get(i).getIdPosto() != imelhor){
-                        alRetronaArray.add( e2udData.getListaPostos().get(iPosCloser));
-                        bentrei = true;
-                        break; 
-                    }
-                }
-
-            }
-        
-            if(bentrei = false){
-                alRetronaArray.add(e2udData.getListaPostos().get(iPosCloser));
-            }
+        if(iPosCloser!=-1 && bentrei == false){
+            alRetronaArray.add(e2udData.getListaPostos().get(iPosCloser));
         }
         
         
@@ -344,6 +379,7 @@ public class cIntenerario {
         for (int i=0; i< alArrayList.size();i++){
             dCloser = -1;
             iPosCloser = -1;
+            boolean bentreiaqui = false;
             for(int j = 0; j <  e2udData.getListaPostos().size();j++){
 
                 if (alArrayList.get(i).equals(e2udData.getListaPostos().get(j).getDistrito().getDistrito())){
@@ -352,33 +388,21 @@ public class cIntenerario {
                         dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(j).getLatitude(), e2udData.getListaPostos().get(j).getLongitude());
                         iPosCloser = j;
                     }else if (twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(j).getLatitude(), e2udData.getListaPostos().get(j).getLongitude()) < dCloser){
+                        
+                        if(bentrei == false){
+                            alRetronaArray.add(e2udData.getListaPostos().get(iPosCloser));
+                            bentreiaqui = true;
+                            bentrei = true;
+                        }
                         dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(j).getLatitude(), e2udData.getListaPostos().get(j).getLongitude());
                         iPosCloser = j;
                     }
                 }
             }
-            if(iPosCloser!=-1){
-                if(bentrei)
-                    alRetronaArray.add( e2udData.getListaPostos().get(iPosCloser));
-                else{
-                    int imelhor = e2udData.getListaPostos().get(iPosCloser).getIdPosto();
-                    for (int h=0; h<  e2udData.getListaPostos().size();h++){
-
-                        if (e2udData.getListaPostos().get(h).getDistrito().getDistrito().equals(sPartida) && bentrei == false){
-
-                            if(e2udData.getListaPostos().get(h).getIdPosto() != imelhor){
-                                alRetronaArray.add( e2udData.getListaPostos().get(iPosCloser));
-                                bentrei = true;
-                                break; 
-                            }
-                        }
-
-                    }
-                    if(bentrei == false)
-                        alRetronaArray.add( e2udData.getListaPostos().get(iPosCloser));
-                }
-            
+            if(iPosCloser!=-1 && bentreiaqui == false){
+                alRetronaArray.add(e2udData.getListaPostos().get(iPosCloser));
             }
+
         }
         
         return alRetronaArray;
@@ -420,7 +444,7 @@ public class cIntenerario {
         
     }
     
-    public static ArrayList<String> getdistrict (String sInfo){
+    public static ArrayList<String> getdistrict (String sInfo, String sPartida){
         
         ArrayList<String> alDirectionArray = new ArrayList<>();
         String sPesquisa = "Entrada";
@@ -433,7 +457,10 @@ public class cIntenerario {
             
             String sCopyin = sInfo;
             String sMsg = sCopyin.split(sEndString)[0];
-            alDirectionArray.add(sMsg);
+            
+            if(sMsg.compareToIgnoreCase(sPartida) != 0){
+                alDirectionArray.add(sMsg);
+            }
 
         }
         
