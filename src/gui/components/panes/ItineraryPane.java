@@ -16,8 +16,6 @@ import logic.cE2ULogic;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ItineraryPane extends StackPane implements PropertyChangeListener {
@@ -53,6 +51,7 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
         vbLeftbox = new VBox();
         vbCenterbox = new VBox();
         lvListaDados = new LsView();
+        lvListaDados.setPrefHeight(30 * 24 + 2);
 
         mnbMainMenuBar = new MainMenuBar(logic);
 
@@ -113,17 +112,80 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
             String sDestino = (String) cbLocalidadeDestino.getValue();
             String sPartida = (String) cbLocalidade.getValue();
 
-            if (sDestino != null && sPartida != null){
+            adicionaDadosTeste();
+
+            /*if (sDestino != null && sPartida != null){
                 lvListaDados.getItems().clear();
-//<<<<<<< HEAD
-                
-//=======
-            HashMap<String, ArrayList<String>> hmDirections = this.logic.getdirection(sPartida, sDestino);
+                HashMap<String, ArrayList<String>> hmDirections = this.logic.getdirection(sPartida, sDestino);
                 acrescentaDados(hmDirections.get("Itenerário Recomendado"));
                 acrescentaDados(hmDirections.get("Itenerário Alternativo"));
-//>>>>>>> b06e5f77ad82b1d3d7313b7f2653fe3839dbb5b4
+            }*/
+        });
+    }
+
+    private void adicionaDadosTeste(){
+
+        lvListaDados.getItems().clear();
+
+        LsView lsVista = new LsView();
+        lsVista.setPrefHeight(6 * 24 + 2);
+        HBox hbBoxVista = new HBox(lsVista);
+        hbBoxVista.setVisible(false);
+        hbBoxVista.managedProperty().bind(hbBoxVista.visibleProperty());
+
+        VBox hbMainBox = new VBox();
+        HBox hbLinha = new HBox();
+
+        HBox hbInfoPosto = new HBox(new Label("Itinerário x"));
+        hbInfoPosto.setAlignment(Pos.CENTER_LEFT);
+
+        GreyButton bEstado = new GreyButton("Detalhes");
+
+        bEstado.setOnMouseClicked(e ->{
+            if(hbBoxVista.visibleProperty().getValue()){
+                hbBoxVista.setVisible(false);
+                hbBoxVista.managedProperty().bind(hbBoxVista.visibleProperty());
+            }
+            else{
+                hbBoxVista.setVisible(true);
+                hbBoxVista.managedProperty().bind(hbBoxVista.visibleProperty());
             }
         });
+
+        HBox hbInfoDispo = new HBox(bEstado);
+        hbInfoDispo.setAlignment(Pos.CENTER_RIGHT);
+
+        hbLinha.getChildren().addAll(hbInfoPosto, hbInfoDispo);
+        hbLinha.setHgrow(hbInfoPosto, Priority.ALWAYS);
+        hbLinha.setHgrow(hbInfoDispo,Priority.ALWAYS);
+
+        //HBox oculta
+        hbBoxVista.setHgrow(lsVista,Priority.ALWAYS);
+
+        lsVista.getItems().clear();
+
+        HBox hbLinha2 = new HBox();
+
+        HBox hbInfoPosto2 = new HBox(new Label("Itinerário x"));
+        hbInfoPosto2.setAlignment(Pos.CENTER_LEFT);
+
+        GreyButton bEstado2 = new GreyButton("Reserva");
+
+        HBox hbInfoDispo2 = new HBox(bEstado2);
+        hbInfoDispo2.setAlignment(Pos.CENTER_RIGHT);
+
+        hbLinha2.getChildren().addAll(hbInfoPosto2, hbInfoDispo2);
+        hbLinha2.setHgrow(hbInfoPosto2, Priority.ALWAYS);
+        hbLinha2.setHgrow(hbInfoDispo2,Priority.ALWAYS);
+
+        lsVista.getItems().add(hbLinha2);
+
+
+        hbMainBox.getChildren().addAll(hbLinha,hbBoxVista);
+        hbMainBox.setSpacing(30);
+
+        lvListaDados.getItems().add(hbMainBox);
+
     }
 
     /**
