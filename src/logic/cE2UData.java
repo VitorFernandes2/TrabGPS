@@ -189,7 +189,7 @@ public class cE2UData {
             return false;
         
         iuserLogado = Integer.parseInt(resultado);
-             
+          
         return true;
     }
     
@@ -310,6 +310,8 @@ public class cE2UData {
         ArrayList<String> lista = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
 
+        listaPostos = ligacaoBD.executarSelectPostos();
+        listaDisponibilidades = ligacaoBD.executarSelectDisponibilidades();
         for(cPosto posto : listaPostos) {
             for(cDisponibilidadesByTempo c : listaDisponibilidades) {
                 if(c.getIdPosto() == posto.getIdPosto()) {
@@ -468,6 +470,8 @@ public class cE2UData {
         HashMap<Integer,HashMap<String,String>> lista = new HashMap<Integer,HashMap<String,String>>();
         int conta = 0;
         int i = 1;
+        listaReservas = ligacaoBD.executarSelectReservas();
+
         for(cReserva reserva : listaReservas){
             if(!reserva.getSestado().equalsIgnoreCase("Ativo")){
                 HashMap<String,String> aux = new HashMap<String,String>();
@@ -487,11 +491,12 @@ public class cE2UData {
     
         int iconta = 0;
         List<String> pendentes = new ArrayList<>();
+        
+        listaReservas = ligacaoBD.executarSelectReservas();
         for(cReserva reserva : listaReservas){
             if(reserva.getSestado().equalsIgnoreCase("Ativo") && reserva.getIidUtilizador() == iuserLogado){
                 pendentes.add("Posto:" +getPosto(reserva.getIidPosto())+"; Data: " + reserva.getDiaReserva() + " "
                 + getHorario(reserva.getIidIntervaloTempo())+"; Preço: " + reserva.getDcustoPrevisto());
-            
                 iconta++;                
             }
         }
@@ -504,51 +509,36 @@ public class cE2UData {
           
     public boolean efetuarReserva(String sdados){
         
-        System.out.println(sdados);
         HashMap<String,String> a = resolveMessages(sdados);   
         Integer iidPosto = null, iidIntervalo = null;
         
         for(cPosto posto : listaPostos) {
             if(posto.getLocalizacao().equals(a.get("Posto"))) {
                 iidPosto = posto.getIdPosto();
-                System.out.println("--- " + posto.getLocalizacao());
             }
         }
         
         for(cIntervaloTempo intervalo : listaTempos) {
             if((intervalo.getHoraInicio()+" às "+intervalo.getHoraFim()).equals(a.get(" Intervalo"))) {
                 iidIntervalo = intervalo.getIdIntervalo();
-                 System.out.println("1--- " + intervalo.getHoraInicio());
             }
         }
         
         if(iidPosto == null || iidIntervalo == null) {
             return false;
         }
-        
-        System.out.println(a.toString());
-        
-        
-        System.out.println(a.get("Posto"));
-        System.out.println(a.get("Preço"));
-        String x = a.get("Preço");
-        System.out.println("2 - "+ x);
-        double preco = Double.parseDouble(a.get("Preço"));
-        System.out.println("aqui - " + preco);    
+       
+        double preco = Double.parseDouble(a.get(" Preço"));
         
         String query = "INSERT INTO reserva(idUtilizador,custoPrevisto, idPosto, estado, diaReserva,idIntervaloTempo) VALUES ("+iuserLogado+""
-                + ","+ preco * 30 + ","+iidPosto+",\'Ativo\',"+getData()+","+iidIntervalo+")";
-       
-        System.out.println(query);
+                + ","+ preco * 30 + ","+iidPosto+",\'Ativo\',\'"+getData()+"\',"+iidIntervalo+")";
         
         ligacaoBD.executarInsert(query);
-        //listaReservas.add(new cReserva(Double.parseDouble(a.get(" Preço")) * 30,iidPosto,iuserLogado,iidIntervalo));
 
         int idDispP = 0;
         int idDispT = 0;
         for(cDisponibilidadesByTempo dips : listaDisponibilidades) {
             if(dips.getIdPosto() == iidPosto && dips.getIdIntervaloTempo() == iidIntervalo) {
-                //dips.setDisponibilidade(false);
                 idDispP = iidPosto;
                 idDispT = iidIntervalo;
             }
@@ -587,6 +577,9 @@ public class cE2UData {
             return false;
         }
         
+        int idDispP = 0;
+        int idDispT = 0;
+        
         for(cReserva reserva : listaReservas) {
             if(reserva.getSestado().equalsIgnoreCase("Ativo") &&
                 reserva.getIidUtilizador() == iuserLogado && reserva.getIidPosto() == iidPosto &&
@@ -594,11 +587,19 @@ public class cE2UData {
 
                     for(cDisponibilidadesByTempo dips : listaDisponibilidades) {
                         if(dips.getIdPosto() == iidPosto && dips.getIdIntervaloTempo() == iidIntervalo ) {
-                            dips.setDisponibilidade(true);
+                             idDispP = iidPosto;
+                             idDispT = iidIntervalo;
+                             //dips.setDisponibilidade(true);
                         }
-                    }   
+                    } 
+                if(idDispP!= 0 && idDispT!=0){
+                    String queryUpdate = "UPDATE disponibilidadesbytempo SET disponibilidade = 0 WHERE idPosto = "+idDispP+" and idIntervaloTempo = "+idDispT;
+                    ligacaoBD.executarUpdate(queryUpdate);
+                }
 
-                reserva.setSestado("Cancelada");    
+                String queryUpdate = "UPDATE reserva SET estado = 'Cancelada' WHERE idPosto = "+idDispP+" and idIntervaloTempo = "+idDispT;
+                ligacaoBD.executarUpdate(queryUpdate);
+               // reserva.setSestado("Cancelada");    
                 return true;
             }
         }

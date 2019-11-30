@@ -172,7 +172,7 @@ public class cLigacaoBD {
         }
         return null;
     }
-    
+         
     public ArrayList<cDistrito> executarSelectDistrito() 
     {
         try {
