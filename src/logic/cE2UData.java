@@ -205,8 +205,7 @@ public class cE2UData {
         String resultado = ligacaoBD.executarSelect(query);
         if(resultado.equals("ERRO"))
             return false;
-        
-        
+                
         return true;
     }
     
@@ -569,7 +568,11 @@ public class cE2UData {
         HashMap<String,String> a = resolveMessages(sdados);
         
         Integer iidPosto = null, iidIntervalo = null;
-        
+        listaReservas = ligacaoBD.executarSelectReservas();
+        listaDisponibilidades = ligacaoBD.executarSelectDisponibilidades();
+
+        System.out.println("asdas  - " + sdados);
+        System.out.println(a);
         for(cPosto posto : listaPostos) {
             if(posto.getLocalizacao().equals(a.get("Posto")))
                 iidPosto = posto.getIdPosto();
@@ -578,7 +581,7 @@ public class cE2UData {
             if((intervalo.getHoraInicio()+" às "+intervalo.getHoraFim()).equals(a.get(" Data").substring(16)))
                 iidIntervalo = intervalo.getIdIntervalo();
         }
-        
+        System.out.println("p = " +iidPosto +" | int = " + iidIntervalo );
         if(iidPosto == null || iidIntervalo == null)  {
             return false;
         }
@@ -595,15 +598,18 @@ public class cE2UData {
                         if(dips.getIdPosto() == iidPosto && dips.getIdIntervaloTempo() == iidIntervalo ) {
                              idDispP = iidPosto;
                              idDispT = iidIntervalo;
+                             System.out.println("asd");
                              //dips.setDisponibilidade(true);
                         }
                     } 
                 if(idDispP!= 0 && idDispT!=0){
                     String queryUpdate = "UPDATE disponibilidadesbytempo SET disponibilidade = 0 WHERE idPosto = "+idDispP+" and idIntervaloTempo = "+idDispT;
+                    System.out.println(queryUpdate);
                     ligacaoBD.executarUpdate(queryUpdate);
                 }
 
                 String queryUpdate = "UPDATE reserva SET estado = 'Cancelada' WHERE idPosto = "+idDispP+" and idIntervaloTempo = "+idDispT;
+                System.out.println(queryUpdate);
                 ligacaoBD.executarUpdate(queryUpdate);
                // reserva.setSestado("Cancelada");    
                 return true;
