@@ -571,14 +571,12 @@ public class cE2UData {
         listaReservas = ligacaoBD.executarSelectReservas();
         listaDisponibilidades = ligacaoBD.executarSelectDisponibilidades();
 
-        System.out.println("asdas  - " + sdados);
-        System.out.println(a);
         for(cPosto posto : listaPostos) {
             if(posto.getLocalizacao().equals(a.get("Posto")))
                 iidPosto = posto.getIdPosto();
         }
         for(cIntervaloTempo intervalo : listaTempos) {
-            if((intervalo.getHoraInicio()+" às "+intervalo.getHoraFim()).equals(a.get(" Data").substring(16)))
+            if((intervalo.getHoraInicio()+" às "+intervalo.getHoraFim()).equals(a.get(" Data").substring(15)))
                 iidIntervalo = intervalo.getIdIntervalo();
         }
         System.out.println("p = " +iidPosto +" | int = " + iidIntervalo );
