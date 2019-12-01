@@ -287,6 +287,15 @@ public class cIntenerario {
         return lsWayPointDistance;
     }
     
+    private static String getdistritopeloposto (int ipos){
+        
+        int iidregiao = e2udData.getListaPostos().get(ipos).getIdRegiao();
+        int iiddestrito = e2udData.getListaRegioes().get(iidregiao -1).getiIdDistrito();
+        
+        return e2udData.getLlistaDistritos().get(iiddestrito - 1).getDistrito();
+        
+    }
+    
     private static ArrayList<cPosto> getsimplepost(String sPartida,String sChegada,ArrayList<String> alArrayList){
         
         // Inicia o array de retorno
@@ -298,8 +307,8 @@ public class cIntenerario {
         int iPosCloser = -1;
         for (int i=0; i<  e2udData.getListaPostos().size();i++){
             
-            if (e2udData.getListaPostos().get(i).getDistrito().getDistrito().equals(sPartida)){
-
+            if (getdistritopeloposto(i).equals(sPartida)){
+                              
                 if(dCloser == -1){
                     dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(i).getLatitude(), e2udData.getListaPostos().get(i).getLongitude());
                     iPosCloser = i;
@@ -322,7 +331,7 @@ public class cIntenerario {
             iPosCloser = -1;
             for(int j = 0; j <  e2udData.getListaPostos().size();j++){
 
-                if (alArrayList.get(i).equals(e2udData.getListaPostos().get(j).getDistrito().getDistrito())){
+                if (alArrayList.get(i).equals(getdistritopeloposto(j))){
                     
                     if(dCloser == -1){
                         dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(j).getLatitude(), e2udData.getListaPostos().get(j).getLongitude());
@@ -352,7 +361,7 @@ public class cIntenerario {
         int iPosCloser = -1;
         for (int i=0; i<  e2udData.getListaPostos().size();i++){
             
-            if (e2udData.getListaPostos().get(i).getDistrito().getDistrito().equals(sPartida)){
+            if (getdistritopeloposto(i).equals(sPartida)){
 
                 if(dCloser == -1){
                     dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(i).getLatitude(), e2udData.getListaPostos().get(i).getLongitude());
@@ -382,7 +391,7 @@ public class cIntenerario {
             boolean bentreiaqui = false;
             for(int j = 0; j <  e2udData.getListaPostos().size();j++){
 
-                if (alArrayList.get(i).equals(e2udData.getListaPostos().get(j).getDistrito().getDistrito())){
+                if (alArrayList.get(i).equals(getdistritopeloposto(j))){
                     
                     if(dCloser == -1){
                         dCloser = twopointsDistance(dPartidaLat,dPartidaLong, e2udData.getListaPostos().get(j).getLatitude(), e2udData.getListaPostos().get(j).getLongitude());

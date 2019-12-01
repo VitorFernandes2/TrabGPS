@@ -21,7 +21,8 @@ public class cE2UData {
     private ArrayList<cRegiao> listaRegioes = new ArrayList<>(); 
     private ArrayList<cIntervaloTempo> listaTempos = new ArrayList<>(); 
     private ArrayList<cPosto> listaPostos = new ArrayList<>(); 
-    private ArrayList<cDisponibilidadesByTempo> listaDisponibilidades = new ArrayList<>(); 
+    private ArrayList<cDisponibilidadesByTempo> listaDisponibilidades = new ArrayList<>();
+    private ArrayList<cDistrito> listadistritos = new ArrayList<>();
     private String sRegiaoUtilizador;
     private static int ierro = 0;
     private int iuserLogado;
@@ -32,6 +33,10 @@ public class cE2UData {
 
     public ArrayList<cUtilizador> getListaUtilizadores() {
         return listaUtilizadores;
+    }
+    
+        public ArrayList<cDistrito> getLlistaDistritos() {
+        return listadistritos;
     }
 
     public ArrayList<cRegiao> getListaRegioes() {
@@ -93,6 +98,7 @@ public class cE2UData {
         listaTempos = ligacaoBD.executarSelectTempos();
         listaPostos =    ligacaoBD.executarSelectPostos();
         listaDisponibilidades = ligacaoBD.executarSelectDisponibilidades();
+        listadistritos = ligacaoBD.executarSelectDistrito();
         //listaReservas = ligacaoBD.executarSelectReservas();
        /*
         listaRegioes.add(new cRegiao("Cantanhede"));// id 1

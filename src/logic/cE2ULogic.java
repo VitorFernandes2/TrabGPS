@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import logic.classes.cPosto;
 
 public class cE2ULogic extends PropertyChangeSupport {
 
@@ -110,6 +111,28 @@ public class cE2ULogic extends PropertyChangeSupport {
                 firePropertyChange(null, false, true);
             }
     }
+    
+    public void AddicionarReservaItenerario(String sinfo){
+
+            String snome = sinfo.split("Localização: ")[1];
+            String shora = sinfo.split("Chegada: ")[1];
+            snome = snome.split(" Distância")[0];
+            cPosto postoescolhido = null;
+            
+            for(int i = 0; i < data.getListaPostos().size(); i++){
+                
+                if(data.getListaPostos().get(i).getLocalizacao().equals(snome))
+                    postoescolhido = data.getListaPostos().get(i);
+                
+            }      
+            
+            this.state = this.state.efetuaReserva(this.getPostos().get(postoescolhido.getIdPosto() - 1));
+
+            // informa o estado da interface
+            firePropertyChange(null, false, true);
+            
+    }
+    
 
     public void Query(String sLocalidade, String sHoraInicio, String sHoraFim){
 

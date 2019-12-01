@@ -182,7 +182,7 @@ public class cLigacaoBD {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 int i = rs.getInt("idDistrito");
-                String n = rs.getString("nomeDitrito");
+                String n = rs.getString("nomeDistrito");
                 lista.add(new cDistrito(i,n));
             }
             
