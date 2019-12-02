@@ -78,31 +78,46 @@ public class cIntenerario {
         //return getDirectionFinal(sPartida, alOutput, sChegada);
     }
     
-    private static String getClientCorrentLocation() throws MalformedURLException, IOException{ //new function
+    private static String getClientCorrentLocation() { //new function
         StringBuilder sbLocalInfo = new StringBuilder();
-        String sLine;
-        URL urlIpapi;
-        URLConnection urlcConnect;
-        BufferedReader bfReader;
-        String sCity = null;
+        String sLine = null;
+        URL urlIpapi = null;
+        URLConnection urlcConnect = null;
+        BufferedReader bfReader = null;
         String sRegion = null;
-        String sAux;
+        String sAux = null;
         
-        urlIpapi = new URL("https://ipapi.co/json/");
-
-        urlcConnect = urlIpapi.openConnection();
-
-        urlcConnect.setRequestProperty ("User-Agent", "java-ipapi-client");
-        bfReader = new BufferedReader(new InputStreamReader(urlcConnect.getInputStream()));
-
-        
-        while((sLine = bfReader.readLine()) != null){
-            if(!(sLine.contains("{") || sLine.contains("}"))){
-                sbLocalInfo.append(sLine.trim());
-            }
+        try {
+            urlIpapi = new URL("https://ipapi.co/json/");
+        } catch (MalformedURLException ex) {
+            System.out.println("[ERROR] Possivel malformação do endereço de pesquisa de localização atual do utilizador.\n" + ex.getMessage());
+            return null;
         }
 
-        bfReader.close();
+        try {
+            urlcConnect = urlIpapi.openConnection();
+        } catch (IOException ex) {
+            System.out.println("[ERROR] Erro ao conectar com o Servidor para obtenção da localização atual do utilizador.\n" + ex.getMessage());
+            return null;
+        }
+        
+        urlcConnect.setRequestProperty ("User-Agent", "java-ipapi-client");
+        
+        try{
+            bfReader = new BufferedReader(new InputStreamReader(urlcConnect.getInputStream()));
+        
+            while((sLine = bfReader.readLine()) != null){
+                if(!(sLine.contains("{") || sLine.contains("}"))){
+                    sbLocalInfo.append(sLine.trim());
+                }
+            }
+
+            bfReader.close();
+        }
+        catch(IOException ex){
+            System.out.println("[ERROR] Excepção na leitura da Localização atual.\n" + ex.getMessage());
+            return null;
+        }
         
         String [] sSection = sbLocalInfo.toString().trim().split(",\"");
         
@@ -110,13 +125,11 @@ public class cIntenerario {
             sAux = sPart.trim().replace("\"", "");
             if(sAux.split(": ")[0].equalsIgnoreCase("region")){
                 sRegion = sAux.split(": ")[1];
-            }
-            if(sAux.split(": ")[0].equalsIgnoreCase("city")){
-                sCity = sAux.split(": ")[1];
+                break;
             }
         }
         
-        return sCity + "," + sRegion;
+        return sRegion;
         
     }
     
