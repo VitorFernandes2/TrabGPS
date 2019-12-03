@@ -93,7 +93,7 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
         bpBorderPane.setTop(vbTopBox);
 
         vbLeftbox = new VBox();
-        vbLeftbox.setPadding(new Insets(100,0,0,100));
+        vbLeftbox.setPadding(new Insets(30,0,0,30));
 
         lblPesquisa = new LabelTitle("Pesquisa:");
         cbHorario = new ChoiceBox(
@@ -124,6 +124,7 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
         lblPostos = new LabelTitle("Postos:");
 
         lvList = new LsView();
+        lvList.setPrefHeight(30 * 24 + 2);
 
         for (String sItem : this.logic.getPostos()) {
             Label TextPost = new Label(sItem);
@@ -153,6 +154,7 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
         }
 
         rightbox.getChildren().addAll(lblPostos, lvList);
+        rightbox.setPadding(new Insets(30,30,0,30));
 
         bpBorderPane.setCenter(rightbox);
         bpBorderPane.setLeft(vbLeftbox);

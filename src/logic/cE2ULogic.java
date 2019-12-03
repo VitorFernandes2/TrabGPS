@@ -1,6 +1,8 @@
 package logic;
 
+import logic.classes.cIntenerario;
 import logic.classes.cIntervaloTempo;
+import logic.classes.cPosto;
 import logic.classes.cRegiao;
 import logic.states.*;
 
@@ -9,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import logic.classes.cPosto;
 
 public class cE2ULogic extends PropertyChangeSupport {
 
@@ -216,6 +217,12 @@ public class cE2ULogic extends PropertyChangeSupport {
 
     public HashMap<String, ArrayList<String>> getdirection(String sPartida, String sChegada){
         return this.data.getdirection(sPartida, sChegada);
+    }
+
+    public String getLocalizacaoAtual(){
+
+        return cIntenerario.getClientCorrentLocation();
+
     }
 
 }

@@ -1,7 +1,7 @@
 package gui.components.panes;
 
+import gui.components.buttons.DarkGreyButton;
 import gui.components.buttons.GreyButton;
-import gui.components.buttons.QueryButton;
 import gui.components.labels.LabelTitle;
 import gui.components.listviews.LsView;
 import gui.components.menubars.MainMenuBar;
@@ -110,25 +110,44 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
     }
 
     private void registerListeners(){
+
+        cb.setOnMouseClicked(e -> {
+
+            if (cb.isSelected()){
+
+                cbLocalidade.setDisable(true);
+
+            }else{
+
+                cbLocalidade.setDisable(false);
+
+            }
+
+        });
+
         btPesquisa.setOnMouseClicked(e -> {
             String sDestino = (String) cbLocalidadeDestino.getValue();
             String sPartida = (String) cbLocalidade.getValue();
+
+            if (cb.isSelected()){
+                sPartida = this.logic.getLocalizacaoAtual();
+            }
 
             if (sDestino != null && sPartida != null){
                 lvListaDados.getItems().clear();
                 HashMap<String, ArrayList<String>> hmDirections = this.logic.getdirection(sPartida, sDestino);
                 acrescentaDados(hmDirections.get("Itenerário Recomendado"),1);
-                acrescentaDados(hmDirections.get("Itenerário Alternativo"),2);
+                if (hmDirections.get("Itenerário Alternativo").size() > 2)
+                    acrescentaDados(hmDirections.get("Itenerário Alternativo"),2);
             }
         });
     }
-
 
     /**
      * Esta função acrescenta todos os dados ao histórico, isto permite que o código seja mais limpo
      */
     private void acrescentaDados(List<String> lista, int iopc){
-        if (lista.size() > 0){
+        if (lista.size() > 2){
             
             LsView lsVista = new LsView();
             lsVista.setPrefHeight(6 * 24 + 2);
@@ -144,13 +163,13 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
             
             HBox hbInfoPosto;
             if(iopc == 1)
-                hbInfoPosto = new HBox(new Label("Itinerário Principal x :      " + sInfolocal));
+                hbInfoPosto = new HBox(new Label("Itinerário Principal: " + sInfolocal));
             else
-                hbInfoPosto = new HBox(new Label("Itinerário Alternativo :      " + sInfolocal));
+                hbInfoPosto = new HBox(new Label("Itinerário Alternativo: " + sInfolocal));
             //HBox hbInfoPosto = new HBox(new Label("Itinerário Principal :" + sInfolocal));
             hbInfoPosto.setAlignment(Pos.CENTER_LEFT);
 
-            GreyButton bEstado = new GreyButton("Detalhes");
+            DarkGreyButton bEstado = new DarkGreyButton("Detalhes");
 
             bEstado.setOnMouseClicked(e ->{
                 if(hbBoxVista.visibleProperty().getValue()){
@@ -213,6 +232,16 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         setVisible(this.logic.inItinerario());
+
+        if (this.logic.inItinerario()){
+
+            cbLocalidade.getSelectionModel().clearSelection();
+            cbLocalidadeDestino.getSelectionModel().clearSelection();
+            cb.setSelected(false);
+            lvListaDados.getItems().clear();
+
+        }
+
     }
 
 }

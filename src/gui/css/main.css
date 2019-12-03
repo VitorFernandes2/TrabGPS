@@ -176,3 +176,25 @@
     /* modify mark color */
     -fx-background-color: mark-color;
 }
+
+.DarkGreyButton{
+
+    -fx-background-color: #797979;
+    -fx-border-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-pref-width: 200px;
+
+}
+
+.DarkGreyButton:hover {
+
+    -fx-background-color: #494949;
+    -fx-border-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+
+}

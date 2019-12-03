@@ -63,7 +63,7 @@ public class cIntenerario {
             alOutput = getsimplepost(sPartida, sChegada, getdistrict(sInfo, sPartida));
             
             alOutput2 = getpostoalternativo(sPartida, sChegada, getdistrict(sInfo, sPartida)); // new
-            
+
         } catch (MalformedURLException ex) {
             System.out.println("[ERROR]Não foi possivel connectar a api de trajetos (MalformedURLException)");
         } catch (IOException ex) {
@@ -78,7 +78,7 @@ public class cIntenerario {
         //return getDirectionFinal(sPartida, alOutput, sChegada);
     }
     
-    private static String getClientCorrentLocation() { //new function
+    public static String getClientCorrentLocation() { //new function
         StringBuilder sbLocalInfo = new StringBuilder();
         String sLine = null;
         URL urlIpapi = null;
