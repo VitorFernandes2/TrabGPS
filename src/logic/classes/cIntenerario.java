@@ -45,7 +45,7 @@ public class cIntenerario {
         
         try {
             
-            urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + sPartida.trim() + ",PT&wp.1=" + sChegada.trim() + ",PT&c=pt-PT&optmz=timeWithTraffic&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
+            urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + urlAdaptor(sPartida) + ",PT&wp.1=" + urlAdaptor(sChegada) + ",PT&c=pt-PT&optmz=timeWithTraffic&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
             
             urlcReturnado = urlTest.openConnection();
             
@@ -141,7 +141,7 @@ public class cIntenerario {
         
         try {
             
-            URL urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?" + wpCreator(sPartida.trim(), alPosto, sChegada.trim()) + "&optmz=timeWithTraffic&c=pt-PT&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
+            URL urlTest = new URL("http://dev.virtualearth.net/REST/V1/Routes/Driving?" + wpCreator(urlAdaptor(sPartida), alPosto, urlAdaptor(sChegada)) + "&optmz=timeWithTraffic&c=pt-PT&routeAttributes=routePath&key=J4mt4gQdoqBgVNWQ63Vh~phVhHbgLfrfO2Qw2MbTdSA~Anb2YN0sBiq4cxNTMlGfIFFZZnr1UPHwECFbw_G6HbrSIlrZdO6rovqVUOp0SDEg&output=json");
 
             URLConnection urlcReturnado = urlTest.openConnection();
 
@@ -189,7 +189,6 @@ public class cIntenerario {
                 alDirectionArray.add(sbFinal.toString());
             }
             
-
         } catch (MalformedURLException ex) {
             System.out.println("[ERROR]Não foi possivel connectar a api de trajetos (MalformedURLException)v0.2");
         } catch (IOException ex) {
@@ -199,7 +198,21 @@ public class cIntenerario {
         return alDirectionArray;
     }
     
-    public static String wpCreator(String sInicial, ArrayList<cPosto> alPosto, String sFim){
+    private static String urlAdaptor(String sWaypoint){
+        StringBuilder sbUrlName = new StringBuilder();
+        int iIndex;
+        for(iIndex = 0; iIndex < sWaypoint.length(); iIndex++){
+            if(sWaypoint.charAt(iIndex) == ' '){
+                sbUrlName.append("%20");
+            }
+            else{
+                sbUrlName.append(sWaypoint.charAt(iIndex));
+            }
+        }
+        return sbUrlName.toString();
+    }
+    
+    private static String wpCreator(String sInicial, ArrayList<cPosto> alPosto, String sFim){
         StringBuilder sbLink = new StringBuilder();
         String sRegNome;
         int i = 0;
