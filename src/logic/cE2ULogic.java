@@ -1,6 +1,6 @@
 package logic;
 
-import logic.classes.cIntenerario;
+import logic.classes.cItinerario;
 import logic.classes.cIntervaloTempo;
 import logic.classes.cPosto;
 import logic.classes.cRegiao;
@@ -221,7 +221,7 @@ public class cE2ULogic extends PropertyChangeSupport {
 
     public String getLocalizacaoAtual(){
 
-        return cIntenerario.getClientCorrentLocation();
+        return cItinerario.getClientCorrentLocation();
 
     }
 

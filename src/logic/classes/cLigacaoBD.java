@@ -45,8 +45,6 @@ public class cLigacaoBD {
     
     public boolean executarInsert(String query)
     {
-        System.out.println(query);
-
         try {
             PreparedStatement ps_query = conn_ligacao.prepareStatement(query);
             ps_query.executeUpdate();
@@ -193,11 +191,11 @@ public class cLigacaoBD {
         return null;
     }
     
-    public ArrayList<cPosto> executarSelectPostos() 
+    public ArrayList<cPosto> executarSelectPostos(int ordem) 
     {
         try {
             ArrayList<cPosto> lista = new ArrayList<>();
-            String query = "Select * from posto";
+            String query = "Select * from posto ORDER BY idRegiao = " + ordem+" DESC ";
             stmt = conn_ligacao.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {

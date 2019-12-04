@@ -18,11 +18,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- *
- * @author a21270909
- */
-public class cIntenerario {
+
+public class cItinerario {
     
     private static ArrayList<String> lsCaminhoDetalhado;
     private static ArrayList<String> lsCaminhoaltDetalhado;
@@ -153,9 +150,9 @@ public class cIntenerario {
             String sInfo = bfReader.readLine();
             
             if(icaminho == 2)
-                lsCaminhoaltDetalhado = getintenerario(sInfo);
+                lsCaminhoaltDetalhado = getitinerario(sInfo);
             else
-                lsCaminhoDetalhado = getintenerario(sInfo);
+                lsCaminhoDetalhado = getitinerario(sInfo);
             
             lsWaypointDate = getTime(sInfo);
             lsWaypointDistance = getDisTotal(sInfo);
@@ -449,7 +446,7 @@ public class cIntenerario {
         return e2udData.getListaPostos().get(iIdPorto).getDistrito().sDistrito;
     }
     */
-    public static ArrayList<String> getintenerario (String sInfo){
+    public static ArrayList<String> getitinerario (String sInfo){
         
         ArrayList alDirectionArray = new ArrayList<String>();
         String sPesquisa = "\"" + "text" + "\"" + ":";

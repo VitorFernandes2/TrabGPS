@@ -13,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static logic.classes.cConstantes.*;
+import static logic.classes.cItinerario.getClientCorrentLocation;
 
 public class cE2UData {
 
@@ -27,6 +28,8 @@ public class cE2UData {
     private static int ierro = 0;
     private int iuserLogado;
     private cLigacaoBD ligacaoBD;
+    int iRegiao ;
+    
     public ArrayList<cReserva> getListaReservas() {
         return listaReservas;
     }
@@ -96,69 +99,12 @@ public class cE2UData {
            
         listaRegioes =  ligacaoBD.executarSelectRegiao();
         listaTempos = ligacaoBD.executarSelectTempos();
-        listaPostos =    ligacaoBD.executarSelectPostos();
+        
+        iRegiao = Integer.parseInt(ligacaoBD.executarSelect("Select idRegiao from regiao where nomeRegiao = '" + getClientCorrentLocation()+"'"));
+        listaPostos =    ligacaoBD.executarSelectPostos(iRegiao);
         listaDisponibilidades = ligacaoBD.executarSelectDisponibilidades();
         listadistritos = ligacaoBD.executarSelectDistrito();
-        //listaReservas = ligacaoBD.executarSelectReservas();
-       /*
-        listaRegioes.add(new cRegiao("Cantanhede"));// id 1
-        listaRegioes.add(new cRegiao("Coimbra"));// id 2
-        listaRegioes.add(new cRegiao("Penela"));// id 3
-        listaRegioes.add(new cRegiao("Porto"));// id 4
-        listaRegioes.add(new cRegiao("Gaia"));// id 5
-        listaRegioes.add(new cRegiao("Lisboa"));// id 6
-        listaRegioes.add(new cRegiao("Aveiro"));// id 7
-        listaRegioes.add(new cRegiao("Leiria"));// id 8
-        listaRegioes.add(new cRegiao("Pombal"));// id 9
-        listaRegioes.add(new cRegiao("Faro"));// id 10
         
-        listaTempos.add(new cIntervaloTempo("9h","9h30m"));// id 1
-        listaTempos.add(new cIntervaloTempo("9h30m","10h"));// id 2
-        listaTempos.add(new cIntervaloTempo("10h","10h30m"));// id 3
-        listaTempos.add(new cIntervaloTempo("10h30m","11h"));// id 4
-        listaTempos.add(new cIntervaloTempo("11h","11h30m"));// id 5
-        listaTempos.add(new cIntervaloTempo("11h30m","12h"));// id 6
-        listaTempos.add(new cIntervaloTempo("12h","12h30m"));// id 7
-        listaTempos.add(new cIntervaloTempo("12h30m","13h"));// id 8
-        listaTempos.add(new cIntervaloTempo("13h","13h30m"));// id 9
-        listaTempos.add(new cIntervaloTempo("13h30m","14h"));// id 10
-        
-        listaPostos.add(new cPosto(1,"Rua S. Pedro",0.99, -8.595116, 40.349884,"Coimbra"));                   // id 1
-        listaPostos.add(new cPosto(1,"Rua S. Miguel",0.79, -8.409035324984872, 40.19541569649263,"Coimbra")); // id 2
-        listaPostos.add(new cPosto(3,"Rua de Nove de Julho",1.49, -8.3992249, 40.1914154,"Coimbra"));         // id 3
-        listaPostos.add(new cPosto(4,"Rua dos Clérigos",0.99, -8.4242921, 40.2017605,"Porto"));             // id 4
-        listaPostos.add(new cPosto(4,"Rua de José Falcão",1.29, -8.4307289, 40.201377,"Porto"));            // id 5
-        listaPostos.add(new cPosto(6,"Rua de Trás",0.99, -8.6351568, 41.1631267,"Lisboa"));                  // id 6
-        listaPostos.add(new cPosto(8,"Rua do Rosário",1.49, -8.6278043, 41.16463,"Leiria"));                 // id 7
-        listaPostos.add(new cPosto(9,"Rua de Santa Catarina",1.99, -8.6218613, 41.167398,"Leiria"));         // id 8
-        listaPostos.add(new cPosto(10,"Rua de Belomonte",2.22, -8.650833, 41.1775625,"Faro"));             // id 9
-        listaPostos.add(new cPosto(10,"Rua dos Bacalhoeiros",2.00, -8.6303421, 41.1650502,"Faro"));        // id 10
-        
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(1,1,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(1,2,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(1,3,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(1,4,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(1,5,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(1,6,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(2,1,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(2,2,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(2,3,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(2,4,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(2,5,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(2,6,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(3,1,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(3,2,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(3,3,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(3,4,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(3,5,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(3,6,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(4,1,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(4,2,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(4,3,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(5,4,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(5,5,true));//1
-        listaDisponibilidades.add(new cDisponibilidadesByTempo(5,6,true));//1
-        */
     }
     
     public List<String> infoPosto(int id){
@@ -315,7 +261,7 @@ public class cE2UData {
         ArrayList<String> lista = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
 
-        listaPostos = ligacaoBD.executarSelectPostos();
+        listaPostos = ligacaoBD.executarSelectPostos(iRegiao);
         listaDisponibilidades = ligacaoBD.executarSelectDisponibilidades();
         for(cPosto posto : listaPostos) {
             for(cDisponibilidadesByTempo c : listaDisponibilidades) {
@@ -537,7 +483,6 @@ public class cE2UData {
         
         String query = "INSERT INTO reserva(idUtilizador,custoPrevisto, idPosto, estado, diaReserva,idIntervaloTempo) VALUES ("+iuserLogado+""
                 + ","+ preco * 30 + ","+iidPosto+",\'Ativo\',\'"+getData()+"\',"+iidIntervalo+")";
-        
         ligacaoBD.executarInsert(query);
 
         int idDispP = 0;
@@ -579,7 +524,6 @@ public class cE2UData {
             if((intervalo.getHoraInicio()+" às "+intervalo.getHoraFim()).equals(a.get(" Data").substring(15)))
                 iidIntervalo = intervalo.getIdIntervalo();
         }
-        System.out.println("p = " +iidPosto +" | int = " + iidIntervalo );
         if(iidPosto == null || iidIntervalo == null)  {
             return false;
         }
@@ -596,20 +540,15 @@ public class cE2UData {
                         if(dips.getIdPosto() == iidPosto && dips.getIdIntervaloTempo() == iidIntervalo ) {
                              idDispP = iidPosto;
                              idDispT = iidIntervalo;
-                             System.out.println("asd");
-                             //dips.setDisponibilidade(true);
                         }
                     } 
                 if(idDispP!= 0 && idDispT!=0){
                     String queryUpdate = "UPDATE disponibilidadesbytempo SET disponibilidade = 0 WHERE idPosto = "+idDispP+" and idIntervaloTempo = "+idDispT;
-                    System.out.println(queryUpdate);
                     ligacaoBD.executarUpdate(queryUpdate);
                 }
 
                 String queryUpdate = "UPDATE reserva SET estado = 'Cancelada' WHERE idPosto = "+idDispP+" and idIntervaloTempo = "+idDispT;
-                System.out.println(queryUpdate);
                 ligacaoBD.executarUpdate(queryUpdate);
-               // reserva.setSestado("Cancelada");    
                 return true;
             }
         }
@@ -633,7 +572,7 @@ public class cE2UData {
     }
 
     public HashMap<String, ArrayList<String>> getdirection(String sPartida, String sChegada){
-        return cIntenerario.getdirection(this, sPartida, sChegada);
+        return cItinerario.getdirection(this, sPartida, sChegada);
     }
 
 }
