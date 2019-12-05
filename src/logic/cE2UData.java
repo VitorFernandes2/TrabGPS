@@ -134,10 +134,9 @@ public class cE2UData {
     public boolean verificaDadosLogin(String sUsername,String sPassword){
         
         String query = "Select * from utilizador  where username='"+sUsername+"' and password = '"+sPassword+"'";
-        
         String resultado = ligacaoBD.executarSelect(query);
         
-        if(resultado.equals("ERRO"))
+        if(resultado.equals("ERRO") || resultado.equalsIgnoreCase(""))
             return false;
         
         iuserLogado = Integer.parseInt(resultado);
@@ -149,7 +148,8 @@ public class cE2UData {
                 
         String query = "Select * from utilizador  where username='"+sUsername+"'";
         String resultado = ligacaoBD.executarSelect(query);
-        if(resultado.equals("ERRO"))
+        
+        if(resultado.equals("ERRO") || resultado.equalsIgnoreCase(""))
             return false;
                 
         return true;

@@ -213,7 +213,7 @@ public class cItinerario {
         StringBuilder sbLink = new StringBuilder();
         String sRegNome;
         int i = 0;
-        sbLink.append("wp.").append(i++).append("=").append(sInicial.trim());
+        sbLink.append("wp.").append(i++).append("=").append(sInicial);
         if(alPosto != null){
             for(cPosto cpostoPP : alPosto){
                 String sPostoName = cpostoPP.getLocalizacao();
@@ -229,12 +229,12 @@ public class cItinerario {
                 }
                 
                 if((sRegNome = getRegiaoNome(cpostoPP)) != null){
-                    sbLink.append(",PT&wp.").append(i++).append("=").append(sbB.toString()).append(",").append(sRegNome);
+                    sbLink.append(",PT&wp.").append(i++).append("=").append(sbB.toString()).append(",").append(urlAdaptor(sRegNome));
                 }
             }
         }
         
-        sbLink.append(",PT&wp.").append(i++).append("=").append(sFim.trim()).append(",PT");
+        sbLink.append(",PT&wp.").append(i++).append("=").append(sFim).append(",PT");
         
         return sbLink.toString();
     }
