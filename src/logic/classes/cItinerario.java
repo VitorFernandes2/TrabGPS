@@ -162,26 +162,25 @@ public class cItinerario {
             for(int i = 0, j = 0; i < iTamWaypoints; i++){
                 
                 StringBuilder sbFinal = new StringBuilder();
-                
                 if(i == 0){
-                    sbFinal.append("Localização: ").append(sPartida).append(" Distância: ").append(lsWaypointDistance.get(i).floatValue())
-                            .append(" km Horas de Partida: ").append(lsWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
-                            .append(":").append(lsWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
-                            .append(lsWaypointDate.get(i).get(Calendar.SECOND));
+                    sbFinal.append(sPartida);
                 }
                 else if(i == iTamWaypoints - 1){
-                    sbFinal.append("Localização: ").append(sChegada).append(" Distância: ").append(lsWaypointDistance.get(i).floatValue())
-                            .append(" km Horas para Chegada: ").append(lsWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
-                            .append(":").append(lsWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
-                            .append(lsWaypointDate.get(i).get(Calendar.SECOND));
+                    sbFinal.append(sChegada);
                 }
                 else{
-                    sbFinal.append("Localização: ").append(alPosto.get(j).getLocalizacao()).append(" Distância: ").append(lsWaypointDistance.get(i).floatValue())
-                            .append(" km Horas para Chegada: ").append(lsWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
-                            .append(":").append(lsWaypointDate.get(i).get(Calendar.MINUTE)).append(":")
-                            .append(lsWaypointDate.get(i).get(Calendar.SECOND));
+                    sbFinal.append(alPosto.get(j).getLocalizacao());
                     j++;
                 }
+                String horas="",minutos="";
+                if(lsWaypointDate.get(i).get(Calendar.HOUR_OF_DAY)<10)
+                    horas = "0";
+                if(lsWaypointDate.get(i).get(Calendar.MINUTE)<10)
+                    minutos = "0";
+                sbFinal.append(";Distância: ").append(lsWaypointDistance.get(i).floatValue())
+                .append("; Tempo:").append(horas).append(lsWaypointDate.get(i).get(Calendar.HOUR_OF_DAY))
+                .append("h").append(minutos).append(lsWaypointDate.get(i).get(Calendar.MINUTE)).append("m")
+                .append(lsWaypointDate.get(i).get(Calendar.SECOND));
                 
                 alDirectionArray.add(sbFinal.toString());
             }
