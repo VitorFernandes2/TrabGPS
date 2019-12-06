@@ -18,6 +18,7 @@ import static logic.classes.cItinerario.getClientCorrentLocation;
 public class cE2UData {
 
     private ArrayList<cReserva> listaReservas;
+     private ArrayList<cVeiculo> listaVeiculos;
     private ArrayList<cUtilizador> listaUtilizadores;
     private ArrayList<cRegiao> listaRegioes = new ArrayList<>(); 
     private ArrayList<cIntervaloTempo> listaTempos = new ArrayList<>(); 
@@ -29,6 +30,22 @@ public class cE2UData {
     private int iuserLogado;
     private cLigacaoBD ligacaoBD;
     int iRegiao ;
+
+    public ArrayList<cVeiculo> getListaVeiculos() {
+        return listaVeiculos;
+    }
+
+    public ArrayList<cDistrito> getListadistritos() {
+        return listadistritos;
+    }
+
+    public static int getIerro() {
+        return ierro;
+    }
+
+    public int getIuserLogado() {
+        return iuserLogado;
+    }
     
     public ArrayList<cReserva> getListaReservas() {
         return listaReservas;
@@ -73,6 +90,7 @@ public class cE2UData {
     public cE2UData() throws IOException {
         this.listaReservas = new ArrayList<>();
         listaUtilizadores = new ArrayList<>();
+        listaVeiculos = new ArrayList<>();
                //getUtilizadorArea();
         iuserLogado=0;        
         ligacaoBD = new cLigacaoBD();
@@ -104,6 +122,7 @@ public class cE2UData {
         listaPostos =    ligacaoBD.executarSelectPostos(iRegiao);
         listaDisponibilidades = ligacaoBD.executarSelectDisponibilidades();
         listadistritos = ligacaoBD.executarSelectDistrito();
+        listaVeiculos = ligacaoBD.executarSelectVeiculos(iuserLogado);
         
     }
     
@@ -181,7 +200,7 @@ public class cE2UData {
             return true;
         }
     }
-    
+       
     public boolean verificaInputUsername(String sStringUsername){
         // verifica se as strings recebidas est�o de acordo com os parametros definidos
         if(sStringUsername.length() <= MAXUSERNCHAR && sStringUsername.length() != 0 && !hasspecialcharacters(sStringUsername))
@@ -227,6 +246,16 @@ public class cE2UData {
         }
         
         return listaPostos;
+    }
+    
+    public boolean registaVeiculo(String modelo,String marca,String matricula,int pot, int auto){
+        
+        String query = "INSERT INTO veiculo( marca, modelo, matricula, potencia, autonomia, idUtilizador) VALUES ('"+marca+"','"+modelo+"','"+matricula+"',"
+                +pot+","+auto+","+iuserLogado+")";
+        if(!ligacaoBD.executarInsert(query))
+                return false;
+         
+        return true;
     }
     
     private String getNomecRegiao(int iId){
@@ -436,6 +465,24 @@ public class cE2UData {
         if(conta==0)
             setErro(FALTARESERVASHISTORICO);
         return lista;
+    }
+    
+    public ArrayList<String> getVeiculos(){
+    
+        int iconta = 0;
+        ArrayList<String> carros = new ArrayList<>();
+        
+        listaVeiculos = ligacaoBD.executarSelectVeiculos(iuserLogado);
+        for(cVeiculo v : listaVeiculos){           
+            carros.add("Modelo:" + v.getsModelo()+"\nMarca: " + v.getsMarca()+ "\nMatricula: "
+                + v.getsMatricula() +"\nPotência: " + v.getiPotencia() + "\nAutonomia: "+v.getiAutonomia());
+                iconta++;                
+           
+        }
+        if(iconta==0)
+             setErro(FALTAVEICULOS);
+        
+        return carros;
     }
     
     public List<String> getListaPendentes(){

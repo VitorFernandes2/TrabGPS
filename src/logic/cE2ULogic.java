@@ -191,6 +191,13 @@ public class cE2ULogic extends PropertyChangeSupport {
         }
         return aux;
     }
+    public ArrayList<String> getVeiculos(){
+        return data.getVeiculos();
+    }
+
+    public void esperaVeiculo(String modelo,String marca,String matricula,int pot, int auto){
+        data.registaVeiculo(modelo, marca, matricula, pot, auto);
+    }
 
     public ArrayList<String> getPostos(){
         return data.infoPosto();

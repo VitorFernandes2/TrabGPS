@@ -77,6 +77,32 @@ public class cLigacaoBD {
         return s_resposta;
     }
     
+     public ArrayList<cVeiculo> executarSelectVeiculos(int id) 
+    {
+        try {
+            ArrayList<cVeiculo> lista = new ArrayList<>();
+            String query = "Select * from veiculo where idUtilizador = " + id;
+
+            stmt = conn_ligacao.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                int i = rs.getInt("idVeiculo");
+                String modelo = rs.getString("modelo");
+                String marca = rs.getString("marca");
+                String matricula = rs.getString("matricula");
+                int pot = rs.getInt("potencia");
+                int auto = rs.getInt("autonomia");
+                
+                lista.add(new cVeiculo(i,modelo,marca,matricula,pot,auto,id));
+            }
+            
+            return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(cLigacaoBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     public ArrayList<cIntervaloTempo> executarSelectTempos() 
     {
         try {
