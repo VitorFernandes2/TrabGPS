@@ -17,6 +17,8 @@ public interface IStates {
     public IStates goToItinerario();
     public IStates goToPesquisa();
     public IStates cancelarReserva(String dados);
-
+    public IStates InsereVeiculo();
+    public IStates MostraVeiculos();
+    public IStates goToVeiculos();
     
 }

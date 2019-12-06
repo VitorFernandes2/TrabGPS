@@ -1,8 +1,7 @@
 package logic;
 
-import logic.classes.cItinerario;
 import logic.classes.cIntervaloTempo;
-import logic.classes.cPosto;
+import logic.classes.cItinerario;
 import logic.classes.cRegiao;
 import logic.states.*;
 
@@ -216,6 +215,15 @@ public class cE2ULogic extends PropertyChangeSupport {
 
         return cItinerario.getClientCorrentLocation();
 
+    }
+
+    public boolean inVeiculos(){
+        return this.state instanceof EsperaVeiculo;
+    }
+
+    public void goToVeiculos(){
+        this.state = this.state.goToVeiculos();
+        firePropertyChange(null, false, true);
     }
 
 }

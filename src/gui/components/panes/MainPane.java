@@ -34,9 +34,11 @@ public class MainPane extends StackPane implements PropertyChangeListener {
         pnPendingPane.setVisible(false);
         ItineraryPane pnItineraryPane = new ItineraryPane(logic);
         pnItineraryPane.setVisible(false);
+        VehiclePane pnVehiclePane = new VehiclePane(logic);
+        pnVehiclePane.setVisible(false);
 
         ObservableList oblChildren = this.getChildren();
-        oblChildren.addAll(pnLoginPane, pnRegisterPane, pnQueryPane, pnHistoryPane, pnPendingPane, pnItineraryPane);
+        oblChildren.addAll(pnLoginPane, pnRegisterPane, pnQueryPane, pnHistoryPane, pnPendingPane, pnItineraryPane, pnVehiclePane);
 
     }
 

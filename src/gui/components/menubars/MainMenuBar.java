@@ -17,7 +17,7 @@ public class MainMenuBar extends MenuBar {
     private Label lb2;
     private Label lb3;
     private Label lb4;
-    private Label lb5;
+    private Label lb6;
 
     public MainMenuBar(cE2ULogic logic) {
         this.logic = logic;
@@ -38,9 +38,9 @@ public class MainMenuBar extends MenuBar {
         lb4.setOnMouseClicked(e -> {
             this.logic.goToPendentes();
         });
-        lb5 = new Label("Logout");
-        lb5.setOnMouseClicked(e -> {
-            System.exit(0);
+        lb6 = new Label("Veículos");
+        lb6.setOnMouseClicked(e -> {
+            this.logic.goToVeiculos();
         });
 
         mn1 = new Menu();
@@ -56,11 +56,10 @@ public class MainMenuBar extends MenuBar {
         mn4.setGraphic(lb4);
 
         mn5 = new Menu();
-        mn5.setGraphic(lb5);
+        mn5.setGraphic(lb6);
 
-        this.getMenus().addAll(mn1, mn2, mn3, mn4);
+        this.getMenus().addAll(mn1, mn2, mn3, mn4, mn5);
         this.getStyleClass().add("MainMenuBar");
 
     }
-
 }

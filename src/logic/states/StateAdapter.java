@@ -81,4 +81,19 @@ public class StateAdapter implements IStates {
         return null;
     }
 
+    @Override
+    public IStates InsereVeiculo() {
+        return null;
+    }
+
+    @Override
+    public IStates MostraVeiculos() {
+        return null;
+    }
+
+    @Override
+    public IStates goToVeiculos() {
+        return new EsperaVeiculo(data);
+    }
+
 }
