@@ -11,7 +11,7 @@ public class VerificaItinerario extends StateAdapter{
 
     @Override
     public IStates efetuaReserva(String dados) {
-        if(data.efetuarReserva(dados))
+        if(data.efetuarReservaItenerario(dados))
             return new VerificaPendentes(data);
 
         return new EsperaPesquisa(data);

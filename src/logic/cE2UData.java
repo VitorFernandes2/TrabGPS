@@ -153,10 +153,9 @@ public class cE2UData {
     public boolean verificaDadosLogin(String sUsername,String sPassword){
         
         String query = "Select * from utilizador  where username='"+sUsername+"' and password = '"+sPassword+"'";
-        
         String resultado = ligacaoBD.executarSelect(query);
         
-        if(resultado.equals("ERRO"))
+        if(resultado.equals("ERRO") || resultado.equalsIgnoreCase(""))
             return false;
         
         iuserLogado = Integer.parseInt(resultado);
@@ -168,7 +167,8 @@ public class cE2UData {
                 
         String query = "Select * from utilizador  where username='"+sUsername+"'";
         String resultado = ligacaoBD.executarSelect(query);
-        if(resultado.equals("ERRO"))
+        
+        if(resultado.equals("ERRO") || resultado.equalsIgnoreCase(""))
             return false;
                 
         return true;
@@ -547,6 +547,80 @@ public class cE2UData {
 
         return true;
     }
+    public boolean efetuarReservaItenerario(String sdados){
+        
+        HashMap<String,String> a = resolveMessages(sdados);   
+        Integer iidPosto = null, iidIntervalo = null;
+        double preco = 0;
+        
+        for(cPosto posto : listaPostos) {
+            if(posto.getLocalizacao().equals(a.get("Posto"))) {
+                iidPosto = posto.getIdPosto();
+                preco = posto.getPrecoCarregamento();
+            }
+        }
+        
+        System.out.println(a.get(" Tempo"));
+        GregorianCalendar calendar = new GregorianCalendar();
+        int horasatuais = calendar.get(GregorianCalendar.HOUR_OF_DAY);
+        int minutosatuais = calendar.get(GregorianCalendar.MINUTE);
+        int horasreserva,minutosreserva;
+        horasreserva= Integer.parseInt(a.get(" Tempo").substring(0, 2));
+        minutosreserva= Integer.parseInt(a.get(" Tempo").substring(3, 5));
+        int horasparareserva = horasatuais+horasreserva;
+        int minutosparareserva = minutosatuais+minutosreserva;
+        if(minutosparareserva >= 60)
+        {
+            horasparareserva++;
+            minutosparareserva-=60;
+        }
+        
+        if(minutosparareserva < 30) minutosparareserva = 0; else minutosparareserva = 30;
+        
+        StringBuilder ini = new StringBuilder(),fim = new StringBuilder();
+        if(horasparareserva<10)
+            ini.append("0");
+        ini.append(horasparareserva).append("h");
+        
+        if(minutosparareserva == 30)
+        { 
+            ini.append(minutosparareserva).append("m");
+            fim.append(++horasparareserva).append("h");
+        }
+        else{
+            fim.append(horasparareserva).append("h").append("30m");
+        }
+        
+        for(cIntervaloTempo intervalo : listaTempos) {
+            if(intervalo.getHoraInicio().equals(ini.toString()) && intervalo.getHoraFim().equals(fim.toString()))
+            {
+                iidIntervalo = intervalo.getIdIntervalo();
+            }
+        }
+        
+        if(iidPosto == null || iidIntervalo == null) {
+            return false;
+        }
+        
+        String query = "INSERT INTO reserva(idUtilizador,custoPrevisto, idPosto, estado, diaReserva,idIntervaloTempo) VALUES ("+iuserLogado+""
+                + ","+ preco * 30 + ","+iidPosto+",\'Ativo\',\'"+getData()+"\',"+iidIntervalo+")";
+        ligacaoBD.executarInsert(query);
+
+        int idDispP = 0;
+        int idDispT = 0;
+        for(cDisponibilidadesByTempo dips : listaDisponibilidades) {
+            if(dips.getIdPosto() == iidPosto && dips.getIdIntervaloTempo() == iidIntervalo) {
+                idDispP = iidPosto;
+                idDispT = iidIntervalo;
+            }
+        }
+        if(idDispP!= 0 && idDispT!=0){
+            String queryUpdate = "UPDATE disponibilidadesbytempo SET disponibilidade = 1 WHERE idPosto = "+idDispP+" and idIntervaloTempo = "+idDispT;
+            ligacaoBD.executarUpdate(queryUpdate);
+        }
+        
+        return true;
+    }
     
      public String getData(){
         GregorianCalendar calendar = new GregorianCalendar();
@@ -605,12 +679,19 @@ public class cE2UData {
     
     public static HashMap<String,String> resolveMessages(String message){
         StringTokenizer t,tokens = new StringTokenizer(message,";");
+        System.out.println();
         String key,val;
         HashMap<String,String> messages = new HashMap<>();
         
         while (tokens.hasMoreElements()) {
-            t = new StringTokenizer(tokens.nextElement().toString(),":");  
-            key = t.nextElement().toString();
+            t = new StringTokenizer(tokens.nextElement().toString(),":");
+           // while(t.hasMoreElements())System.out.println(t.countTokens()+" "+t.nextElement().toString());
+            if(t.countTokens() == 2){
+                key = t.nextElement().toString();
+            }
+            else{
+                key = "Posto";
+            }
             val = t.nextElement().toString();
             messages.put(key, val);
         }

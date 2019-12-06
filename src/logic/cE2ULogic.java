@@ -114,21 +114,7 @@ public class cE2ULogic extends PropertyChangeSupport {
     }
     
     public void AddicionarReservaItenerario(String sinfo){
-
-            String snome = sinfo.split("Localização: ")[1];
-            String shora = sinfo.split("Chegada: ")[1];
-            snome = snome.split(" Distância")[0];
-            cPosto postoescolhido = null;
-            
-            for(int i = 0; i < data.getListaPostos().size(); i++){
-                
-                if(data.getListaPostos().get(i).getLocalizacao().equals(snome))
-                    postoescolhido = data.getListaPostos().get(i);
-                
-            }      
-            
-            this.state = this.state.efetuaReserva(this.getPostos().get(postoescolhido.getIdPosto() - 1));
-
+            this.state = this.state.efetuaReserva(sinfo);
             // informa o estado da interface
             firePropertyChange(null, false, true);
             
