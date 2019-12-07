@@ -493,17 +493,17 @@ public class cE2UData {
         ArrayList<String> carros = new ArrayList<>();
         
         listaVeiculos = ligacaoBD.executarSelectVeiculos(iuserLogado);
-        
-        for(cVeiculo v : listaVeiculos){           
-            carros.add("Modelo:" + v.getsModelo()+"\nMarca: " + v.getsMarca()+ "\nMatricula: "
-                + v.getsMatricula() +"\nPotência: " + v.getiPotencia() + "\nAutonomia: "+v.getiAutonomia());
-                iconta++;                
-           
+        System.out.println(listaVeiculos.size());
+        for(cVeiculo v : listaVeiculos){ 
+            if(v.getiIdUtilizador() == iuserLogado){
+                carros.add("Modelo:" + v.getsModelo()+"; Marca:" + v.getsMarca()+ "; Matricula:"
+                    + v.getsMatricula() +"; Potência: " + v.getiPotencia() + "; Autonomia:"+v.getiAutonomia());
+                    iconta++;                
+            }
         }
         
         if(iconta==0)
              setErro(FALTAVEICULOS);
-        
         return carros;
     }
     
@@ -569,6 +569,7 @@ public class cE2UData {
 
         return true;
     }
+    
     public boolean efetuarReservaItenerario(String sdados){
         
         HashMap<String,String> a = resolveMessages(sdados);   

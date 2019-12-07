@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List.*;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -81,10 +82,11 @@ public class cLigacaoBD {
     {
         try {
             ArrayList<cVeiculo> lista = new ArrayList<>();
-            String query = "Select * from veiculo where idUtilizador = " + id;
-
+            String query = "Select * from veiculo";
+            System.out.println(query);
             stmt = conn_ligacao.createStatement();
             ResultSet rs = stmt.executeQuery(query);
+            
             while (rs.next()) {
                 int i = rs.getInt("idVeiculo");
                 String modelo = rs.getString("modelo");
@@ -95,7 +97,6 @@ public class cLigacaoBD {
                 
                 lista.add(new cVeiculo(i,modelo,marca,matricula,pot,auto,id));
             }
-            
             return lista;
         } catch (SQLException ex) {
             Logger.getLogger(cLigacaoBD.class.getName()).log(Level.SEVERE, null, ex);
