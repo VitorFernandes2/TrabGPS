@@ -119,7 +119,7 @@ public class VehiclePane extends StackPane implements Constants, PropertyChangeL
         lvList = new LsView();
         lvList.setPrefHeight(15 * 24 + 2);
 
-        for (String sItem : this.logic.getPostos()) {
+        for (String sItem : this.logic.getVeiculos()) {
             Label TextPost = new Label(sItem);
             QueryButton testButton = new QueryButton("Eliminar Veículo");
             testButton.setOnMouseClicked(evt -> {
@@ -156,7 +156,14 @@ public class VehiclePane extends StackPane implements Constants, PropertyChangeL
     }
 
     private void registerListeners() {
-
+            
+            btInserirVeiculos.setOnMouseClicked(e -> {
+                this.logic.esperaVeiculo(
+                    tfModelo.getText(),
+                    tfMarca.getText(),
+                    tfMatricula.getText(),Integer.parseInt(tfPotencia.getText()),Integer.parseInt(tfAutonomia.getText())
+                );
+            });
     }
 
     @Override

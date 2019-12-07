@@ -267,9 +267,9 @@ public class cE2UData {
     }
     
     public boolean registaVeiculo(String modelo,String marca,String matricula,int pot, int auto){
-        
         String query = "INSERT INTO veiculo( marca, modelo, matricula, potencia, autonomia, idUtilizador) VALUES ('"+marca+"','"+modelo+"','"+matricula+"',"
                 +pot+","+auto+","+iuserLogado+")";
+        
         if(!ligacaoBD.executarInsert(query))
                 return false;
          
@@ -491,12 +491,15 @@ public class cE2UData {
         ArrayList<String> carros = new ArrayList<>();
         
         listaVeiculos = ligacaoBD.executarSelectVeiculos(iuserLogado);
+        System.out.println(listaVeiculos);
         for(cVeiculo v : listaVeiculos){           
             carros.add("Modelo:" + v.getsModelo()+"\nMarca: " + v.getsMarca()+ "\nMatricula: "
                 + v.getsMatricula() +"\nPotência: " + v.getiPotencia() + "\nAutonomia: "+v.getiAutonomia());
                 iconta++;                
            
         }
+        
+        System.out.println(carros);
         if(iconta==0)
              setErro(FALTAVEICULOS);
         
