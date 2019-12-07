@@ -645,6 +645,17 @@ public class cE2UData {
         return true;
     }
     
+    public boolean eliminarVeiculo(String sInfo){
+        HashMap<String,String> a = resolveMessages(sInfo);   
+        System.out.println(a);
+        String matricula = a.get(" Matricula");
+        System.out.println(matricula);
+        if(matricula == null || matricula.equals("")) return false;
+        String queryDelete = "DELETE FROM veiculo WHERE matricula = \""+matricula+"\" AND idUtilizador ="+iuserLogado;
+        ligacaoBD.executarUpdate(queryDelete);
+        return true;
+    }
+    
      public String getData(){
         GregorianCalendar calendar = new GregorianCalendar();
         int dia = calendar.get(GregorianCalendar.DAY_OF_MONTH);

@@ -11,12 +11,23 @@ public class EsperaVeiculo extends StateAdapter {
     }
 
     @Override
-    public IStates InsereVeiculo() {
-        return new EsperaVeiculo(data);
+    public IStates InsereVeiculo(String modelo,String marca,String matricula,int pot, int auto) {
+        if(data.registaVeiculo(modelo, marca, matricula, pot, auto)){
+            return new EsperaVeiculo(data);
+        }
+        return this;
     }
 
     @Override
     public IStates MostraVeiculos() {
         return new EsperaVeiculo(data);
+    }
+    
+    @Override
+    public IStates EliminaVeiculos(String dados){
+       if(data.eliminarVeiculo(dados)){
+           return new EsperaVeiculo(data);
+       }
+       return this;
     }
 }

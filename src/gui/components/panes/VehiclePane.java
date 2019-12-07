@@ -124,7 +124,7 @@ public class VehiclePane extends StackPane implements Constants, PropertyChangeL
             QueryButton testButton = new QueryButton("Eliminar Veículo");
             testButton.setOnMouseClicked(evt -> {
 
-                this.logic.reserva(sItem);
+                this.logic.eliminaveiculo(sItem);
 
             });
 
@@ -158,7 +158,7 @@ public class VehiclePane extends StackPane implements Constants, PropertyChangeL
     private void registerListeners() {
             
             btInserirVeiculos.setOnMouseClicked(e -> {
-                this.logic.esperaVeiculo(
+                this.logic.insereVeiculo(
                     tfModelo.getText(),
                     tfMarca.getText(),
                     tfMatricula.getText(),Integer.parseInt(tfPotencia.getText()),Integer.parseInt(tfAutonomia.getText())

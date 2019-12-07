@@ -139,10 +139,16 @@ public class cE2ULogic extends PropertyChangeSupport {
 
     }
     
-     public void reserva(String dados){
+    public void reserva(String dados){
 
         if (inQuery()){
             this.state = this.state.efetuaReserva(dados);
+            firePropertyChange(null, false, true);
+        }
+    }
+    public void eliminaveiculo(String dados){
+        if (inVeiculos()){
+            this.state = this.state.EliminaVeiculos(dados);
             firePropertyChange(null, false, true);
         }
     }
@@ -180,8 +186,11 @@ public class cE2ULogic extends PropertyChangeSupport {
         return data.getVeiculos();
     }
 
-    public void esperaVeiculo(String modelo,String marca,String matricula,int pot, int auto){
-        data.registaVeiculo(modelo, marca, matricula, pot, auto);
+    public void insereVeiculo(String modelo,String marca,String matricula,int pot, int auto){
+        if(inVeiculos()){
+            this.state = this.state.InsereVeiculo(modelo, marca, matricula, pot, auto);
+            firePropertyChange(null, false, true);
+        }
     }
 
     public ArrayList<String> getPostos(){

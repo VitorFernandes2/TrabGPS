@@ -82,7 +82,11 @@ public class StateAdapter implements IStates {
     }
 
     @Override
-    public IStates InsereVeiculo() {
+    public IStates InsereVeiculo(String modelo,String marca,String matricula,int pot, int auto) {
+        return null;
+    }
+    @Override
+    public IStates EliminaVeiculos(String dados) {
         return null;
     }
 
