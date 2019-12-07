@@ -82,7 +82,6 @@ public class cLigacaoBD {
         try {
             ArrayList<cVeiculo> lista = new ArrayList<>();
             String query = "Select * from veiculo where idUtilizador = " + id;
-            System.out.println(query);
 
             stmt = conn_ligacao.createStatement();
             ResultSet rs = stmt.executeQuery(query);

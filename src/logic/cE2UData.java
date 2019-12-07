@@ -97,7 +97,7 @@ public class cE2UData {
         iuserLogado=0;        
         ligacaoBD = new cLigacaoBD();
         
-        verificaReservas();     
+         inicializaListas();
         
     }
     
@@ -110,8 +110,7 @@ public class cE2UData {
         if(dataReserva.compareTo(dataAtual) <= 1)//dataAtual maior
             reserva.setSestado("Efetuada");
         }
-        inicializaListas();
-        
+             
         
     }
     
@@ -174,6 +173,8 @@ public class cE2UData {
         
         iuserLogado = Integer.parseInt(resultado);
           
+        inicializaListas();
+        verificaReservas();   
         return true;
     }
     
@@ -350,6 +351,7 @@ public class cE2UData {
         return -1;
 
     }
+    
 
     public List<String> infoPostosByPesquisa(String regiao, String tempo){
         int conta = 0;
@@ -491,7 +493,7 @@ public class cE2UData {
         ArrayList<String> carros = new ArrayList<>();
         
         listaVeiculos = ligacaoBD.executarSelectVeiculos(iuserLogado);
-        System.out.println(listaVeiculos);
+        
         for(cVeiculo v : listaVeiculos){           
             carros.add("Modelo:" + v.getsModelo()+"\nMarca: " + v.getsMarca()+ "\nMatricula: "
                 + v.getsMatricula() +"\nPotência: " + v.getiPotencia() + "\nAutonomia: "+v.getiAutonomia());
@@ -499,7 +501,6 @@ public class cE2UData {
            
         }
         
-        System.out.println(carros);
         if(iconta==0)
              setErro(FALTAVEICULOS);
         
