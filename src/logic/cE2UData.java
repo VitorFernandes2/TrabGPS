@@ -4,6 +4,8 @@ import logic.classes.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.UUID;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -18,7 +20,7 @@ import static logic.classes.cItinerario.getClientCorrentLocation;
 public class cE2UData {
 
     private ArrayList<cReserva> listaReservas;
-     private ArrayList<cVeiculo> listaVeiculos;
+    private ArrayList<cVeiculo> listaVeiculos;
     private ArrayList<cUtilizador> listaUtilizadores;
     private ArrayList<cRegiao> listaRegioes = new ArrayList<>(); 
     private ArrayList<cIntervaloTempo> listaTempos = new ArrayList<>(); 
@@ -149,8 +151,20 @@ public class cE2UData {
         return lista;
     }
     
+    private String encriptacaoPassword(String sPassword){
+        return Base64.getEncoder().withoutPadding().encodeToString(sPassword.getBytes());
+    }
+    
+    private String desincriptacaoPassword(String sDecodedPassword){
+        byte [] bDecode = Base64.getDecoder().decode(sDecodedPassword);
+        return new String(bDecode);
+    }
     
     public boolean verificaDadosLogin(String sUsername,String sPassword){
+        
+        //Encriptação
+        sPassword = encriptacaoPassword(sPassword);
+        //-----------
         
         String query = "Select * from utilizador  where username='"+sUsername+"' and password = '"+sPassword+"'";
         String resultado = ligacaoBD.executarSelect(query);
@@ -192,6 +206,10 @@ public class cE2UData {
                 setErro(PASSWORDSDIFERENTES);
                 return false;
             }
+            
+            //Encriptação
+            sPassword = encriptacaoPassword(sPassword);
+            //-----------
             
             String query = "INSERT INTO utilizador(username, password) VALUES ('"+sUsername+"','"+sPassword+"')";
             if(!ligacaoBD.executarInsert(query))
