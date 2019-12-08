@@ -10,7 +10,10 @@ import gui.components.textfield.StringTextfield;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -119,12 +122,27 @@ public class VehiclePane extends StackPane implements Constants, PropertyChangeL
         lvList = new LsView();
         lvList.setPrefHeight(15 * 24 + 2);
 
+        insereDados();
+
+        rightbox.getChildren().addAll(lblPostos, lvList);
+        rightbox.setPadding(new Insets(30,30,0,30));
+
+        bpBorderPane.setCenter(rightbox);
+        bpBorderPane.setLeft(vbLeftbox);
+
+        return bpBorderPane;
+    }
+
+    private void insereDados(){
+
         for (String sItem : this.logic.getVeiculos()) {
             Label TextPost = new Label(sItem);
             QueryButton testButton = new QueryButton("Eliminar Veículo");
             testButton.setOnMouseClicked(evt -> {
 
                 this.logic.eliminaveiculo(sItem);
+                lvList.getItems().clear();
+                insereDados();
 
             });
 
@@ -146,13 +164,6 @@ public class VehiclePane extends StackPane implements Constants, PropertyChangeL
             lvList.getItems().add(hbBox);
         }
 
-        rightbox.getChildren().addAll(lblPostos, lvList);
-        rightbox.setPadding(new Insets(30,30,0,30));
-
-        bpBorderPane.setCenter(rightbox);
-        bpBorderPane.setLeft(vbLeftbox);
-
-        return bpBorderPane;
     }
 
     private void registerListeners() {
@@ -163,6 +174,13 @@ public class VehiclePane extends StackPane implements Constants, PropertyChangeL
                     tfMarca.getText(),
                     tfMatricula.getText(),Integer.parseInt(tfPotencia.getText()),Integer.parseInt(tfAutonomia.getText())
                 );
+                lvList.getItems().clear();
+                insereDados();
+                tfMarca.setText("");
+                tfPotencia.setText("");
+                tfMatricula.setText("");
+                tfModelo.setText("");
+                tfAutonomia.setText("");
             });
     }
 
