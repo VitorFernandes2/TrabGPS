@@ -670,8 +670,9 @@ public class cE2UData {
                 break;
             }
         }
+
         for(cIntervaloTempo intervalo : listaTempos) {
-            if((intervalo.getHoraInicio()+" às "+intervalo.getHoraFim()).equals(a.get(" Data").substring(15))){
+            if((" " + intervalo.getHoraInicio()+" às "+intervalo.getHoraFim()).equals(a.get(" Data").substring(15))){
                 iidIntervalo = intervalo.getIdIntervalo();
                 break;
             }
