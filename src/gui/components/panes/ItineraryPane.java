@@ -33,6 +33,8 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
     private LsView lvListaDados;
     private CheckBox cb;
     private HBox hbTopBox;
+    private Label lbPartida;
+    private Label lbDestino;
 
     public ItineraryPane(cE2ULogic logic) {
         this.logic = logic;
@@ -76,7 +78,15 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
         VBox vbBox = new VBox(lbLocalidade, cb, cbLocalidade, lbLocalidade2, cbLocalidadeDestino);
         vbBox.setPadding(new Insets(0,0,15,0));
 
-        vbLeftbox.getChildren().addAll(vbBox, btPesquisa);
+        lbDestino = new Label("Não selecionou o seu local de destino!");
+        lbDestino.setTextFill(Color.RED);
+        lbDestino.setVisible(false);
+
+        lbPartida = new Label("Não selecionou o seu local de partida!");
+        lbPartida.setTextFill(Color.RED);
+        lbPartida.setVisible(false);
+
+        vbLeftbox.getChildren().addAll(vbBox, btPesquisa, lbDestino, lbPartida);
         vbLeftbox.setPadding(new Insets(50,0,0,50));
         vbCenterbox.getChildren().addAll(lvListaDados);
         vbCenterbox.setPadding(new Insets(30,30,0,30));
@@ -131,6 +141,18 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
 
             if (cb.isSelected()){
                 sPartida = this.logic.getLocalizacaoAtual();
+            }
+
+            if (sDestino == null){
+                lbDestino.setVisible(true);
+            }else{
+                lbDestino.setVisible(false);
+            }
+
+            if (sPartida == null){
+                lbPartida.setVisible(true);
+            }else{
+                lbPartida.setVisible(false);
             }
 
             if (sDestino != null && sPartida != null){
@@ -235,6 +257,7 @@ public class ItineraryPane extends StackPane implements PropertyChangeListener {
 
         if (this.logic.inItinerario()){
 
+            cbLocalidade.setDisable(false);
             cbLocalidade.getSelectionModel().clearSelection();
             cbLocalidadeDestino.getSelectionModel().clearSelection();
             cb.setSelected(false);

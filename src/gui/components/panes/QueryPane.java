@@ -116,7 +116,6 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
         hbLocalidade.setPadding(new Insets(0,0,15,0));
         hbLocalidade.setAlignment(Pos.CENTER_LEFT);
 
-
         vbLeftbox.getChildren().addAll(lblPesquisa, hbHorario, hbLocalidade, btPesquisa, lbLabel, lbLabel2, lbLabel3);
 
         rightbox = new VBox();
