@@ -78,6 +78,10 @@ public class RegisterPane extends StackPane implements Constants, PropertyChange
             lbErro.setVisible(false);
             lbErro.setText("Utilizador já existe na base de dados");
 
+            tfUsername.setText("");
+            pfConfirmaPalavraPasse.setText("");
+            pfPalavraPasse.setText("");
+
             switch (this.logic.getErro()){
 
                 case 1:

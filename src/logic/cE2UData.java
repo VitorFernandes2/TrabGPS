@@ -3,14 +3,7 @@ package logic;
 import logic.classes.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.UUID;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -672,12 +665,16 @@ public class cE2UData {
         listaDisponibilidades = ligacaoBD.executarSelectDisponibilidades();
 
         for(cPosto posto : listaPostos) {
-            if(posto.getLocalizacao().equals(a.get("Posto")))
+            if(posto.getLocalizacao().equals(a.get("Posto"))){
                 iidPosto = posto.getIdPosto();
+                break;
+            }
         }
         for(cIntervaloTempo intervalo : listaTempos) {
-            if((intervalo.getHoraInicio()+" às "+intervalo.getHoraFim()).equals(a.get(" Data").substring(15)))
+            if((intervalo.getHoraInicio()+" às "+intervalo.getHoraFim()).equals(a.get(" Data").substring(15))){
                 iidIntervalo = intervalo.getIdIntervalo();
+                break;
+            }
         }
         if(iidPosto == null || iidIntervalo == null)  {
             return false;

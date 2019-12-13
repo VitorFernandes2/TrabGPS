@@ -126,12 +126,33 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
         lvList = new LsView();
         lvList.setPrefHeight(30 * 24 + 2);
 
+        acrescentaDadosLista();
+
+        rightbox.getChildren().addAll(lblPostos, lvList);
+        rightbox.setPadding(new Insets(30,30,0,30));
+
+        bpBorderPane.setCenter(rightbox);
+        bpBorderPane.setLeft(vbLeftbox);
+
+        return bpBorderPane;
+    }
+
+    private void acrescentaDadosLista(){
+
+        this.lvList.getItems().clear();
+
         for (String sItem : this.logic.getPostos()) {
             Label TextPost = new Label(sItem);
+
             QueryButton testButton = new QueryButton("Reservar");
+
+            if (sItem.contains("Indisponivel"))
+                testButton.setDisable(true);
+
             testButton.setOnMouseClicked(evt -> {
 
                 this.logic.reserva(sItem);
+                acrescentaDadosLista();
 
             });
 
@@ -153,13 +174,6 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
             lvList.getItems().add(hbBox);
         }
 
-        rightbox.getChildren().addAll(lblPostos, lvList);
-        rightbox.setPadding(new Insets(30,30,0,30));
-
-        bpBorderPane.setCenter(rightbox);
-        bpBorderPane.setLeft(vbLeftbox);
-
-        return bpBorderPane;
     }
 
     private void registerListeners(){
@@ -173,6 +187,10 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
 
                 Label lbTextPost = new Label(sItem);
                 QueryButton bTestButton = new QueryButton("Reservar");
+
+                if (sItem.contains("Indisponivel"))
+                    bTestButton.setDisable(true);
+
                 bTestButton.setOnMouseClicked(evt -> {
 
                     this.logic.reserva(sItem);
@@ -231,6 +249,7 @@ public class QueryPane extends StackPane implements PropertyChangeListener {
 
                 bTestButton.setOnMouseClicked(e -> {
                     this.logic.reserva(sItem);
+
                 });
 
                 HBox hbBox2 = new HBox(lbTextPost);
