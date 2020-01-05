@@ -32,4 +32,14 @@ Visto também estes automóveis terem pouca autonomia, exige ao proprietário um
 - [X] Fazer Reserva
 - [X] Cancelar Reserva
 - [X] Consultar Histórico
-- [ ] Definir Itinerário
+- [X] Definir Itinerário
+
+#Conteúdo dos Diretórios
+> Components
+- Esta pasta estão guardados todos os componentes gráficos da nossa aplicação, componentes estes como imagens, botões, etc.
+> test
+- Esta pasta guarda todos os testes unitários realiados à aplicação.
+> logic
+- Esta pasta guarda todos ficheiros de lógica do sistema, é nesta pasta que estão presentes todos os ficheiros para que a aplicação tenha as funcionalidades que apresenta.
+#Links Relacionados
+https://docs.microsoft.com/en-us/bingmaps/rest-services/routes/
